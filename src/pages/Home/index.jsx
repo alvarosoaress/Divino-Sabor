@@ -27,6 +27,24 @@ function Card({ name, image }) {
 }
 
 export default function Home() {
+  const cardImages = [
+    {
+      name: 'Bolinhos',
+      img: 'https://w.wallhaven.cc/full/qz/wallhaven-qzj3lq.jpg',
+    },
+    {
+      name: 'Docinhos',
+      img: 'https://w.wallhaven.cc/full/9d/wallhaven-9dzpmd.jpg',
+    },
+    {
+      name: 'Bebidas',
+      img: 'https://w.wallhaven.cc/full/kx/wallhaven-kxz71q.jpg',
+    },
+    {
+      name: 'Salgadinhos',
+      img: 'https://w.wallhaven.cc/full/d6/wallhaven-d6331o.jpg',
+    },
+  ];
   const images = [
     'https://w.wallhaven.cc/full/vq/wallhaven-vqzjz5.jpg',
     'https://w.wallhaven.cc/full/1p/wallhaven-1p1y2g.jpg',
@@ -49,22 +67,13 @@ export default function Home() {
       <Container>
         <ProductsTitle>Conheça nossos produtos</ProductsTitle>
         <ProductsContainer>
-          <Card
-            image={'https://w.wallhaven.cc/full/qz/wallhaven-qzj3lq.jpg'}
-            name="Bolinho"
-          ></Card>
-          <Card
-            image={'https://w.wallhaven.cc/full/qz/wallhaven-qzj3lq.jpg'}
-            name="Bolinho"
-          ></Card>
-          <Card
-            image={'https://w.wallhaven.cc/full/qz/wallhaven-qzj3lq.jpg'}
-            name="Bolinho"
-          ></Card>
-          <Card
-            image={'https://w.wallhaven.cc/full/qz/wallhaven-qzj3lq.jpg'}
-            name="Bolinho"
-          ></Card>
+          {cardImages.map((image) => (
+            <Card
+              image={image.img}
+              name={image.name}
+              key={crypto.randomUUID()}
+            />
+          ))}
         </ProductsContainer>
         <SocialContainer>
           <InstaUser>@DIVINOSABOR</InstaUser>
