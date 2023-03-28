@@ -1,5 +1,6 @@
 import React from 'react';
 import { HeaderContainer, Logo, Nav, NavLinks, UserImg } from './styled';
+import userImgPlaceholder from '../../assets/images/vitaodoidao.png';
 
 export default function Header() {
   return (
@@ -23,7 +24,7 @@ export default function Header() {
           <UserImg
             width="50px"
             height="50px"
-            src="../../../src/assets/images/vitaodoidao.png"
+            src={userImgPlaceholder}
             alt="User Img"
           />
         </a>
