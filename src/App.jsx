@@ -1,6 +1,6 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
-import { colors } from './assets/Theme';
+import { colors } from './assets/theme';
 import Header from './components/Header';
 import GlobalStyles from './GlobalStyle';
 import Home from './pages/Home';
