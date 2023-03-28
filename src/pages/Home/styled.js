@@ -30,9 +30,9 @@ export const Banner = styled.img`
 export const ProductsContainer = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
   flex-wrap: wrap;
-  gap: 2vw;
+  gap: min(5vw, 50px);
   width: 100%;
   height: 100%;
   padding: 2em;
@@ -40,8 +40,9 @@ export const ProductsContainer = styled.div`
 
 export const ProductsTitle = styled.h1`
   color: ${(props) => props.theme.secondaryColor};
-  font-size: 40px;
+  font-size: 50px;
   margin-top: 2em;
+  margin-bottom: 0.5em;
   font-weight: normal;
   text-align: center;
 `;
@@ -138,4 +139,50 @@ export const GridImage = styled.img`
   width: 300px;
   height: 300px;
   object-fit: cover;
+`;
+// --------------------------------------------------------
+//                  About
+
+export const AboutContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  padding: 5em;
+  width: 90%;
+`;
+
+export const AboutImg = styled.img`
+  width: 150%;
+  height: 150%;
+`;
+
+export const AboutTextContainer = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+`;
+
+export const AboutTitle = styled.h2`
+  font-weight: 400;
+  font-size: 80px;
+  color: ${(props) => props.theme.secondaryColor};
+`;
+
+export const AboutParagraphContainer = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2em;
+`;
+
+export const AboutText = styled.p`
+  font-weight: 400;
+  font-size: 16px;
+  width: 60%;
+  line-height: 150%;
+  text-align: justify;
+  color: ${(props) => props.theme.textColor};
 `;

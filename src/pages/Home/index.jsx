@@ -2,6 +2,12 @@ import React, { useState } from 'react';
 import { ButtonSecondary } from '../../components/Button/styled';
 import './styled';
 import {
+  AboutContainer,
+  AboutImg,
+  AboutParagraphContainer,
+  AboutText,
+  AboutTextContainer,
+  AboutTitle,
   Banner,
   BannerContainer,
   CardMore,
@@ -16,6 +22,7 @@ import {
   SocialContainer,
   SocialTitle,
 } from './styled';
+import logo from '../../assets/logo.png';
 
 function Card({ name, image }) {
   return (
@@ -106,6 +113,35 @@ export default function Home() {
             ))}
           </GridContainer>
         </SocialContainer>
+        <AboutContainer>
+          <AboutImg src={logo} />
+          <AboutTextContainer>
+            <AboutTitle>
+              Nossa<br></br> história
+            </AboutTitle>
+            <AboutParagraphContainer>
+              <AboutText>
+                Há quase 30 anos no mercado de Belo Horizonte, oferecemos toda a
+                assessoria, estrutura técnica e operacional para o
+                desenvolvimento de seu evento. Cada detalhe é personalizado para
+                atender a sua necessidade, permitindo total tranqüilidade ao
+                cliente que busca requinte, sofisticação e bom gosto.
+              </AboutText>
+              <AboutText>
+                Nossa longa experiência na realização de eventos nos permitiu
+                adquirir um alto grau de competência e nos credencia para cuidar
+                de eventos que necessitem de criatividade, exatidão e logística
+                apurada.
+              </AboutText>
+              <AboutText>
+                Esperamos que você possa vir a conhecer a nossa competência na
+                organização de eventos e a excelência de nossos serviços.
+              </AboutText>
+            </AboutParagraphContainer>
+          </AboutTextContainer>
+          {/* MUDAR FONTE DO TEXTO E DO TITULO
+          COLOCAR UM "A"NO FINAL DO PARAGRAFO */}
+        </AboutContainer>
       </Container>
     </>
   );

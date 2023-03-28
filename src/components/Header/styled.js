@@ -30,6 +30,7 @@ export const NavLinks = styled.a`
     background-color: ${(props) => props.theme.secondaryColor};
     height: 15%;
     width: 0;
+    border-radius: 65px;
     transition: all 400ms ease-in-out;
   }
 
@@ -48,6 +49,8 @@ export const Logo = styled.h1`
   font-weight: 400;
   font-size: 40px;
   line-height: 50px;
+  text-align: center;
+  margin-left: 0.5em;
 `;
 
 export const UserImg = styled.img`
