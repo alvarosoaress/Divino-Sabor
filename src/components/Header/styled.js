@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const HeaderContainer = styled.div`
@@ -22,7 +23,7 @@ export const Nav = styled.nav`
   }
 `;
 
-export const NavLinks = styled.a`
+export const NavLinks = styled(Link)`
   position: relative;
   display: flex;
   font-size: 20px;
@@ -46,9 +47,9 @@ export const NavLinks = styled.a`
   }
 `;
 
-export const Logo = styled.h1`
+export const LogoText = styled.h1`
   font-family: 'Great Vibes', cursive;
-  color: ${(props) => props.theme.accentColor};
+  color: ${(props) => props.color ?? props.theme.accentColor};
   font-size: large;
   font-style: normal;
   font-weight: 400;
@@ -56,6 +57,23 @@ export const Logo = styled.h1`
   line-height: 50px;
   text-align: center;
   margin-left: 0.5em;
+`;
+
+export const LogoTextAux = styled.h2`
+  font-family: 'Marcellus', cursive;
+  color: black;
+  font-size: medium;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+`;
+
+export const LogoTextContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 16px;
 `;
 
 export const UserImg = styled.img`

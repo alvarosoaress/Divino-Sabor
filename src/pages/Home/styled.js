@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -16,12 +17,15 @@ export const BannerContainer = styled.div`
   padding: 1em;
   background-color: ${(props) => props.theme.backgroundColor};
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const Banner = styled.img`
   width: 100%;
+  max-width: 1200px;
   height: 100%;
-  object-fit: cover;
 `;
 
 // --------------------------------------------------------
@@ -47,7 +51,7 @@ export const ProductsTitle = styled.h1`
   text-align: center;
 `;
 
-export const ProductsCard = styled.a`
+export const ProductsCard = styled(Link)`
   position: relative;
   display: flex;
   justify-content: center;
@@ -82,7 +86,7 @@ export const CardTitle = styled.h3`
   font-size: 30px;
 `;
 
-export const CardMore = styled.a`
+export const CardMore = styled(Link)`
   position: absolute;
   z-index: 1;
   color: ${(props) => props.theme.backgroundColor};
@@ -203,7 +207,7 @@ export const AboutText = styled.p`
   color: ${(props) => props.theme.textColor};
 `;
 
-export const AboutMore = styled.a`
+export const AboutMore = styled(Link)`
   font-family: 'Roboto', 'sans';
   font-weight: 700;
   font-size: 14px;

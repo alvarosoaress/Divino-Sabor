@@ -5,5 +5,6 @@ export const colors = {
   textColor: '#333343',
   backgroundColor: '#FFFFFF',
   buttonPrimary: '#4F2C1D',
-  buttonSecondary: '#fad3d5',
+  buttonSecondary: '#FFF3E6',
+  buttonSocial: '#fad3d5',
 };

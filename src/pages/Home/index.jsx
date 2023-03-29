@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-key */
 import React, { useState } from 'react';
-import { ButtonPrimary, ButtonSecondary } from '../../components/Button/styled';
+import { ButtonPrimary, ButtonSocial } from '../../components/Button/styled';
 import './styled';
 import {
   AboutContainer,
@@ -30,10 +30,11 @@ import {
 } from './styled';
 import Logo from '../../assets/images/logo';
 import { Divider } from '../../components/Utils/styled';
+import Header from '../../components/Header';
 
 function Card({ name, image }) {
   return (
-    <ProductsCard href="#" image={image}>
+    <ProductsCard to="#" image={image}>
       <CardTitle>{name}</CardTitle>
       <CardMore>Conheça +</CardMore>
     </ProductsCard>
@@ -44,40 +45,41 @@ export default function Home() {
   const cardImages = [
     {
       name: 'Bolinhos',
-      img: 'https://w.wallhaven.cc/full/qz/wallhaven-qzj3lq.jpg',
+      img: 'https://source.unsplash.com/random/900x700/',
     },
     {
       name: 'Docinhos',
-      img: 'https://w.wallhaven.cc/full/9d/wallhaven-9dzpmd.jpg',
+      img: 'https://source.unsplash.com/random/900x700/',
     },
     {
       name: 'Bebidas',
-      img: 'https://w.wallhaven.cc/full/kx/wallhaven-kxz71q.jpg',
+      img: 'https://source.unsplash.com/random/900x700/',
     },
     {
       name: 'Salgadinhos',
-      img: 'https://w.wallhaven.cc/full/d6/wallhaven-d6331o.jpg',
+      img: 'https://source.unsplash.com/random/900x700/',
     },
   ];
   const images = [
-    'https://w.wallhaven.cc/full/vq/wallhaven-vqzjz5.jpg',
-    'https://w.wallhaven.cc/full/1p/wallhaven-1p1y2g.jpg',
-    'https://w.wallhaven.cc/full/jx/wallhaven-jxw7ym.jpg',
-    'https://w.wallhaven.cc/full/x6/wallhaven-x6zyxo.jpg',
-    'https://w.wallhaven.cc/full/gp/wallhaven-gp5kg7.png',
-    'https://w.wallhaven.cc/full/85/wallhaven-85ew6j.jpg',
-    'https://w.wallhaven.cc/full/9d/wallhaven-9dzkw1.png',
-    'https://w.wallhaven.cc/full/2y/wallhaven-2yz2xg.png',
-    'https://w.wallhaven.cc/full/qz/wallhaven-qzjoo5.png',
+    'https://source.unsplash.com/random/900x700/?fruit',
+    'https://source.unsplash.com/random/900x700/?fruit',
+    'https://source.unsplash.com/random/900x700/?fruit',
+    'https://source.unsplash.com/random/900x700/?fruit',
+    'https://source.unsplash.com/random/900x700/?fruit',
+    'https://source.unsplash.com/random/900x700/?fruit',
+    'https://source.unsplash.com/random/900x700/?fruit',
+    'https://source.unsplash.com/random/900x700/?fruit',
+    'https://source.unsplash.com/random/900x700/?fruit',
   ];
 
   const [btnSecondaryEnter, setBtnSecondaryEnter] = useState(false);
 
   return (
     <>
+      <Header />
       <Divider />
       <BannerContainer>
-        <Banner src="https://w.wallhaven.cc/full/yx/wallhaven-yx5w37.png" />
+        <Banner src="https://source.unsplash.com/random/1920x720/" />
       </BannerContainer>
       <Divider />
       <Container>
@@ -90,7 +92,7 @@ export default function Home() {
         <SocialContainer>
           <InstaUser href="#">@DIVINOSABOR</InstaUser>
           <SocialTitle>Siga a gente !</SocialTitle>
-          <ButtonSecondary
+          <ButtonSocial
             onMouseEnter={() => {
               setBtnSecondaryEnter(true);
             }}
@@ -111,7 +113,7 @@ export default function Home() {
             ) : (
               'VER INSTAGRAM'
             )}
-          </ButtonSecondary>
+          </ButtonSocial>
           <GridContainer>
             {images.map((image) => (
               <GridImage src={image} />
@@ -150,7 +152,7 @@ export default function Home() {
                 Esperamos que você possa vir a conhecer a nossa competência na
                 organização de eventos e a excelência de nossos serviços.
               </AboutText>
-              <AboutMore href="#">
+              <AboutMore to="#">
                 CONHEÇA MAIS SOBRE A NOSSA HISTÓRIA +
               </AboutMore>
             </AboutParagraphContainer>
