@@ -9,8 +9,8 @@ export default function App() {
   return (
     <ThemeProvider theme={colors}>
       <BrowserRouter>
-        <GlobalStyles />
         <Router />
+        <GlobalStyles />
       </BrowserRouter>
     </ThemeProvider>
   );
