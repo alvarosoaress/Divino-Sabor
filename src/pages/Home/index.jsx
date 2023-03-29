@@ -1,9 +1,10 @@
+/* eslint-disable react/jsx-key */
 import React, { useState } from 'react';
-import { ButtonSecondary } from '../../components/Button/styled';
+import { ButtonPrimary, ButtonSecondary } from '../../components/Button/styled';
 import './styled';
 import {
   AboutContainer,
-  AboutImg,
+  AboutMore,
   AboutParagraphContainer,
   AboutText,
   AboutTextContainer,
@@ -16,13 +17,19 @@ import {
   GridContainer,
   GridImage,
   InstaUser,
+  NewsLetterConfirm,
+  NewsLetterConfirmLabel,
+  NewsLetterContainer,
+  NewsLetterInput,
+  NewsLetterTitle,
   ProductsCard,
   ProductsContainer,
   ProductsTitle,
   SocialContainer,
   SocialTitle,
 } from './styled';
-import logo from '../../assets/logo.png';
+import Logo from '../../assets/images/logo';
+import { Divider } from '../../components/Utils/styled';
 
 function Card({ name, image }) {
   return (
@@ -68,22 +75,20 @@ export default function Home() {
 
   return (
     <>
+      <Divider />
       <BannerContainer>
         <Banner src="https://w.wallhaven.cc/full/yx/wallhaven-yx5w37.png" />
       </BannerContainer>
+      <Divider />
       <Container>
         <ProductsTitle>Conheça nossos produtos</ProductsTitle>
         <ProductsContainer>
           {cardImages.map((image) => (
-            <Card
-              image={image.img}
-              name={image.name}
-              key={crypto.randomUUID()}
-            />
+            <Card image={image.img} name={image.name} />
           ))}
         </ProductsContainer>
         <SocialContainer>
-          <InstaUser>@DIVINOSABOR</InstaUser>
+          <InstaUser href="#">@DIVINOSABOR</InstaUser>
           <SocialTitle>Siga a gente !</SocialTitle>
           <ButtonSecondary
             onMouseEnter={() => {
@@ -94,7 +99,7 @@ export default function Home() {
             }}
             href="#"
           >
-            {btnSecondaryEnter ? (
+            {btnSecondaryEnter || window.screen.width <= 800 ? (
               <svg
                 width="25px"
                 height="25px"
@@ -109,22 +114,30 @@ export default function Home() {
           </ButtonSecondary>
           <GridContainer>
             {images.map((image) => (
-              <GridImage src={image} key={crypto.randomUUID()} />
+              <GridImage src={image} />
             ))}
           </GridContainer>
         </SocialContainer>
         <AboutContainer>
-          <AboutImg src={logo} />
+          <div>
+            <Logo
+              width={'40vw'}
+              height={'40vw'}
+              x="-10"
+              y="0"
+              display={window.screen.width >= 800 ? 'flex' : 'none'}
+            />
+          </div>
           <AboutTextContainer>
             <AboutTitle>
-              Nossa<br></br> história
+              Nossa<br></br>História
             </AboutTitle>
             <AboutParagraphContainer>
               <AboutText>
                 Há quase 30 anos no mercado de Belo Horizonte, oferecemos toda a
                 assessoria, estrutura técnica e operacional para o
                 desenvolvimento de seu evento. Cada detalhe é personalizado para
-                atender a sua necessidade, permitindo total tranqüilidade ao
+                atender a sua necessidade, permitindo total tranquilidade ao
                 cliente que busca requinte, sofisticação e bom gosto.
               </AboutText>
               <AboutText>
@@ -137,11 +150,46 @@ export default function Home() {
                 Esperamos que você possa vir a conhecer a nossa competência na
                 organização de eventos e a excelência de nossos serviços.
               </AboutText>
+              <AboutMore href="#">
+                CONHEÇA MAIS SOBRE A NOSSA HISTÓRIA +
+              </AboutMore>
             </AboutParagraphContainer>
           </AboutTextContainer>
-          {/* MUDAR FONTE DO TEXTO E DO TITULO
-          COLOCAR UM "A"NO FINAL DO PARAGRAFO */}
         </AboutContainer>
+        <Divider />
+        <NewsLetterContainer>
+          <NewsLetterTitle>
+            Receba nossas novidades em primeira mão. Cadastre-se.
+          </NewsLetterTitle>
+          <form
+            action=""
+            style={{
+              position: 'relative',
+              display: 'flex',
+              alignItems: 'center',
+              flexDirection: 'column',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                flexDirection: 'row',
+              }}
+            >
+              <NewsLetterInput
+                type="email"
+                placeholder="Seu melhor e-mail..."
+              />
+              <ButtonPrimary mediaQuery="500px">Cadastrar</ButtonPrimary>
+            </div>
+            <NewsLetterConfirmLabel>
+              <NewsLetterConfirm type="checkbox" />
+              Aceito receber informações e novidades do Buffet Divino Sabor
+            </NewsLetterConfirmLabel>
+          </form>
+        </NewsLetterContainer>
+        <Divider />
       </Container>
     </>
   );

@@ -133,6 +133,10 @@ export const GridContainer = styled.div`
   width: 100%;
   height: 100%;
   margin-top: 2em;
+
+  @media screen and (max-width: 1000px) {
+    display: none;
+  }
 `;
 
 export const GridImage = styled.img`
@@ -148,13 +152,13 @@ export const AboutContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: row;
-  padding: 5em;
+  padding: 1em;
   width: 90%;
 `;
 
 export const AboutImg = styled.img`
-  width: 150%;
-  height: 150%;
+  width: 1000px;
+  height: 350px;
 `;
 
 export const AboutTextContainer = styled.div`
@@ -162,11 +166,18 @@ export const AboutTextContainer = styled.div`
   align-items: flex-start;
   justify-content: center;
   flex-direction: column;
+
+  @media screen and (max-width: 1000px) {
+    align-items: center;
+  }
 `;
 
 export const AboutTitle = styled.h2`
+  font-family: 'Newsreader', serif;
   font-weight: 400;
-  font-size: 80px;
+  font-size: 60px;
+  line-height: 72px;
+  letter-spacing: -1.28px;
   color: ${(props) => props.theme.secondaryColor};
 `;
 
@@ -176,13 +187,92 @@ export const AboutParagraphContainer = styled.div`
   justify-content: center;
   flex-direction: column;
   gap: 2em;
+
+  @media screen and (max-width: 1000px) {
+    align-items: center;
+  }
 `;
 
 export const AboutText = styled.p`
+  font-family: 'Work Sans', serif;
   font-weight: 400;
   font-size: 16px;
-  width: 60%;
+  width: 80%;
   line-height: 150%;
   text-align: justify;
   color: ${(props) => props.theme.textColor};
+`;
+
+export const AboutMore = styled.a`
+  font-family: 'Roboto', 'sans';
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 24px;
+  letter-spacing: 1.44px;
+  text-align: center;
+  color: ${(props) => props.theme.secondaryColor};
+`;
+
+// --------------------------------------------------------
+//                  NewsLetter
+export const NewsLetterContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  height: 30vh;
+  width: 100%;
+  background-color: ${(props) => props.theme.backgroundColor};
+
+  @media screen and (max-width: 800px) {
+    flex-direction: column;
+  }
+`;
+
+export const NewsLetterTitle = styled.div`
+  font-family: 'Newsreader', serif;
+  font-weight: 500;
+  font-size: 22px;
+  text-align: center;
+  margin-right: 5%;
+  color: ${(props) => props.theme.secondaryColor};
+
+  @media screen and (max-width: 450px) {
+    font-size: 18px;
+    margin-right: 0;
+    margin-bottom: 5vh;
+  }
+`;
+
+export const NewsLetterInput = styled.input`
+  position: relative;
+  height: 50px;
+  width: 300px;
+  background-color: #f4f4f5;
+  outline: 0;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  padding: 1%;
+
+  @media screen and (max-width: 450px) {
+    width: 65vw;
+    margin-bottom: 1vh;
+  }
+`;
+
+export const NewsLetterConfirmLabel = styled.label`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  font-family: 'Work Sans', serif;
+  font-weight: 400;
+  font-size: 12px;
+  margin-top: 2%;
+  cursor: pointer;
+  color: ${(props) => props.theme.textColor};
+`;
+
+export const NewsLetterConfirm = styled.input`
+  margin-right: 1%;
 `;

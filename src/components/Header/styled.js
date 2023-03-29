@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const HeaderContainer = styled.div`
+  position: relative;
   margin-top: 2em;
   background-color: ${(props) => props.theme.backgroundColor};
   display: flex;
@@ -15,6 +16,10 @@ export const Nav = styled.nav`
   align-items: center;
   list-style-type: none;
   gap: 30px;
+
+  @media screen and (max-width: 800px) {
+    display: none;
+  }
 `;
 
 export const NavLinks = styled.a`
@@ -63,4 +68,36 @@ export const UserImg = styled.img`
   :hover {
     border: 2px solid ${(props) => props.theme.secondaryColor};
   }
+`;
+
+export const NavBurguer = styled.div`
+  display: none;
+
+  @media screen and (max-width: 800px) {
+    display: flex;
+  }
+`;
+
+export const NavBurguerBackground = styled.div`
+  display: none;
+  z-index: 100;
+  position: fixed;
+  width: 100vw;
+  align-items: center;
+  list-style-type: none;
+  flex-direction: column;
+  gap: 10%;
+  left: 0;
+  height: 100vh;
+  background-color: ${(props) => props.theme.backgroundColor};
+
+  @keyframes clipEffect {
+    from {
+      clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
+    }
+    to {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+    }
+  }
+  animation: 0.2s clipEffect linear;
 `;

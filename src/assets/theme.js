@@ -4,5 +4,6 @@ export const colors = {
   accentColor: '#D5CEA3',
   textColor: '#333343',
   backgroundColor: '#FFFFFF',
+  buttonPrimary: '#4F2C1D',
   buttonSecondary: '#fad3d5',
 };
