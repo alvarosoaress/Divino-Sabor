@@ -21,7 +21,7 @@ export const CredentialsContainer = styled.div`
   align-items: center;
   flex-direction: column;
   width: 470px;
-  height: 650px;
+  height: 580px;
   background-color: white;
   background-image: url(${credentialBackground});
   background-size: cover;
@@ -80,7 +80,7 @@ export const CredentialsText = styled(Link)`
   font-weight: bold;
   font-size: 20px;
   width: 80%;
-  margin-block: 15%;
+  margin-top: 15%;
   text-align: center;
   color: ${(props) => props.theme.primaryColor};
   transition: all 200ms ease-in-out;
