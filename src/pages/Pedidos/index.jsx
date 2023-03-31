@@ -6,7 +6,7 @@ import {
   OptionsContainer,
   OptionsText,
 } from '../../components/OptionsBox/styled';
-import Menu from '../../components/Sidemenu';
+import Menu from '../../components/SideMenu';
 import PedidosIcon from './pedidosIcons';
 
 export default function Pedidos() {
