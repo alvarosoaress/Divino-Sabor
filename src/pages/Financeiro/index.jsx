@@ -12,7 +12,7 @@ import {
   NotaIcon,
   ContratoIcon,
 } from './financeiroIcons';
-import Menu from '../../components/Sidemenu';
+import Menu from '../../components/SideMenu';
 
 export default function Financeiro() {
   return (
