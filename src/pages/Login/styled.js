@@ -43,6 +43,7 @@ export const CredentialsForm = styled.form`
   width: 100%;
   height: 100%;
   margin: 10%;
+  transition: all 200ms ease-in-out;
 `;
 
 export const CredentialsTitle = styled.h2`
@@ -51,27 +52,6 @@ export const CredentialsTitle = styled.h2`
   font-size: 40px;
   text-align: center;
   margin: 5%;
-  color: ${(props) => props.theme.primaryColor};
-`;
-
-export const CredentialsInput = styled.input`
-  width: 80%;
-  height: 40px;
-  background-color: ${(props) => props.theme.primaryColor};
-  outline: none;
-  border: none;
-  padding: 5px;
-  font-size: 20px;
-  border-radius: 3px;
-  margin-bottom: 5%;
-`;
-
-export const CredentialsLabel = styled.label`
-  font-family: 'Quattrocento';
-  font-weight: bold;
-  font-size: 20px;
-  width: 80%;
-  margin-block: 3%;
   color: ${(props) => props.theme.primaryColor};
 `;
 

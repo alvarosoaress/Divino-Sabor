@@ -32,6 +32,7 @@ import Logo from '../../assets/images/logo';
 import { Divider } from '../../components/Utils/styled';
 import Header from '../../components/Header';
 
+// componentizando os cards destaques
 function Card({ name, image }) {
   return (
     <ProductsCard to="#" image={image}>
@@ -42,6 +43,7 @@ function Card({ name, image }) {
 }
 
 export default function Home() {
+  // array de objetos como exemplos para popular os cards
   const cardImages = [
     {
       name: 'Bolinhos',
@@ -60,6 +62,8 @@ export default function Home() {
       img: 'https://source.unsplash.com/random/900x700/',
     },
   ];
+
+  // array de imagens como exemplos para popular as postagens do instagram
   const images = [
     'https://source.unsplash.com/random/900x700/?fruit',
     'https://source.unsplash.com/random/900x700/?fruit',
@@ -72,6 +76,8 @@ export default function Home() {
     'https://source.unsplash.com/random/900x700/?fruit',
   ];
 
+  // verificação de mouseEnter no botão secundário
+  // apenas para efeitos visuais
   const [btnSecondaryEnter, setBtnSecondaryEnter] = useState(false);
 
   return (
@@ -85,6 +91,7 @@ export default function Home() {
       <Container>
         <ProductsTitle>Conheça nossos produtos</ProductsTitle>
         <ProductsContainer>
+          {/* map no array de objetos  */}
           {cardImages.map((image) => (
             <Card image={image.img} name={image.name} />
           ))}
@@ -93,6 +100,7 @@ export default function Home() {
           <InstaUser href="#">@DIVINOSABOR</InstaUser>
           <SocialTitle>Siga a gente !</SocialTitle>
           <ButtonSocial
+            // verificação de mouseEnter para efeitos visuais
             onMouseEnter={() => {
               setBtnSecondaryEnter(true);
             }}
@@ -115,6 +123,7 @@ export default function Home() {
             )}
           </ButtonSocial>
           <GridContainer>
+            {/* map no array de postagens do instagram */}
             {images.map((image) => (
               <GridImage src={image} />
             ))}

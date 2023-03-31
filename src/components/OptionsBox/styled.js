@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
   display: flex;
@@ -7,7 +7,7 @@ export const Container = styled.div`
   background-color: ${(props) => props.theme.backgroundColor};
   overflow-x: hidden;
 
-  @media screen and (max-width: 1000px) {
+  @media screen and (max-width: 600px) {
     height: 100vh;
   }
 `;
@@ -18,7 +18,7 @@ export const OptionsContainer = styled.div`
   justify-items: center;
   gap: 10%;
   width: 100%;
-  height: 100%;
+  //height: 100%;
 
   @media screen and (max-width: 1000px) {
     padding: 5%;

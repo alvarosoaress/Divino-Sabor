@@ -5,10 +5,13 @@ import { MdKeyboardArrowRight } from 'react-icons/md';
 import { MdKeyboardArrowLeft } from 'react-icons/md';
 
 export default function Menu() {
+  // State para verificar se o menu lateral está aberto
   const [openMenu, setOpenMenu] = useState(false);
   return (
     <>
       <MenuContainer
+        // Passando estilos para o componente via JSX
+        // Praticamente MediaQuery in-line 🙃
         style={{
           width: openMenu || window.screen.width >= 600 ? '370px' : '35px',
         }}
@@ -35,10 +38,13 @@ export default function Menu() {
         >
           <SecondaryDivider />
           <MenuText>ESTOQUE</MenuText>
+
           <SecondaryDivider />
           <MenuText>PEDIDOS</MenuText>
+
           <SecondaryDivider />
           <MenuText>CLIENTES</MenuText>
+
           <SecondaryDivider />
           <MenuText>FINANCEIRO</MenuText>
           <SecondaryDivider />

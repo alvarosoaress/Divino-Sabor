@@ -1,5 +1,10 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { ButtonPrimary, ButtonSecondary } from '../../components/Button/styled';
+import {
+  Email,
+  handleValidation,
+  Password,
+} from '../../components/Credentials';
 import {
   LogoText,
   LogoTextAux,
@@ -13,13 +18,16 @@ import {
   CredentialsFooterText,
   CredentialsFooterContainer,
   CredentialsTitle,
-  CredentialsInput,
   CredentialsForm,
-  CredentialsLabel,
   CredentialsText,
 } from './styled';
 
 export default function Login() {
+  const $email = useRef(null);
+  const $emailLabel = useRef(null);
+  const $password = useRef(null);
+  const $passwordLabel = useRef(null);
+
   return (
     <>
       <HeaderContainer>
@@ -31,19 +39,16 @@ export default function Login() {
       <Container>
         <CredentialsContainer>
           <CredentialsTitle>Login</CredentialsTitle>
-          <CredentialsForm action="">
-            <CredentialsLabel>E-mail</CredentialsLabel>
-            <CredentialsInput
-              type="e-mail"
-              name="e-mail"
-              id=""
-            ></CredentialsInput>
-            <CredentialsLabel>Senha</CredentialsLabel>
-            <CredentialsInput
-              type="password"
-              name="password"
-              id=""
-            ></CredentialsInput>
+          <CredentialsForm
+            action=""
+            onChange={() =>
+              // Função para validação de daodos dos inputs
+              // Parametros useRefs sendo passados
+              handleValidation($email, $emailLabel, $password, $passwordLabel)
+            }
+          >
+            <Email $ref={$email} $refLabel={$emailLabel} />
+            <Password $ref={$password} $refLabel={$passwordLabel} />
             <span
               style={{
                 display: 'flex',
@@ -56,7 +61,7 @@ export default function Login() {
               <ButtonPrimary>Cadastrar</ButtonPrimary>
               <ButtonSecondary>Login</ButtonSecondary>
             </span>
-            <CredentialsText to="#">Esqueci minha senha</CredentialsText>
+            <CredentialsText to="/recover">Esqueci minha senha</CredentialsText>
           </CredentialsForm>
         </CredentialsContainer>
       </Container>

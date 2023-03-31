@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
-import { ButtonPrimary, ButtonSecondary } from '../../components/Button/styled';
+import { ButtonPrimary } from '../../components/Button/styled';
+import { Email, handleValidation, Tel } from '../../components/Credentials';
 import {
   LogoText,
   LogoTextAux,
@@ -15,21 +16,12 @@ import {
   CredentialsTitle,
   CredentialsForm,
 } from '../Login/styled';
-import {
-  Email,
-  handleValidation,
-  Password,
-  Tel,
-} from '../../components/Credentials';
 
-export default function Register() {
+export default function Recover() {
   const $email = useRef(null);
   const $emailLabel = useRef(null);
-  const $password = useRef(null);
-  const $passwordLabel = useRef(null);
   const $tel = useRef(null);
   const $telLabel = useRef(null);
-
   return (
     <>
       <HeaderContainer>
@@ -40,36 +32,28 @@ export default function Register() {
       </HeaderContainer>
       <Container>
         <CredentialsContainer>
-          <CredentialsTitle>Cadastro</CredentialsTitle>
+          <CredentialsTitle>Recuperação de Senha</CredentialsTitle>
           <CredentialsForm
             action=""
             // Função para validação de daodos dos inputs
             // Parametros useRefs sendo passados
+            // null Sendo passado para pular chamadas não existentes nessa página
             onChange={() =>
-              handleValidation(
-                $email,
-                $emailLabel,
-                $password,
-                $passwordLabel,
-                $tel,
-                $telLabel,
-              )
+              handleValidation($email, $emailLabel, null, null, $tel, $telLabel)
             }
           >
             <Email $ref={$email} $refLabel={$emailLabel} />
-            <Password $ref={$password} $refLabel={$passwordLabel} />
             <Tel $ref={$tel} $refLabel={$telLabel} />
             <span
               style={{
                 display: 'flex',
+                justifyContent: 'center',
                 flexDirection: 'row',
-                gap: '15%',
                 marginTop: '5%',
                 width: '80%',
               }}
             >
-              <ButtonPrimary>Login</ButtonPrimary>
-              <ButtonSecondary>Cadastrar</ButtonSecondary>
+              <ButtonPrimary>Recuperar Senha</ButtonPrimary>
             </span>
           </CredentialsForm>
         </CredentialsContainer>

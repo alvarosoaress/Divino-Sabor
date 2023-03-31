@@ -5,7 +5,7 @@ import {
   OptionsCard,
   OptionsContainer,
   OptionsText,
-} from './styled';
+} from '../../components/OptionsBox/styled';
 import {
   GastosIcon,
   LucrosIcon,
@@ -28,14 +28,17 @@ export default function Financeiro() {
             <GastosIcon />
             <OptionsText>Gastos</OptionsText>
           </OptionsCard>
+
           <OptionsCard>
             <LucrosIcon />
             <OptionsText>Lucros</OptionsText>
           </OptionsCard>
+
           <OptionsCard>
             <ContratoIcon />
             <OptionsText>Emitir contrato</OptionsText>
           </OptionsCard>
+
           <OptionsCard>
             <NotaIcon />
             <OptionsText>
