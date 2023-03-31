@@ -16,7 +16,7 @@ import { useState } from 'react';
 import { ButtonPrimary } from '../../components/Button/styled';
 import { useEffect } from 'react';
 
-export default function Header({ style }) {
+export default function Header({ style, auxText }) {
   const [openBurger, setOpenBurger] = useState(false);
   useEffect(() => {
     openBurger
@@ -29,7 +29,7 @@ export default function Header({ style }) {
       <HeaderContainer>
         <LogoTextContainer>
           <LogoText color="black">Divino Sabor</LogoText>
-          <LogoTextAux>ACESSO</LogoTextAux>
+          <LogoTextAux>{auxText ?? 'ACESSO'}</LogoTextAux>
         </LogoTextContainer>
 
         <Nav>
