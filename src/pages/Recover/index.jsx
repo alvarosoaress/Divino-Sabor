@@ -1,21 +1,16 @@
 import React, { useRef } from 'react';
 import { ButtonPrimary } from '../../components/Button/styled';
 import { Email, handleValidation, Tel } from '../../components/Credentials';
-import {
-  LogoText,
-  LogoTextAux,
-  LogoTextContainer,
-} from '../../components/Header/styled';
 import { SecondaryDivider } from '../../components/Utils/styled';
 import {
   Container,
-  HeaderContainer,
   CredentialsContainer,
   CredentialsFooterText,
   CredentialsFooterContainer,
   CredentialsTitle,
   CredentialsForm,
 } from '../Login/styled';
+import HeaderAlt from '../../components/HeaderAlt';
 
 export default function Recover() {
   const $email = useRef(null);
@@ -24,12 +19,7 @@ export default function Recover() {
   const $telLabel = useRef(null);
   return (
     <>
-      <HeaderContainer>
-        <LogoTextContainer>
-          <LogoText color="black">Divino Sabor</LogoText>
-          <LogoTextAux>ACESSO</LogoTextAux>
-        </LogoTextContainer>
-      </HeaderContainer>
+      <HeaderAlt />
       <Container>
         <CredentialsContainer>
           <CredentialsTitle>Recuperação de Senha</CredentialsTitle>

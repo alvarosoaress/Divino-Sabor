@@ -1,14 +1,8 @@
 import React, { useRef } from 'react';
 import { ButtonPrimary, ButtonSecondary } from '../../components/Button/styled';
-import {
-  LogoText,
-  LogoTextAux,
-  LogoTextContainer,
-} from '../../components/Header/styled';
 import { SecondaryDivider } from '../../components/Utils/styled';
 import {
   Container,
-  HeaderContainer,
   CredentialsContainer,
   CredentialsFooterText,
   CredentialsFooterContainer,
@@ -21,6 +15,8 @@ import {
   Password,
   Tel,
 } from '../../components/Credentials';
+import { Link } from 'react-router-dom';
+import HeaderAlt from '../../components/HeaderAlt';
 
 export default function Register() {
   const $email = useRef(null);
@@ -32,12 +28,7 @@ export default function Register() {
 
   return (
     <>
-      <HeaderContainer>
-        <LogoTextContainer>
-          <LogoText color="black">Divino Sabor</LogoText>
-          <LogoTextAux>ACESSO</LogoTextAux>
-        </LogoTextContainer>
-      </HeaderContainer>
+      <HeaderAlt />
       <Container>
         <CredentialsContainer>
           <CredentialsTitle>Cadastro</CredentialsTitle>
@@ -68,7 +59,9 @@ export default function Register() {
                 width: '80%',
               }}
             >
-              <ButtonPrimary>Login</ButtonPrimary>
+              <ButtonPrimary as={Link} to="/login">
+                Login
+              </ButtonPrimary>
               <ButtonSecondary>Cadastrar</ButtonSecondary>
             </span>
           </CredentialsForm>

@@ -5,15 +5,9 @@ import {
   handleValidation,
   Password,
 } from '../../components/Credentials';
-import {
-  LogoText,
-  LogoTextAux,
-  LogoTextContainer,
-} from '../../components/Header/styled';
 import { SecondaryDivider } from '../../components/Utils/styled';
 import {
   Container,
-  HeaderContainer,
   CredentialsContainer,
   CredentialsFooterText,
   CredentialsFooterContainer,
@@ -21,6 +15,8 @@ import {
   CredentialsForm,
   CredentialsText,
 } from './styled';
+import { Link } from 'react-router-dom';
+import HeaderAlt from '../../components/HeaderAlt';
 
 export default function Login() {
   const $email = useRef(null);
@@ -30,12 +26,7 @@ export default function Login() {
 
   return (
     <>
-      <HeaderContainer>
-        <LogoTextContainer>
-          <LogoText color="black">Divino Sabor</LogoText>
-          <LogoTextAux>ACESSO</LogoTextAux>
-        </LogoTextContainer>
-      </HeaderContainer>
+      <HeaderAlt />
       <Container>
         <CredentialsContainer>
           <CredentialsTitle>Login</CredentialsTitle>
@@ -58,7 +49,9 @@ export default function Login() {
                 width: '80%',
               }}
             >
-              <ButtonPrimary>Cadastrar</ButtonPrimary>
+              <ButtonPrimary as={Link} to="/register">
+                Cadastrar
+              </ButtonPrimary>
               <ButtonSecondary>Login</ButtonSecondary>
             </span>
             <CredentialsText to="/recover">Esqueci minha senha</CredentialsText>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SecondaryDivider } from '../../components/Utils/styled';
+import { SecondaryDivider } from '../Utils/styled';
 import { MenuBox, MenuContainer, MenuText } from './styled';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import { MdKeyboardArrowLeft } from 'react-icons/md';

@@ -15,6 +15,7 @@ import { BiMenuAltRight } from 'react-icons/bi';
 import { useState } from 'react';
 import { ButtonPrimary } from '../../components/Button/styled';
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Header({ style, auxText }) {
   const [openBurger, setOpenBurger] = useState(false);
@@ -53,14 +54,14 @@ export default function Header({ style, auxText }) {
           <NavLinks href="#">Sobre nós</NavLinks>
         </li>
 
-        <a href="#">
+        <Link to="/login">
           <UserImg
             width="50px"
             height="50px"
             src={userImgPlaceholder}
             alt="User Img"
           />
-        </a>
+        </Link>
       </Nav>
       <NavBurguer>
         <BiMenuAltRight size={40} onClick={() => setOpenBurger(!openBurger)} />

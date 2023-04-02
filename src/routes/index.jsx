@@ -6,6 +6,7 @@ import Login from '../pages/Login';
 import Pedidos from '../pages/Pedidos';
 import Recover from '../pages/Recover';
 import Register from '../pages/Register';
+import Clientes from '../pages/Clientes';
 
 export default function Router() {
   return (
@@ -16,6 +17,7 @@ export default function Router() {
       <Route path="/recover" element={<Recover />} />
       <Route path="/financeiro" element={<Financeiro />} />
       <Route path="/pedidos" element={<Pedidos />} />
+      <Route path="/clientes" element={<Clientes />} />
     </Routes>
   );
 }
