@@ -6,9 +6,9 @@ import {
   LogoTextContainer,
 } from '../Header/styled';
 
-export default function HeaderAlt() {
+export default function HeaderAlt(props) {
   return (
-    <HeaderContainer>
+    <HeaderContainer {...props} style={{ backgroundColor: 'transparent' }}>
       <LogoTextContainer>
         <LogoText color="black">Divino Sabor</LogoText>
         <LogoTextAux>ACESSO</LogoTextAux>

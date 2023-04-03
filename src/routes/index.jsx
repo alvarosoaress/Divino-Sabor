@@ -7,6 +7,7 @@ import Pedidos from '../pages/Pedidos';
 import Recover from '../pages/Recover';
 import Register from '../pages/Register';
 import Clientes from '../pages/Clientes';
+import PrivateRoute from './PrivateRoute';
 
 export default function Router() {
   return (
@@ -15,7 +16,11 @@ export default function Router() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/recover" element={<Recover />} />
-      <Route path="/financeiro" element={<Financeiro />} />
+
+      <Route path="/financeiro" element={<PrivateRoute open={false} />}>
+        <Route path="/financeiro" element={<Financeiro />} />
+      </Route>
+
       <Route path="/pedidos" element={<Pedidos />} />
       <Route path="/clientes" element={<Clientes />} />
     </Routes>

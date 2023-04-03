@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { ButtonPrimary } from '../../components/Button/styled';
-import { Email, handleValidation, Tel } from '../../components/Credentials';
+import { Email, handleValidation } from '../../components/Credentials';
 import { SecondaryDivider } from '../../components/Utils/styled';
 import {
   Container,
@@ -11,12 +11,38 @@ import {
   CredentialsForm,
 } from '../Login/styled';
 import HeaderAlt from '../../components/HeaderAlt';
+import { sendPasswordResetEmail } from 'firebase/auth';
+import { auth } from '../../services/firebase';
+import { toast } from 'react-toastify';
+import validator from 'validator';
 
 export default function Recover() {
   const $email = useRef(null);
   const $emailLabel = useRef(null);
-  const $tel = useRef(null);
-  const $telLabel = useRef(null);
+
+  async function handleRecover(e) {
+    e.preventDefault();
+
+    let email = $email.current.value;
+
+    if (validator.isEmpty($email.current.value)) {
+      toast.error('Preencha o campo primeiro!.');
+      return;
+    }
+
+    try {
+      await sendPasswordResetEmail(auth, email);
+      toast.success('Link para recuperação de senha enviado!');
+    } catch (error) {
+      if (error.code === 'auth/user-not-found') {
+        toast.error('Email não cadastrado!');
+      }
+      if (error.code === 'auth/too-many-requests') {
+        toast.error('Muitas tentativas incorretas, tente novamente mais tarde');
+      }
+    }
+  }
+
   return (
     <>
       <HeaderAlt />
@@ -24,16 +50,13 @@ export default function Recover() {
         <CredentialsContainer>
           <CredentialsTitle>Recuperação de Senha</CredentialsTitle>
           <CredentialsForm
+            onSubmit={(e) => handleRecover(e)}
             action=""
             // Função para validação de daodos dos inputs
             // Parametros useRefs sendo passados
-            // null Sendo passado para pular chamadas não existentes nessa página
-            onChange={() =>
-              handleValidation($email, $emailLabel, null, null, $tel, $telLabel)
-            }
+            onChange={() => handleValidation($email, $emailLabel)}
           >
             <Email $ref={$email} $refLabel={$emailLabel} />
-            <Tel $ref={$tel} $refLabel={$telLabel} />
             <span
               style={{
                 display: 'flex',
@@ -43,7 +66,7 @@ export default function Recover() {
                 width: '80%',
               }}
             >
-              <ButtonPrimary>Recuperar Senha</ButtonPrimary>
+              <ButtonPrimary type="submit">Recuperar Senha</ButtonPrimary>
             </span>
           </CredentialsForm>
         </CredentialsContainer>

@@ -20,41 +20,32 @@ function CostumersRow({ name }) {
       <SecondaryDivider />
       <span
         style={{
-          display: 'flex',
-          flexDirection: 'row',
+          display: 'grid',
           width: '100%',
-          justifyContent: 'space-between',
-          alignItems: 'center',
+          gridTemplateColumns: '2fr 0.5fr 0.5fr',
+          columnGap: '5px',
           marginBlock: '5px',
         }}
       >
         <CostumersName>{name}</CostumersName>
-        <span
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            gap: '15px',
-          }}
+        <ButtonPrimary
+          width="150px"
+          fontSize="12px"
+          fontHover="16px"
+          mediaQuery="800px"
+          mediaQueryWidth="65px"
         >
-          <ButtonPrimary
-            width="150px"
-            fontSize="12px"
-            fontHover="16px"
-            mediaQuery="800px"
-            mediaQueryWidth="65px"
-          >
-            {window.screen.width >= 600 ? 'Editar/Visualizar' : 'Editar'}
-          </ButtonPrimary>
-          <ButtonPrimary
-            width="150px"
-            fontSize="12px"
-            fontHover="16px"
-            mediaQuery="800px"
-            mediaQueryWidth="65px"
-          >
-            Excluir
-          </ButtonPrimary>
-        </span>
+          {window.screen.width >= 600 ? 'Editar/Visualizar' : 'Editar'}
+        </ButtonPrimary>
+        <ButtonPrimary
+          width="150px"
+          fontSize="12px"
+          fontHover="16px"
+          mediaQuery="800px"
+          mediaQueryWidth="65px"
+        >
+          Excluir
+        </ButtonPrimary>
       </span>
       <SecondaryDivider />
     </span>
