@@ -17,12 +17,17 @@ export default function Router() {
       <Route path="/register" element={<Register />} />
       <Route path="/recover" element={<Recover />} />
 
-      <Route path="/financeiro" element={<PrivateRoute open={false} />}>
+      <Route path="/financeiro" element={<PrivateRoute />}>
         <Route path="/financeiro" element={<Financeiro />} />
       </Route>
 
-      <Route path="/pedidos" element={<Pedidos />} />
-      <Route path="/clientes" element={<Clientes />} />
+      <Route path="/pedidos" element={<PrivateRoute />}>
+        <Route path="/pedidos" element={<Pedidos />} />
+      </Route>
+
+      <Route path="/clientes" element={<PrivateRoute />}>
+        <Route path="/clientes" element={<Clientes />} />
+      </Route>
     </Routes>
   );
 }

@@ -12,7 +12,6 @@ export const Container = styled.div`
 //          Banner
 
 export const BannerContainer = styled.div`
-  width: 100%;
   height: 350px;
   padding: 1em;
   background-color: ${(props) => props.theme.backgroundColor};

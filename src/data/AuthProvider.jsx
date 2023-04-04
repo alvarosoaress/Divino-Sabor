@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { createContext } from 'react';
 import { useContext } from 'react';
 import { useState } from 'react';
+import LoadingAnimation from '../components/LoadingAnimation';
 import { auth } from '../services/firebase';
 
 export const AuthContext = createContext({
@@ -11,7 +12,11 @@ export const AuthContext = createContext({
 });
 
 export default function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
+  // iniciar user como vazio para que isso funcione na função de AuthProvider
+  // caso deixar em "null", o AuthProvider vai passar primeiro o valor de null
+  // ou seja, a função náo espera o await e já passa null
+  // isso é um grande problema para o elemento PrivateRoute!
+  const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -32,7 +37,7 @@ export default function AuthProvider({ children }) {
   }, []);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingAnimation />;
   }
 
   return (

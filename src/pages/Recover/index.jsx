@@ -26,7 +26,7 @@ export default function Recover() {
     let email = $email.current.value;
 
     if (validator.isEmpty($email.current.value)) {
-      toast.error('Preencha o campo primeiro!.');
+      toast.error('Preencha o campo primeiro!');
       return;
     }
 

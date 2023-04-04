@@ -16,6 +16,7 @@ import { useState } from 'react';
 import { ButtonPrimary } from '../../components/Button/styled';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { FaRegUserCircle } from 'react-icons/fa';
 
 export default function Header({ style, auxText }) {
   const [openBurger, setOpenBurger] = useState(false);
@@ -55,12 +56,15 @@ export default function Header({ style, auxText }) {
         </li>
 
         <Link to="/login">
-          <UserImg
+          {/* // A FAZER
+            // COLOCAR IMAGENS DE USUÁRIOS */}
+          <FaRegUserCircle size={25} />
+          {/* <UserImg
             width="50px"
             height="50px"
             src={userImgPlaceholder}
             alt="User Img"
-          />
+          /> */}
         </Link>
       </Nav>
       <NavBurguer>

@@ -11,8 +11,8 @@ import AuthProvider from './data/AuthProvider';
 export default function App() {
   return (
     <ThemeProvider theme={colors}>
-      <AuthProvider>
-        <BrowserRouter>
+      <BrowserRouter>
+        <AuthProvider>
           <Router />
           <GlobalStyles />
           <ToastContainer
@@ -27,8 +27,8 @@ export default function App() {
             pauseOnHover={false}
             theme="light"
           />
-        </BrowserRouter>
-      </AuthProvider>
+        </AuthProvider>
+      </BrowserRouter>
     </ThemeProvider>
   );
 }
