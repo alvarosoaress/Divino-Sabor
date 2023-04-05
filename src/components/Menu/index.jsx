@@ -37,16 +37,16 @@ export default function Menu() {
           }}
         >
           <SecondaryDivider />
-          <MenuText>ESTOQUE</MenuText>
+          <MenuText to={'/estoque'}>ESTOQUE</MenuText>
 
           <SecondaryDivider />
-          <MenuText>PEDIDOS</MenuText>
+          <MenuText to={'/pedidos'}>PEDIDOS</MenuText>
 
           <SecondaryDivider />
-          <MenuText>CLIENTES</MenuText>
+          <MenuText to={'/clientes'}>CLIENTES</MenuText>
 
           <SecondaryDivider />
-          <MenuText>FINANCEIRO</MenuText>
+          <MenuText to={'/financeiro'}>FINANCEIRO</MenuText>
           <SecondaryDivider />
         </MenuBox>
       </MenuContainer>

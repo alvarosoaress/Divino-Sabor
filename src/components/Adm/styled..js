@@ -1,6 +1,17 @@
 import styled from 'styled-components';
 
-export const CostumersContainer = styled.div`
+export const AdmListContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  background-color: ${(props) => props.theme.backgroundColor};
+  overflow-x: hidden;
+
+  @media screen and (max-width: 600px) {
+    height: 100vh;
+  }
+`;
+
+export const AdmListBox = styled.div`
   display: flex;
   flex-direction: column;
   background-color: ${(props) => props.theme.backgroundColor};
@@ -13,7 +24,7 @@ export const CostumersContainer = styled.div`
   }
 `;
 
-export const CostumersTitleContainer = styled.div`
+export const AdmListTitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -21,7 +32,7 @@ export const CostumersTitleContainer = styled.div`
   margin-bottom: 5%;
 `;
 
-export const CostumersAddText = styled.p`
+export const AdmListAddText = styled.p`
   font-family: 'Quattrocento';
   font-weight: normal;
   font-size: 20px;
@@ -44,25 +55,7 @@ export const CostumersAddText = styled.p`
   }
 `;
 
-export const CostumersSearchInput = styled.input`
-  width: 300px;
-  height: 40px;
-  background-color: ${(props) => props.theme.primaryColor};
-  outline: none;
-  border: none;
-  padding: 5px;
-  font-size: 20px;
-  border-radius: 3px;
-  transition: all 200ms ease-in-out;
-`;
-
-export const CostumersTable = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`;
-
-export const CostumersName = styled.p`
+export const AdmListItemName = styled.p`
   font-family: 'Quattrocento';
   font-weight: normal;
   font-size: 20px;
@@ -72,4 +65,22 @@ export const CostumersName = styled.p`
   @media screen and (max-width: 600px) {
     font-size: 16px;
   }
+`;
+
+export const AdmListTable = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`;
+
+export const AdmSearchInput = styled.input`
+  width: 300px;
+  height: 40px;
+  background-color: ${(props) => props.theme.primaryColor};
+  outline: none;
+  border: none;
+  padding: 5px;
+  font-size: 20px;
+  border-radius: 3px;
+  transition: all 200ms ease-in-out;
 `;

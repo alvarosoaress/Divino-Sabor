@@ -8,6 +8,7 @@ import Recover from '../pages/Recover';
 import Register from '../pages/Register';
 import Clientes from '../pages/Clientes';
 import PrivateRoute from './PrivateRoute';
+import Estoque from '../pages/Estoque';
 
 export default function Router() {
   return (
@@ -27,6 +28,10 @@ export default function Router() {
 
       <Route path="/clientes" element={<PrivateRoute />}>
         <Route path="/clientes" element={<Clientes />} />
+      </Route>
+
+      <Route path="/estoque" element={<PrivateRoute />}>
+        <Route path="/estoque" element={<Estoque />} />
       </Route>
     </Routes>
   );
