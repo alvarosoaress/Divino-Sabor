@@ -7,7 +7,7 @@ export const ButtonPrimary = styled.button`
   border-radius: 6px;
   border: none;
   background-color: ${(props) => props.theme.buttonPrimary};
-  font-size: ${(props) => props.fontSize ?? '16px'};
+  font-size: ${(props) => props.fontsize ?? '16px'};
   letter-spacing: 0.7px;
   display: flex;
   justify-content: center;
@@ -18,11 +18,11 @@ export const ButtonPrimary = styled.button`
 
   :hover {
     font-weight: bold;
-    font-size: ${(props) => props.fontHover ?? '20px'};
+    font-size: ${(props) => props.fonthover ?? '20px'};
   }
 
-  @media screen and (max-width: ${(props) => props.mediaQuery}) {
-    width: ${(props) => props.mediaQueryWidth ?? '100px'};
+  @media screen and (max-width: ${(props) => props.mediaquery}) {
+    width: ${(props) => props.mediaquerywidth ?? '100px'};
     height: 50px;
   }
 `;

@@ -38,10 +38,10 @@ export function AdmItemRow({ name, uid }) {
         <AdmListItemName>{name}</AdmListItemName>
         <ButtonPrimary
           width="150px"
-          fontSize="12px"
-          fontHover="16px"
-          mediaQuery="800px"
-          mediaQueryWidth="65px"
+          fontzize="12px"
+          fonthover="16px"
+          mediaquery="800px"
+          mediaquerywidth="65px"
           as={Link}
           to={`/clientes/edit/${uid}`}
         >
@@ -49,10 +49,10 @@ export function AdmItemRow({ name, uid }) {
         </ButtonPrimary>
         <ButtonPrimary
           width="150px"
-          fontSize="12px"
-          fontHover="16px"
-          mediaQuery="800px"
-          mediaQueryWidth="65px"
+          fontzize="12px"
+          fonthover="16px"
+          mediaquery="800px"
+          mediaquerywidth="65px"
         >
           Excluir
         </ButtonPrimary>
