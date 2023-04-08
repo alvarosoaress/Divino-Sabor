@@ -23,7 +23,7 @@ export function AdmItemAdd({ display, text }) {
 }
 
 export function AdmItemRow({ name, uid }) {
-return (
+  return (
     <span>
       <SecondaryDivider />
       <span

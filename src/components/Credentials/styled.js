@@ -20,5 +20,5 @@ export const CredentialsLabel = styled.label`
   width: 80%;
   margin-block: 3%;
   transition: all 200ms ease-in-out;
-  color: ${(props) => props.theme.primaryColor};
+  color: ${(props) => props.color ?? props.theme.primaryColor};
 `;

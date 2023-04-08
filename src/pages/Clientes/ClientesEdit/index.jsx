@@ -1,43 +1,76 @@
-import React from 'react';
-import Header from '../../components/Header';
-import Menu from '../../components/Menu';
-import { FaSearch } from 'react-icons/fa';
-import {
-  AdmListBox,
-  AdmListContainer,
-  AdmListTable,
-  AdmListTitleContainer,
-  AdmSearchInput,
-} from '../../components/Adm/styled.';
-import { collection, getDocs, query, where } from 'firebase/firestore';
-import { db } from '../../services/firebase';
+import React, { useRef } from 'react';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 
-import { AdmItemAdd, AdmItemRow } from '../../components/Adm';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import Header from '../../../components/Header';
+import Menu from '../../../components/Menu';
+import { useParams } from 'react-router-dom';
+import { db } from '../../../services/firebase';
+import {
+  Email,
+  Name,
+  Tel,
+  handleValidation,
+} from '../../../components/Credentials';
+import { CredentialsForm } from '../../Login/styled';
+import { toast } from 'react-toastify';
+import validator from 'validator';
+import { ClientEditBox, ClientEditContainer, ClientEditTilte } from './styled';
+import { useTheme } from 'styled-components';
+import { ButtonPrimary } from '../../../components/Button/styled';
 
 export default function ClientesEdit() {
   const { id } = useParams();
   const [user, setUser] = useState([]);
-  const usersCollection = collection(db, 'users');
 
-  const queryClients = query(usersCollection, where('type', '==', 'cliente'));
+  const userRef = doc(db, 'users', id);
+
+  const $email = useRef(null);
+  const $emailLabel = useRef(null);
+  const $name = useRef(null);
+  const $nameLabel = useRef(null);
+  const $tel = useRef(null);
+  const $telLabel = useRef(null);
+
+  const theme = useTheme();
 
   useEffect(() => {
-    const getUsers = async () => {
+    const getUser = async () => {
       try {
-        const data = await getDocs(queryClients);
-        const cleanData = data.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }));
-        setUsers(cleanData);
+        const response = await getDoc(userRef);
+        const cleanData = response.data();
+        setUser(cleanData);
       } catch (error) {
         console.error(error);
       }
     };
-    getUsers();
+    getUser();
   }, []);
+
+  const handleEdit = async (e) => {
+    e.preventDefault();
+
+    let email = $email.current.value;
+    let name = $name.current.value;
+    let tel = $tel.current.value.replace(/[^\d]/g, '');
+
+    if (
+      validator.isEmpty($name.current.value) ||
+      validator.isEmpty($email.current.value) ||
+      validator.isEmpty($tel.current.value)
+    ) {
+      toast.error('Preencha todos os campos primeiro!.');
+      return;
+    }
+
+    try {
+      await updateDoc(userRef, { email, name, tel });
+      toast.success('Cliente editado com sucesso!');
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -45,33 +78,57 @@ export default function ClientesEdit() {
         style={true}
         auxText={window.screen.width >= 600 ? 'ADMINISTRATIVO' : 'ADMIN'}
       />
-      <AdmListContainer>
+      <ClientEditContainer>
         <Menu />
-
-        <AdmListBox>
-          <AdmListTitleContainer>
-            <AdmItemAdd
-              text={'Adicionar novo cliente'}
-              display={window.screen.width >= 600 ? 'flex' : 'none'}
+        <ClientEditBox>
+          <ClientEditTilte>Editar Cliente</ClientEditTilte>
+          <CredentialsForm
+            onSubmit={(e) => handleEdit(e)}
+            action=""
+            style={{ height: 'auto' }}
+            onChange={() =>
+              // Função para validação de daodos dos inputs
+              // Parametros useRefs sendo passados
+              handleValidation(
+                $email,
+                $emailLabel,
+                null,
+                null,
+                $tel,
+                $telLabel,
+                $name,
+                $nameLabel,
+              )
+            }
+          >
+            <Name
+              $ref={$name}
+              $refLabel={$nameLabel}
+              labelColor={theme.textColor}
+              inputStyle={{ margin: '0px', backgroundColor: theme.auxColor }}
+              defaultValue={user.name}
             />
-            <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-              <AdmSearchInput />
-              <FaSearch style={{ height: '40px' }} />
-            </span>
-          </AdmListTitleContainer>
+            <Email
+              $ref={$email}
+              $refLabel={$emailLabel}
+              labelColor={theme.textColor}
+              inputStyle={{ margin: '0px', backgroundColor: theme.auxColor }}
+              defaultValue={user.email}
+            />
+            <Tel
+              $ref={$tel}
+              $refLabel={$telLabel}
+              labelColor={theme.textColor}
+              inputStyle={{ margin: '0px', backgroundColor: theme.auxColor }}
+              defaultValue={user.tel}
+            />
 
-          <AdmListTable>
-            {users.map((user, index) => (
-              <AdmItemRow name={user.name} key={index} />
-            ))}
-          </AdmListTable>
-
-          <AdmItemAdd
-            text={'Adicionar novo cliente'}
-            display={window.screen.width < 600 ? 'flex' : 'none'}
-          />
-        </AdmListBox>
-      </AdmListContainer>
+            <ButtonPrimary type="submit" style={{ marginTop: '50px' }}>
+              Salvar
+            </ButtonPrimary>
+          </CredentialsForm>
+        </ClientEditBox>
+      </ClientEditContainer>
     </>
   );
 }

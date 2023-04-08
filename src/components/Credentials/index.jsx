@@ -51,7 +51,7 @@ export function handleValidation(
     name < 10 // verificando se o nome é maior de 10 digitos
       ? (($name.current.style.border = '2px solid red'),
         ($nameLabel.current.innerText =
-          'Senha | Insira uma nome maior que 10 caracteres!'))
+          'Nome | Insira uma nome maior que 10 caracteres!'))
       : (($name.current.style.border = '2px solid green'),
         ($nameLabel.current.innerText = 'Nome'));
   }
@@ -80,24 +80,44 @@ export function handleValidation(
 // epxortando cada input juntamente com seu label
 // pedindo useRef como parametro para validação poder funcionar
 
-export function Email({ $ref, $refLabel }) {
+export function Email({
+  $ref,
+  $refLabel,
+  labelColor,
+  inputStyle,
+  labelStyle,
+  defaultValue,
+}) {
   return (
     <>
-      <CredentialsLabel ref={$refLabel}>E-mail</CredentialsLabel>
+      <CredentialsLabel color={labelColor} ref={$refLabel} style={labelStyle}>
+        E-mail
+      </CredentialsLabel>
       <CredentialsInput
         type="e-mail"
         name="email"
         id=""
         ref={$ref}
+        style={inputStyle}
+        defaultValue={defaultValue}
       ></CredentialsInput>
     </>
   );
 }
 
-export function Name({ $ref, $refLabel }) {
+export function Name({
+  $ref,
+  $refLabel,
+  labelColor,
+  inputStyle,
+  labelStyle,
+  defaultValue,
+}) {
   return (
     <>
-      <CredentialsLabel ref={$refLabel}>Nome</CredentialsLabel>
+      <CredentialsLabel color={labelColor} ref={$refLabel} style={labelStyle}>
+        Nome
+      </CredentialsLabel>
       <CredentialsInput
         type="text"
         name="text"
@@ -105,29 +125,51 @@ export function Name({ $ref, $refLabel }) {
         maxLength={40}
         minLength={10}
         ref={$ref}
+        style={inputStyle}
+        defaultValue={defaultValue}
       ></CredentialsInput>
     </>
   );
 }
 
-export function Password({ $ref, $refLabel }) {
+export function Password({
+  $ref,
+  $refLabel,
+  labelColor,
+  inputStyle,
+  labelStyle,
+  defaultValue,
+}) {
   return (
     <>
-      <CredentialsLabel ref={$refLabel}>Senha</CredentialsLabel>
+      <CredentialsLabel color={labelColor} ref={$refLabel} style={labelStyle}>
+        Senha
+      </CredentialsLabel>
       <CredentialsInput
         type="password"
         name="password"
         id=""
         ref={$ref}
+        style={inputStyle}
+        defaultValue={defaultValue}
       ></CredentialsInput>
     </>
   );
 }
 
-export function Tel({ $ref, $refLabel }) {
+export function Tel({
+  $ref,
+  $refLabel,
+  labelColor,
+  inputStyle,
+  labelStyle,
+  defaultValue,
+}) {
   return (
     <>
-      <CredentialsLabel ref={$refLabel}>Telefone</CredentialsLabel>
+      <CredentialsLabel color={labelColor} ref={$refLabel} style={labelStyle}>
+        Telefone
+      </CredentialsLabel>
       <CredentialsInput
         type="tel"
         name="tel"
@@ -138,6 +180,8 @@ export function Tel({ $ref, $refLabel }) {
         pattern="\([0-9]{2}\) [0-9]{5}\-[0-9]{4}" // regex foramatar como numero telefonico
         placeholder="(xx) xxxxx-xxxx"
         title="Telefone (xx) xxxxx-xxxx"
+        style={inputStyle}
+        defaultValue={defaultValue}
       ></CredentialsInput>
     </>
   );

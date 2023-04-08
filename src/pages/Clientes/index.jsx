@@ -65,8 +65,8 @@ export default function Clientes() {
           </AdmListTitleContainer>
 
           <AdmListTable>
-            {users.map((client) => (
-              <AdmItemRow name={client.name} uid={client.id}/>
+            {users.map((client, index) => (
+              <AdmItemRow name={client.name} uid={client.id} key={index} />
             ))}
           </AdmListTable>
 
