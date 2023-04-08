@@ -32,6 +32,12 @@ import Logo from '../../assets/images/logo';
 import { Divider } from '../../components/Utils/styled';
 import Header from '../../components/Header';
 
+import HomeBanner from '../../assets/images/BannerHome.png';
+import Docinhos from '../../assets/images/Docinhos.png';
+import Bebidas from '../../assets/images/Bebidas.png';
+import Bolos from '../../assets/images/Bolos.png';
+import Salgadinhos from '../../assets/images/Salgadinhos.png';
+
 // componentizando os cards destaques
 function Card({ name, image }) {
   return (
@@ -47,19 +53,19 @@ export default function Home() {
   const cardImages = [
     {
       name: 'Bolinhos',
-      img: 'https://source.unsplash.com/random/900x700/',
+      img: Bolos,
     },
     {
       name: 'Docinhos',
-      img: 'https://source.unsplash.com/random/900x700/',
+      img: Docinhos,
     },
     {
       name: 'Bebidas',
-      img: 'https://source.unsplash.com/random/900x700/',
+      img: Bebidas,
     },
     {
       name: 'Salgadinhos',
-      img: 'https://source.unsplash.com/random/900x700/',
+      img: Salgadinhos,
     },
   ];
 
@@ -85,7 +91,7 @@ export default function Home() {
       <Header />
       <Divider />
       <BannerContainer>
-        <Banner src="https://source.unsplash.com/random/1920x720/" />
+        <Banner src={HomeBanner} />
       </BannerContainer>
       <Divider />
       <Container>

@@ -34,6 +34,8 @@ export function handleValidation(
   $passwordLabel,
   $tel,
   $telLabel,
+  $name,
+  $nameLabel,
 ) {
   // chcecando cada input passado para verificar se ele existe
   if ($email) {
@@ -44,6 +46,16 @@ export function handleValidation(
       : (($email.current.style.border = '2px solid red'),
         ($emailLabel.current.innerText = 'E-mail | Insira um e-mail válido!'));
   }
+  if ($name) {
+    let name = $name.current.value.length;
+    name < 10 // verificando se o nome é maior de 10 digitos
+      ? (($name.current.style.border = '2px solid red'),
+        ($nameLabel.current.innerText =
+          'Senha | Insira uma nome maior que 10 caracteres!'))
+      : (($name.current.style.border = '2px solid green'),
+        ($nameLabel.current.innerText = 'Nome'));
+  }
+
   if ($password) {
     let password = $password.current.value.length;
     password < 6 // verificando se a senha é maior de 5 digitos
@@ -76,6 +88,22 @@ export function Email({ $ref, $refLabel }) {
         type="e-mail"
         name="email"
         id=""
+        ref={$ref}
+      ></CredentialsInput>
+    </>
+  );
+}
+
+export function Name({ $ref, $refLabel }) {
+  return (
+    <>
+      <CredentialsLabel ref={$refLabel}>Nome</CredentialsLabel>
+      <CredentialsInput
+        type="text"
+        name="text"
+        id=""
+        maxLength={40}
+        minLength={10}
         ref={$ref}
       ></CredentialsInput>
     </>

@@ -12,6 +12,7 @@ export const Container = styled.div`
 //          Banner
 
 export const BannerContainer = styled.div`
+  position: relative;
   height: 350px;
   padding: 1em;
   background-color: ${(props) => props.theme.backgroundColor};
@@ -19,12 +20,25 @@ export const BannerContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  ::after {
+    position: absolute;
+    content: 'Celebre Conosco!';
+    font-family: 'Great Vibes', sans-serif;
+    font-size: 150px;
+    font-weight: regular;
+    color: ${(props) => props.theme.accentColor};
+    text-align: center;
+    letter-spacing: 1.25px;
+    margin: auto;
+  }
 `;
 
 export const Banner = styled.img`
-  width: 100%;
+  position: relative;
   max-width: 1200px;
   height: 100%;
+  filter: blur(90%);
 `;
 
 // --------------------------------------------------------

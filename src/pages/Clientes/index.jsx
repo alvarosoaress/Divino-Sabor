@@ -9,10 +9,40 @@ import {
   AdmListTitleContainer,
   AdmSearchInput,
 } from '../../components/Adm/styled.';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { db } from '../../services/firebase';
+
 import { AdmItemAdd, AdmItemRow } from '../../components/Adm';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 export default function Clientes() {
-  const names = ['Alvaro', 'Matheus', 'Breno', 'Marta', 'Marcos', 'Jaime'];
+  const [users, setUsers] = useState([]);
+  const usersCollection = collection(db, 'users');
+
+  /// const queryProductType = query(
+  //   productCollection,
+  //   where('type', '==', 'doce'),
+  // );
+
+  const queryClients = query(usersCollection, where('type', '==', 'cliente'));
+
+  useEffect(() => {
+    const getUsers = async () => {
+      try {
+        const data = await getDocs(queryClients);
+        const cleanData = data.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+        setUsers(cleanData);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getUsers();
+  }, []);
+
   return (
     <>
       <Header
@@ -35,8 +65,8 @@ export default function Clientes() {
           </AdmListTitleContainer>
 
           <AdmListTable>
-            {names.map((name, index) => (
-              <AdmItemRow name={name} key={index} />
+            {users.map((user, index) => (
+              <AdmItemRow name={user.email} key={index} />
             ))}
           </AdmListTable>
 

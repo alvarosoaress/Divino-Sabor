@@ -20,8 +20,8 @@ export const CredentialsContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
-  width: 470px;
-  height: 580px;
+  width: 520px;
+  height: 680px;
   background-color: white;
   background-image: url(${credentialBackground});
   background-size: cover;
@@ -31,7 +31,6 @@ export const CredentialsContainer = styled.div`
 
   @media screen and (max-width: 600px) {
     width: 370px;
-    height: 550px;
   }
 `;
 
@@ -42,7 +41,7 @@ export const CredentialsForm = styled.form`
   flex-direction: column;
   width: 100%;
   height: 100%;
-  margin: 10%;
+  /* margin: 10%; */
   transition: all 200ms ease-in-out;
 `;
 

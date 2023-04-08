@@ -12,6 +12,7 @@ import {
 import {
   Email,
   handleValidation,
+  Name,
   Password,
   Tel,
 } from '../../components/Credentials';
@@ -30,6 +31,8 @@ export default function Register() {
   const $passwordLabel = useRef(null);
   const $tel = useRef(null);
   const $telLabel = useRef(null);
+  const $name = useRef(null);
+  const $nameLabel = useRef(null);
 
   const navigate = useNavigate();
 
@@ -43,7 +46,8 @@ export default function Register() {
     if (
       validator.isEmpty($email.current.value) ||
       validator.isEmpty($password.current.value) ||
-      validator.isEmpty($tel.current.value)
+      validator.isEmpty($tel.current.value) ||
+      validator.isNumeric($tel.current.value)
     ) {
       toast.error('Preencha todos os campos primeiro!.');
       return;
@@ -55,10 +59,13 @@ export default function Register() {
         email,
         password,
       );
-
+      // criando referencia para a colleciton db na tabela users
       const usersColletion = collection(db, '/', 'users');
+      // criando um doc apontando para a referencia e adicionando user UID
       const usersDoc = doc(usersColletion, user.uid);
-      await setDoc(usersDoc, { email, tel });
+      // atribuindo valores para o DOC e o enviando para a referencia
+      // definindo type para cliente como padrão
+      await setDoc(usersDoc, { email, tel, type: 'cliente' });
       navigate('/login');
       toast.success('Usuário criado com sucesso!');
     } catch (error) {
@@ -94,6 +101,7 @@ export default function Register() {
               )
             }
           >
+            <Name $ref={$name} $refLabel={$nameLabel} />
             <Email $ref={$email} $refLabel={$emailLabel} />
             <Password $ref={$password} $refLabel={$passwordLabel} />
             <Tel $ref={$tel} $refLabel={$telLabel} />

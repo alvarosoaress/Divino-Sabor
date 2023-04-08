@@ -10,7 +10,6 @@ import {
   NavLinks,
   UserImg,
 } from './styled';
-import userImgPlaceholder from '../../assets/images/vitaodoidao.png';
 import { BiMenuAltRight } from 'react-icons/bi';
 import { useState } from 'react';
 import { ButtonPrimary } from '../../components/Button/styled';
@@ -71,12 +70,7 @@ export default function Header({ style, auxText }) {
         <BiMenuAltRight size={40} onClick={() => setOpenBurger(!openBurger)} />
         <NavBurguerBackground style={{ display: openBurger ? 'flex' : 'none' }}>
           <a href="#">
-            <UserImg
-              width="50px"
-              height="50px"
-              src={userImgPlaceholder}
-              alt="User Img"
-            />
+            <UserImg width="50px" height="50px" alt="User Img" />
           </a>
           <li>
             <NavLinks href="#">Cardápio</NavLinks>
