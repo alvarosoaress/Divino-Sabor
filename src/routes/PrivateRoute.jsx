@@ -3,12 +3,19 @@ import React, { useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuthContext } from '../data/AuthProvider';
 import { db } from '../services/firebase';
+import { toast } from 'react-toastify';
 
 // função para verificar qual o nível de permissão o usuário
 // logado possuí
 export default function PrivateRoute() {
   const { user } = useAuthContext();
   const [admin, setAdmin] = useState(null);
+
+  // caso o usuário não esteja logado em nenhuma conta
+  // redirecionar o usuário para a página de login
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
 
   useEffect(() => {
     // pegando o UID do user logado e fazendo uma
@@ -29,5 +36,10 @@ export default function PrivateRoute() {
     // da verificação de admin
   }
 
-  return admin ? <Outlet /> : <Navigate to={'/login'} />;
+  return admin ? (
+    <Outlet />
+  ) : (
+    (toast.error('Você não tem permissão para visualizar essa página !'),
+    (<Navigate to={'/login'} />))
+  );
 }

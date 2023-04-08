@@ -16,14 +16,10 @@ import { AdmItemAdd, AdmItemRow } from '../../components/Adm';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
-export default function Clientes() {
-  const [users, setUsers] = useState([]);
+export default function ClientesEdit() {
+  const { id } = useParams();
+  const [user, setUser] = useState([]);
   const usersCollection = collection(db, 'users');
-
-  /// const queryProductType = query(
-  //   productCollection,
-  //   where('type', '==', 'doce'),
-  // );
 
   const queryClients = query(usersCollection, where('type', '==', 'cliente'));
 
@@ -65,8 +61,8 @@ export default function Clientes() {
           </AdmListTitleContainer>
 
           <AdmListTable>
-            {users.map((client) => (
-              <AdmItemRow name={client.name} uid={client.id}/>
+            {users.map((user, index) => (
+              <AdmItemRow name={user.name} key={index} />
             ))}
           </AdmListTable>
 

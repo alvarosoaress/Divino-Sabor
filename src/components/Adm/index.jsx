@@ -3,6 +3,7 @@ import { FaPlus } from 'react-icons/fa';
 import { AdmListAddText, AdmListItemName } from './styled.';
 import { SecondaryDivider } from '../Utils/styled';
 import { ButtonPrimary } from '../Button/styled';
+import { Link } from 'react-router-dom';
 
 export function AdmItemAdd({ display, text }) {
   return (
@@ -21,8 +22,8 @@ export function AdmItemAdd({ display, text }) {
   );
 }
 
-export function AdmItemRow({ name }) {
-  return (
+export function AdmItemRow({ name, uid }) {
+return (
     <span>
       <SecondaryDivider />
       <span
@@ -41,6 +42,8 @@ export function AdmItemRow({ name }) {
           fontHover="16px"
           mediaQuery="800px"
           mediaQueryWidth="65px"
+          as={Link}
+          to={`/clientes/edit/${uid}`}
         >
           Editar
         </ButtonPrimary>

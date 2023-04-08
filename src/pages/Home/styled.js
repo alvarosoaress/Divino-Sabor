@@ -15,11 +15,11 @@ export const BannerContainer = styled.div`
   position: relative;
   height: 350px;
   padding: 1em;
-  background-color: ${(props) => props.theme.backgroundColor};
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: ${(props) => props.theme.backgroundColor};
 
   ::after {
     position: absolute;
@@ -27,10 +27,14 @@ export const BannerContainer = styled.div`
     font-family: 'Great Vibes', sans-serif;
     font-size: 150px;
     font-weight: regular;
-    color: ${(props) => props.theme.accentColor};
     text-align: center;
     letter-spacing: 1.25px;
     margin: auto;
+    color: ${(props) => props.theme.accentColor};
+
+    @media screen and (max-width: 600px) {
+      font-size: 100px;
+    }
   }
 `;
 
@@ -56,12 +60,12 @@ export const ProductsContainer = styled.div`
 `;
 
 export const ProductsTitle = styled.h1`
-  color: ${(props) => props.theme.secondaryColor};
   font-size: 50px;
   margin-top: 2em;
   margin-bottom: 0.5em;
   font-weight: normal;
   text-align: center;
+  color: ${(props) => props.theme.secondaryColor};
 `;
 
 export const ProductsCard = styled(Link)`
@@ -73,8 +77,8 @@ export const ProductsCard = styled(Link)`
   height: 300px;
   background-repeat: no-repeat;
   background-size: cover;
-  background-image: url(${(props) => props.image});
   transition: all 400ms ease-in-out;
+  background-image: url(${(props) => props.image});
 
   ::after {
     position: absolute;
@@ -94,18 +98,18 @@ export const ProductsCard = styled(Link)`
 export const CardTitle = styled.h3`
   position: absolute;
   z-index: 1;
-  color: ${(props) => props.theme.backgroundColor};
   font-weight: bold;
   font-size: 30px;
+  color: ${(props) => props.theme.backgroundColor};
 `;
 
 export const CardMore = styled(Link)`
   position: absolute;
   z-index: 1;
-  color: ${(props) => props.theme.backgroundColor};
   bottom: 20px;
   font-weight: normal;
   font-size: 20px;
+  color: ${(props) => props.theme.backgroundColor};
 `;
 // --------------------------------------------------------
 //                  Social Media
@@ -122,10 +126,10 @@ export const InstaUser = styled.a`
   font-family: 'Work Sans', sans-serif;
   font-size: 12px;
   font-weight: bold;
-  color: ${(props) => props.theme.secondaryColor};
   line-height: 22px;
   text-align: center;
   letter-spacing: 1.26px;
+  color: ${(props) => props.theme.secondaryColor};
 `;
 
 export const SocialTitle = styled.h2`

@@ -18,7 +18,7 @@ import {
 } from '../../components/Credentials';
 import { Link, useNavigate } from 'react-router-dom';
 import HeaderAlt from '../../components/HeaderAlt';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth, db } from '../../services/firebase';
 import { doc, collection, setDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
@@ -41,11 +41,13 @@ export default function Register() {
 
     let email = $email.current.value;
     let password = $password.current.value;
+    let name = $name.current.value;
     let tel = $tel.current.value.replace(/[^\d]/g, '');
 
     if (
       validator.isEmpty($email.current.value) ||
       validator.isEmpty($password.current.value) ||
+      validator.isEmpty($name.current.value) ||
       validator.isEmpty($tel.current.value) ||
       validator.isNumeric($tel.current.value)
     ) {
@@ -65,7 +67,8 @@ export default function Register() {
       const usersDoc = doc(usersColletion, user.uid);
       // atribuindo valores para o DOC e o enviando para a referencia
       // definindo type para cliente como padrão
-      await setDoc(usersDoc, { email, tel, type: 'cliente' });
+      await setDoc(usersDoc, { name, email, tel, type: 'cliente' });
+      updateProfile(user, { displayName: name });
       navigate('/login');
       toast.success('Usuário criado com sucesso!');
     } catch (error) {

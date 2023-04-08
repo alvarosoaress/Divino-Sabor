@@ -28,6 +28,7 @@ export default function Router() {
 
       <Route path="/clientes" element={<PrivateRoute />}>
         <Route path="/clientes" element={<Clientes />} />
+        <Route path="/clientes/edit/:id" element={<Financeiro />} />
       </Route>
 
       <Route path="/estoque" element={<PrivateRoute />}>
