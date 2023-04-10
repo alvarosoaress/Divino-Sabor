@@ -47,7 +47,7 @@ export const NavLinks = styled(Link)`
   }
 `;
 
-export const LogoText = styled.h1`
+export const LogoText = styled(Link)`
   font-family: 'Great Vibes', cursive;
   color: ${(props) => props.color ?? props.theme.accentColor};
   font-size: large;

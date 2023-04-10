@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import Header from '../../../components/Header';
 import Menu from '../../../components/Menu';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { db } from '../../../services/firebase';
 import {
   Email,
@@ -23,6 +23,7 @@ import { ButtonPrimary } from '../../../components/Button/styled';
 export default function ClientesEdit() {
   const { id } = useParams();
   const [user, setUser] = useState([]);
+  const navigate = useNavigate();
 
   const userRef = doc(db, 'users', id);
 
@@ -66,6 +67,7 @@ export default function ClientesEdit() {
 
     try {
       await updateDoc(userRef, { email, name, tel });
+      navigate('/clientes');
       toast.success('Cliente editado com sucesso!');
     } catch (error) {
       console.log(error);

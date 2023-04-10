@@ -10,7 +10,9 @@ export default function HeaderAlt(props) {
   return (
     <HeaderContainer {...props} style={{ backgroundColor: 'transparent' }}>
       <LogoTextContainer>
-        <LogoText color="black">Divino Sabor</LogoText>
+        <LogoText color="black" to={'/'}>
+          Divino Sabor
+        </LogoText>
         <LogoTextAux>ACESSO</LogoTextAux>
       </LogoTextContainer>
     </HeaderContainer>

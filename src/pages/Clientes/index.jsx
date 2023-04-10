@@ -30,6 +30,14 @@ export default function Clientes() {
   //   where('type', '==', 'doce'),
   // );
 
+  // import { collection, query, where } from 'firebase/firestore'
+  //
+  // const queryConstraints = []
+  // if (group != null) queryConstraints.push(where('group', '==', group))
+  // if (pro != null) queryConstraints.push(where('pro', '==', pro))
+  // const q = query(collection(db, 'videos'), ...queryConstraints)
+  //
+
   const queryClients = query(usersCollection, where('type', '==', 'cliente'));
 
   useEffect(() => {
