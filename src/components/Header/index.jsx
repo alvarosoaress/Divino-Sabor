@@ -8,7 +8,6 @@ import {
   NavBurguer,
   NavBurguerBackground,
   NavLinks,
-  UserImg,
 } from './styled';
 import { BiMenuAltRight } from 'react-icons/bi';
 import { useState } from 'react';
@@ -86,23 +85,24 @@ export default function Header({ style, auxText }) {
         </li>
 
         <Link to="/login">
-          {/* // A FAZER
-            // COLOCAR IMAGENS DE USUÁRIOS */}
           <FaRegUserCircle size={25} />
-          {/* <UserImg
-            width="50px"
-            height="50px"
-            src={userImgPlaceholder}
-            alt="User Img"
-          /> */}
         </Link>
       </Nav>
       <NavBurguer>
         <BiMenuAltRight size={40} onClick={() => setOpenBurger(!openBurger)} />
         <NavBurguerBackground style={{ display: openBurger ? 'flex' : 'none' }}>
           <a href="#">
-            <UserImg width="50px" height="50px" alt="User Img" />
+            <FaRegUserCircle size={25} />
           </a>
+          {admin ? (
+            <li>
+              <NavLinks as={Link} to={'/financeiro'}>
+                Administrativo
+              </NavLinks>
+            </li>
+          ) : (
+            ''
+          )}
           <li>
             <NavLinks href="#">Cardápio</NavLinks>
           </li>
