@@ -5,10 +5,10 @@ import { SecondaryDivider } from '../Utils/styled';
 import { ButtonPrimary } from '../Button/styled';
 import { Link } from 'react-router-dom';
 
-export function AdmItemAdd({ display, text }) {
+export function AdmItemAdd({ display, text, link }) {
   return (
-    <a
-      href="#"
+    <Link
+      to={link}
       style={{
         display: display,
         alignItems: 'center',
@@ -18,11 +18,11 @@ export function AdmItemAdd({ display, text }) {
     >
       <FaPlus />
       <AdmListAddText>{text}</AdmListAddText>
-    </a>
+    </Link>
   );
 }
 
-export function AdmItemRow({ name, uid }) {
+export function AdmItemRow({ name, uid, key, setState, setUser }) {
   return (
     <span>
       <SecondaryDivider />
@@ -53,6 +53,10 @@ export function AdmItemRow({ name, uid }) {
           fonthover="16px"
           mediaquery="800px"
           mediaquerywidth="65px"
+          onClick={() => {
+            setState(true);
+            setUser({ name, uid, index: key });
+          }}
         >
           Excluir
         </ButtonPrimary>

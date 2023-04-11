@@ -10,6 +10,7 @@ import Clientes from '../pages/Clientes';
 import PrivateRoute from './PrivateRoute';
 import Estoque from '../pages/Estoque';
 import ClientesEdit from '../pages/Clientes/ClientesEdit';
+import ClientesAdd from '../pages/Clientes/ClientesAdd';
 
 export default function Router() {
   return (
@@ -30,6 +31,7 @@ export default function Router() {
       <Route path="/clientes" element={<PrivateRoute />}>
         <Route path="/clientes" element={<Clientes />} />
         <Route path="/clientes/edit/:id" element={<ClientesEdit />} />
+        <Route path="/clientes/add" element={<ClientesAdd />} />
       </Route>
 
       <Route path="/estoque" element={<PrivateRoute />}>

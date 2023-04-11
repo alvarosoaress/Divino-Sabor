@@ -84,3 +84,35 @@ export const AdmSearchInput = styled.input`
   border-radius: 3px;
   transition: all 200ms ease-in-out;
 `;
+
+export const AdmModalContainer = styled.div`
+  position: absolute;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+`;
+
+export const AdmModal = styled.div`
+  display: grid;
+  grid-template-rows: 2fr 1fr;
+  grid-auto-flow: row;
+  grid-row-gap: 20px;
+  padding: 4em;
+  background-color: white;
+  box-shadow: 1px 1px 1px 100vw rgba(0, 0, 0, 0.5);
+`;
+
+export const AdmModalText = styled.h1`
+  font-family: 'Quattrocento';
+  font-weight: normal;
+  font-size: 20px;
+  text-align: center;
+  display: grid;
+  align-self: center;
+  justify-self: center;
+  color: ${(props) => props.theme.textColor};
+`;
