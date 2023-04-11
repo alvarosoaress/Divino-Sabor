@@ -23,6 +23,7 @@ import { auth, db } from '../../services/firebase';
 import { doc, collection, setDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import validator from 'validator';
+import { isEmpty } from '../../components/Utils';
 
 export default function Register() {
   const $email = useRef(null);
@@ -45,10 +46,10 @@ export default function Register() {
     let tel = $tel.current.value.replace(/[^\d]/g, '');
 
     if (
-      validator.isEmpty($email.current.value) ||
-      validator.isEmpty($password.current.value) ||
-      validator.isEmpty($name.current.value) ||
-      validator.isEmpty($tel.current.value) ||
+      isEmpty($email.current.value) ||
+      isEmpty($password.current.value) ||
+      isEmpty($name.current.value) ||
+      isEmpty($tel.current.value) ||
       validator.isNumeric($tel.current.value)
     ) {
       toast.error('Preencha todos os campos primeiro!.');

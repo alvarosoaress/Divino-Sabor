@@ -13,7 +13,6 @@ import {
 } from '../../../components/Credentials';
 import { CredentialsForm } from '../../Login/styled';
 import { toast } from 'react-toastify';
-import validator from 'validator';
 import { useTheme } from 'styled-components';
 import { ButtonPrimary } from '../../../components/Button/styled';
 import {
@@ -21,10 +20,12 @@ import {
   ClientEditContainer,
   ClientEditTilte,
 } from '../ClientesEdit/styled';
+import { isEmpty } from '../../../components/Utils';
 
 export default function ClientesAdd() {
   const navigate = useNavigate();
 
+  // criando Referência para a coleção users do fireStore
   const userRef = collection(db, 'users');
 
   const $email = useRef(null);
@@ -44,15 +45,18 @@ export default function ClientesAdd() {
     let tel = $tel.current.value.replace(/[^\d]/g, '');
 
     if (
-      validator.isEmpty($name.current.value) ||
-      validator.isEmpty($email.current.value) ||
-      validator.isEmpty($tel.current.value)
+      isEmpty($name.current.value) ||
+      isEmpty($email.current.value) ||
+      isEmpty($tel.current.value)
     ) {
       toast.error('Preencha todos os campos primeiro!.');
       return;
     }
 
     try {
+      // adicionando usuário com os dados preenchidos
+      // passando os paramêtros sem chaves pois possuem o msm nome no fireStore
+      // passando type com chave type e valor cliente
       await addDoc(userRef, { email, name, tel, type: 'cliente' });
       navigate('/clientes');
       toast.success('Cliente adicionado com sucesso!');

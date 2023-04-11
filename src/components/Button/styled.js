@@ -46,7 +46,7 @@ export const ButtonSecondary = styled.button`
     font-size: 20px;
   }
 
-  @media screen and (max-width: ${(props) => props.mediaQuery}) {
+  @media screen and (max-width: ${(props) => props.mediaquery}) {
     width: 100px;
     height: 50px;
   }

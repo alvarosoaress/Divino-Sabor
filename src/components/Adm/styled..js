@@ -98,12 +98,20 @@ export const AdmModalContainer = styled.div`
 
 export const AdmModal = styled.div`
   display: grid;
-  grid-template-rows: 2fr 1fr;
-  grid-auto-flow: row;
-  grid-row-gap: 20px;
+  grid-template-columns: 1fr 1fr;
+  grid-row-gap: 60px;
+  grid-column-gap: 20px;
+  place-content: center;
   padding: 4em;
   background-color: white;
   box-shadow: 1px 1px 1px 100vw rgba(0, 0, 0, 0.5);
+
+  @media screen and (max-width: 600px) {
+    padding: 0;
+    height: 40%;
+    width: 90%;
+    grid-row-gap: 30px;
+  }
 `;
 
 export const AdmModalText = styled.h1`
@@ -112,7 +120,12 @@ export const AdmModalText = styled.h1`
   font-size: 20px;
   text-align: center;
   display: grid;
+  grid-column: span 2;
   align-self: center;
   justify-self: center;
   color: ${(props) => props.theme.textColor};
+
+  @media screen and (max-width: 600px) {
+    line-height: 50px;
+  }
 `;

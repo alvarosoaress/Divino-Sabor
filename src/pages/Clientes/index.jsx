@@ -26,47 +26,41 @@ import { AdmItemAdd, AdmItemRow } from '../../components/Adm';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import Fuse from 'fuse.js';
-import validator from 'validator';
 import { ButtonPrimary, ButtonSecondary } from '../../components/Button/styled';
 import { toast } from 'react-toastify';
+import { isEmpty } from '../../components/Utils';
 
 export default function Clientes() {
-  // TODO: COMENTE !@!
   const [users, setUsers] = useState([]);
   const [newUsers, setNewUsers] = useState([]);
   const [search, setSearch] = useState('');
   const [modal, setModal] = useState(false);
+  // useState para tratar do cliente sendo deletado
   const [userDelete, setUserDelete] = useState({
     name: '',
     uid: '',
     index: '',
   });
 
+  // referência para a coleção usuers da fireStore
   const usersCollection = collection(db, 'users');
 
-  /// const queryProductType = query(
-  //   productCollection,
-  //   where('type', '==', 'doce'),
-  // );
-
-  // import { collection, query, where } from 'firebase/firestore'
-  //
-  // const queryConstraints = []
-  // if (group != null) queryConstraints.push(where('group', '==', group))
-  // if (pro != null) queryConstraints.push(where('pro', '==', pro))
-  // const q = query(collection(db, 'videos'), ...queryConstraints)
-  //
-
+  // query para receber todas as ocorrencias de type == cliente na coleção usuários
   const queryClients = query(usersCollection, where('type', '==', 'cliente'));
 
+  // executando a query
   useEffect(() => {
     const getUsers = async () => {
       try {
         const data = await getDocs(queryClients);
+        // data retorna uma response com muitos parametros
+        // clean data serve para pegar apenas os dados dos clientes
         const cleanData = data.docs.map((doc) => ({
           ...doc.data(),
           id: doc.id,
         }));
+        // atribuindo a response para users e newUsers
+        // isso auxilia na hora do search
         setUsers(cleanData);
         setNewUsers(cleanData);
       } catch (error) {
@@ -77,24 +71,31 @@ export default function Clientes() {
   }, []);
 
   function searchClients(e) {
-    if (validator.isEmpty(e.target.value)) {
+    if (isEmpty(e.target.value)) {
       setNewUsers(users);
     } else {
       setSearch(e.target.value);
-
+      // usando a biblioteca fuse js para dar search
       const fuse = new Fuse(users, {
         keys: ['name', 'email', 'tel'],
       });
 
+      // colocando o resultado da pesquisa dentro de newUsers
       setNewUsers(fuse.search(search));
     }
   }
 
   async function deleteClient(uid) {
     try {
+      // deletando usuário baseado em seu uid
       await deleteDoc(doc(db, 'users', uid));
       setModal(false);
+      // retirando o usuário do state newUsers
+      // isso serve para a página atualizar a lista de clientes automaticamente
       newUsers.splice(userDelete.index, 1);
+      // [...newUsers ] é estritamente necessário para que
+      // o map feito com o state seja atuomaticamente atualizado
+      // reduzindo a necessidade de um novo useEffect
       setNewUsers([...newUsers]);
       toast.success(`Cliente ${userDelete.name} deletado com sucesso !`);
     } catch (error) {
@@ -104,6 +105,7 @@ export default function Clientes() {
 
   return (
     <>
+      {/* renderizando modal de exclusão com display none */}
       <AdmModalContainer
         style={{ display: modal ? 'flex' : 'none' }}
         onClick={() => setModal(false)}
@@ -112,22 +114,21 @@ export default function Clientes() {
           <AdmModalText>
             Deseja realmente excluir o usuário: {<br />} {userDelete.name} ?
           </AdmModalText>
-          <span
-            style={{
-              display: 'grid',
-              alignSelf: 'center',
-              justifySelf: 'center',
-              gridAutoFlow: 'column',
-              gridColumnGap: '20px',
-            }}
+
+          <ButtonSecondary
+            onClick={() => setModal(false)}
+            mediaquery="600px"
+            style={{ placeSelf: 'center' }}
           >
-            <ButtonSecondary onClick={() => setModal(false)}>
-              Cancelar
-            </ButtonSecondary>
-            <ButtonPrimary onClick={() => deleteClient(userDelete.uid)}>
-              Deletar
-            </ButtonPrimary>
-          </span>
+            Cancelar
+          </ButtonSecondary>
+          <ButtonPrimary
+            onClick={() => deleteClient(userDelete.uid)}
+            mediaquery="600px"
+            style={{ placeSelf: 'center' }}
+          >
+            Deletar
+          </ButtonPrimary>
         </AdmModal>
       </AdmModalContainer>
 

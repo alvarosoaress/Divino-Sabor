@@ -15,6 +15,19 @@ import {
 } from '../../components/Adm/styled.';
 import { AdmItemAdd } from '../../components/Adm';
 
+/// const queryProductType = query(
+//   productCollection,
+//   where('type', '==', 'doce'),
+// );
+
+// import { collection, query, where } from 'firebase/firestore'
+//
+// const queryConstraints = []
+// if (group != null) queryConstraints.push(where('group', '==', group))
+// if (pro != null) queryConstraints.push(where('pro', '==', pro))
+// const q = query(collection(db, 'videos'), ...queryConstraints)
+//
+
 function ProductRow({ name, quantity }) {
   return (
     <span>

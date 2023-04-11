@@ -20,7 +20,7 @@ import HeaderAlt from '../../components/HeaderAlt';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../services/firebase';
 import { toast } from 'react-toastify';
-import validator from 'validator';
+import { isEmpty } from '../../components/Utils';
 
 export default function Login() {
   const $email = useRef(null);
@@ -36,10 +36,7 @@ export default function Login() {
     let email = $email.current.value;
     let password = $password.current.value;
 
-    if (
-      validator.isEmpty($email.current.value) ||
-      validator.isEmpty($password.current.value)
-    ) {
+    if (isEmpty($email.current.value) || isEmpty($password.current.value)) {
       toast.error('Preencha todos os campos primeiro!.');
       return;
     }

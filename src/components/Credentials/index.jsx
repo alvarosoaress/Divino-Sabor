@@ -174,7 +174,7 @@ export function Tel({
         type="tel"
         name="tel"
         id=""
-        onKeyUp={() => handleTel($ref)}
+        onChange={() => handleTel($ref)}
         ref={$ref}
         maxLength={15}
         pattern="\([0-9]{2}\) [0-9]{5}\-[0-9]{4}" // regex foramatar como numero telefonico

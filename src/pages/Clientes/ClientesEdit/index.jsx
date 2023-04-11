@@ -21,8 +21,9 @@ import { useTheme } from 'styled-components';
 import { ButtonPrimary } from '../../../components/Button/styled';
 
 export default function ClientesEdit() {
+  // pegando o UID presente na URL da página
   const { id } = useParams();
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState({});
   const navigate = useNavigate();
 
   const userRef = doc(db, 'users', id);
@@ -35,7 +36,7 @@ export default function ClientesEdit() {
   const $telLabel = useRef(null);
 
   const theme = useTheme();
-
+  // pegando aos dados do usuário que possui o uid da url
   useEffect(() => {
     const getUser = async () => {
       try {
@@ -49,6 +50,7 @@ export default function ClientesEdit() {
     getUser();
   }, []);
 
+  // declarando função assíncrona para edição do usuário
   const handleEdit = async (e) => {
     e.preventDefault();
 
@@ -66,6 +68,9 @@ export default function ClientesEdit() {
     }
 
     try {
+      // dando Update nos dados do usuário
+      // passando os argumentos sem chave
+      // pois no fireStore eles possuem o mesmo nome
       await updateDoc(userRef, { email, name, tel });
       navigate('/clientes');
       toast.success('Cliente editado com sucesso!');
