@@ -46,11 +46,11 @@ export default function Register() {
     let tel = $tel.current.value.replace(/[^\d]/g, '');
 
     if (
-      isEmpty($email.current.value) ||
-      isEmpty($password.current.value) ||
-      isEmpty($name.current.value) ||
-      isEmpty($tel.current.value) ||
-      validator.isNumeric($tel.current.value)
+      isEmpty(email) ||
+      isEmpty(password) ||
+      isEmpty(name) ||
+      isEmpty(tel) ||
+      validator.isNumeric(tel)
     ) {
       toast.error('Preencha todos os campos primeiro!.');
       return;

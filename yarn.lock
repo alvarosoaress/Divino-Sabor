@@ -4634,6 +4634,11 @@ ignore@^5.1.1, ignore@^5.2.0:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.4.tgz#a291c0c6178ff1b960befe47fcdec301674a6324"
   integrity sha512-MAb38BcSbH0eHNBxn7ql2NH/kX33OkB3lZ1BNdh7ENeRChHTYsTvWrMubiIAMNS2llXEEgZ1MUOBtXChP3kaFQ==
 
+imask@^6.5.1-alpha.1:
+  version "6.5.1-alpha.1"
+  resolved "https://registry.yarnpkg.com/imask/-/imask-6.5.1-alpha.1.tgz#02353b1133967da31da29d20b14789d4bab00f46"
+  integrity sha512-sM+4MUZgIOKGJkOvdif/BqyBWJEC9XaS7v4hs1evus8F67VhxSkWDP3rMsENYAYMycHS5HwVsger5d9+mu95/w==
+
 import-fresh@^3.0.0, import-fresh@^3.2.1:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/import-fresh/-/import-fresh-3.3.0.tgz#37162c25fcb9ebaa2e6e53d5b4d88ce17d9e0c2b"
@@ -6483,6 +6488,14 @@ react-icons@^4.8.0:
   version "4.8.0"
   resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-4.8.0.tgz#621e900caa23b912f737e41be57f27f6b2bff445"
   integrity sha512-N6+kOLcihDiAnj5Czu637waJqSnwlMNROzVZMhfX68V/9bu9qHaMIJC4UdozWoOk57gahFCNHwVvWzm0MTzRjg==
+
+react-imask@^6.5.1-alpha.1:
+  version "6.5.1-alpha.1"
+  resolved "https://registry.yarnpkg.com/react-imask/-/react-imask-6.5.1-alpha.1.tgz#3a02238da7b3962d79f87964a3c42e240cf7fcaa"
+  integrity sha512-BFbG04JduUwNzqOjboEh1miFUdX4CitrnF/g//4EhSBRSA+pOgOJ6Z28QT6tk+OlFKs/0FPlUczfxdWmWNYgkQ==
+  dependencies:
+    imask "^6.5.1-alpha.1"
+    prop-types "^15.8.1"
 
 react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"

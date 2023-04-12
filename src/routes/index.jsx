@@ -11,6 +11,8 @@ import PrivateRoute from './PrivateRoute';
 import Estoque from '../pages/Estoque';
 import ClientesEdit from '../pages/Clientes/ClientesEdit';
 import ClientesAdd from '../pages/Clientes/ClientesAdd';
+import EstoqueAdd from '../pages/Estoque/EstoqueAdd';
+import EstoqueEdit from '../pages/Estoque/EstoqueEdit';
 
 export default function Router() {
   return (
@@ -30,12 +32,14 @@ export default function Router() {
 
       <Route path="/clientes" element={<PrivateRoute />}>
         <Route path="/clientes" element={<Clientes />} />
-        <Route path="/clientes/edit/:id" element={<ClientesEdit />} />
         <Route path="/clientes/add" element={<ClientesAdd />} />
+        <Route path="/clientes/edit/:id" element={<ClientesEdit />} />
       </Route>
 
       <Route path="/estoque" element={<PrivateRoute />}>
         <Route path="/estoque" element={<Estoque />} />
+        <Route path="/estoque/add" element={<EstoqueAdd />} />
+        <Route path="/estoque/edit/:id" element={<EstoqueEdit />} />
       </Route>
     </Routes>
   );

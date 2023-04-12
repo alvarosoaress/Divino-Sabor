@@ -65,3 +65,30 @@ export function AdmItemRow({ name, uid, key, setState, setUser }) {
     </span>
   );
 }
+
+export function handleProductValidation(
+  $name,
+  $nameLabel,
+  //   $category,
+  //   $categoryLabel,
+) {
+  if ($name) {
+    let name = $name.current.value.length;
+    name < 3 // verificando se o nome é maior de 3 digitos
+      ? (($name.current.style.border = '2px solid red'),
+        ($nameLabel.current.innerText =
+          'Nome | Insira uma nome maior que 3 caracteres!'))
+      : (($name.current.style.border = '2px solid green'),
+        ($nameLabel.current.innerText = 'Nome'));
+  }
+
+  //   if ($category) {
+  //     let category = $category.current.checked;
+  //     console.log(category);
+  //     !category // verificando se a checkbox tem ao menos uma opção marcada
+  //       ? (($category.current.style.border = '2px solid red'),
+  //         ($categoryLabel.current.innerText = 'Marque ao menos uma categoria!'))
+  //       : (($category.current.style.border = '2px solid green'),
+  //         ($categoryLabel.current.innerText = ''));
+  //   }
+}

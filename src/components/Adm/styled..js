@@ -56,7 +56,7 @@ export const AdmListAddText = styled.p`
 `;
 
 export const AdmListItemName = styled.p`
-  font-family: 'Quattrocento';
+  font-family: 'Work Sans';
   font-weight: normal;
   font-size: 20px;
   align-self: center;
