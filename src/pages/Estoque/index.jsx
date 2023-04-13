@@ -121,7 +121,7 @@ export default function Estoque() {
       setSearch(e.target.value);
       // usando a biblioteca fuse js para dar search
       const fuse = new Fuse(products, {
-        threshold: 0.1,
+        threshold: 0.2,
         keys: ['produto', 'qtd'],
       });
 

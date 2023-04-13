@@ -15,10 +15,9 @@ export const Container = styled.div`
 export const OptionsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-items: center;
-  gap: 10%;
+  align-content: center;
   width: 100%;
-  //height: 100%;
+  padding: 3em;
 
   @media screen and (max-width: 1000px) {
     padding: 5%;

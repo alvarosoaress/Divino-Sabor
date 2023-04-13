@@ -10,7 +10,6 @@ import {
   AboutTextContainer,
   AboutTitle,
   Banner,
-  BannerContainer,
   CardMore,
   CardTitle,
   Container,
@@ -90,9 +89,7 @@ export default function Home() {
     <>
       <Header />
       <Divider />
-      <BannerContainer>
-        <Banner src={HomeBanner} />
-      </BannerContainer>
+      <Banner img={HomeBanner} />
       <Divider />
       <Container>
         <ProductsTitle>Conheça nossos produtos</ProductsTitle>

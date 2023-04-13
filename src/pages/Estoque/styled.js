@@ -54,7 +54,6 @@ export const ProductEditTilte = styled.h1`
   font-family: 'Quattrocento';
   font-weight: bold;
   font-size: 40px;
-  text-align: center;
   color: ${(props) => props.theme.textColor};
 `;
 
@@ -90,7 +89,7 @@ export const ProductInput = styled.input`
   background-color: ${(props) => props.theme.auxColor};
 `;
 
-export const ProductCheckContainer = styled.div`
+export const ProductRadioContainer = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;

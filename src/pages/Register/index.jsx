@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { ButtonPrimary, ButtonSecondary } from '../../components/Button/styled';
+import { ButtonPrimary } from '../../components/Button/styled';
 import { SecondaryDivider } from '../../components/Utils/styled';
 import {
   Container,
@@ -8,6 +8,7 @@ import {
   CredentialsFooterContainer,
   CredentialsTitle,
   CredentialsForm,
+  CredentialsText,
 } from '../Login/styled';
 import {
   Email,
@@ -16,7 +17,7 @@ import {
   Password,
   Tel,
 } from '../../components/Credentials';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import HeaderAlt from '../../components/HeaderAlt';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth, db } from '../../services/firebase';
@@ -109,20 +110,11 @@ export default function Register() {
             <Email $ref={$email} $refLabel={$emailLabel} />
             <Password $ref={$password} $refLabel={$passwordLabel} />
             <Tel $ref={$tel} $refLabel={$telLabel} />
-            <span
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                gap: '15%',
-                marginTop: '5%',
-                width: '80%',
-              }}
-            >
-              <ButtonPrimary as={Link} to="/login">
-                Login
-              </ButtonPrimary>
-              <ButtonSecondary type="submit">Cadastrar</ButtonSecondary>
-            </span>
+
+            <ButtonPrimary type="submit" style={{ marginTop: '10%' }}>
+              Cadastrar
+            </ButtonPrimary>
+            <CredentialsText to="/login">Entrar</CredentialsText>
           </CredentialsForm>
         </CredentialsContainer>
       </Container>

@@ -10,9 +10,12 @@ import {
   ButtonPrimary,
   ButtonSecondary,
 } from '../../../components/Button/styled';
-import { handleProductValidation } from '../../../components/Adm';
 import {
-  ProductCheckContainer,
+  handleCurrency,
+  handleProductValidation,
+} from '../../../components/Adm';
+import {
+  ProductRadioContainer,
   ProductEditBox,
   ProductEditContainer,
   ProductEditTilte,
@@ -29,26 +32,6 @@ export default function EstoqueAdd() {
   const $nameLabel = useRef(null);
   const $quantity = useRef(null);
   const $price = useRef(null);
-
-  // Intl para formatar para BRL o preço
-  let BRreal = new Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-    minimumFractionDigits: 2,
-  });
-
-  // formatando o input de preço
-  const handleCurrency = (ref) => {
-    const currencyValue = ref.current.value.replace(/\D/g, '');
-    // verificar se é um número válido
-    if (!isNaN(currencyValue / 100)) {
-      // formatar valor em moeda BRL
-      ref.current.value = BRreal.format(currencyValue / 100);
-    } else {
-      // definir valor como vazio
-      ref.current.value = '';
-    }
-  };
 
   const handleAdd = async (e) => {
     e.preventDefault();
@@ -132,13 +115,13 @@ export default function EstoqueAdd() {
                 ref={$price}
                 type="text"
                 onInput={() => {
-                  handleCurrency($price);
+                  handleCurrency(null, $price);
                 }}
                 required
               />
             </div>
 
-            <ProductCheckContainer>
+            <ProductRadioContainer>
               <h2 style={{ marginBottom: '20px' }}>Categoria</h2>
               <ProductLabel>
                 <ProductInput
@@ -184,7 +167,7 @@ export default function EstoqueAdd() {
                 />
                 Salgados
               </ProductLabel>
-            </ProductCheckContainer>
+            </ProductRadioContainer>
 
             <div
               style={{

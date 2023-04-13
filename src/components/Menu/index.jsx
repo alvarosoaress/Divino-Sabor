@@ -13,7 +13,7 @@ export default function Menu() {
         // Passando estilos para o componente via JSX
         // Praticamente MediaQuery in-line 🙃
         style={{
-          width: openMenu || window.screen.width >= 600 ? '370px' : '35px',
+          width: openMenu || window.screen.width >= 600 ? '270px' : '35px',
         }}
       >
         <MdKeyboardArrowRight
@@ -36,18 +36,18 @@ export default function Menu() {
             width: openMenu || window.screen.width >= 600 ? '370px' : '35px',
           }}
         >
-          <SecondaryDivider />
+          <SecondaryDivider width={'80%'} />
           <MenuText to={'/estoque'}>ESTOQUE</MenuText>
 
-          <SecondaryDivider />
+          <SecondaryDivider width={'80%'} />
           <MenuText to={'/pedidos'}>PEDIDOS</MenuText>
 
-          <SecondaryDivider />
+          <SecondaryDivider width={'80%'} />
           <MenuText to={'/clientes'}>CLIENTES</MenuText>
 
-          <SecondaryDivider />
+          <SecondaryDivider width={'80%'} />
           <MenuText to={'/financeiro'}>FINANCEIRO</MenuText>
-          <SecondaryDivider />
+          <SecondaryDivider width={'80%'} />
         </MenuBox>
       </MenuContainer>
     </>

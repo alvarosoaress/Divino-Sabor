@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { ButtonPrimary, ButtonSecondary } from '../../components/Button/styled';
+import { ButtonPrimary } from '../../components/Button/styled';
 import {
   Email,
   handleValidation,
@@ -15,7 +15,7 @@ import {
   CredentialsForm,
   CredentialsText,
 } from './styled';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import HeaderAlt from '../../components/HeaderAlt';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../services/firebase';
@@ -69,7 +69,7 @@ export default function Login() {
     <>
       <HeaderAlt />
       <Container>
-        <CredentialsContainer>
+        <CredentialsContainer height={'550px'} width={'450px'}>
           <CredentialsTitle>Login</CredentialsTitle>
           <CredentialsForm
             onSubmit={(e) => handeLogin(e)}
@@ -82,21 +82,16 @@ export default function Login() {
           >
             <Email $ref={$email} $refLabel={$emailLabel} />
             <Password $ref={$password} $refLabel={$passwordLabel} />
-            <span
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                gap: '15%',
-                marginTop: '5%',
-                width: '80%',
-              }}
-            >
-              <ButtonPrimary as={Link} to="/register">
-                Cadastrar
-              </ButtonPrimary>
-              <ButtonSecondary type="submit">Login</ButtonSecondary>
-            </span>
+
+            <ButtonPrimary type="submit" style={{ marginBlock: '5%' }}>
+              Login
+            </ButtonPrimary>
             <CredentialsText to="/recover">Esqueci minha senha</CredentialsText>
+
+            <CredentialsText to="/register" style={{ marginTop: '10%' }}>
+              Novo por aqui?{' '}
+              <text style={{ textDecoration: 'underline' }}>Cadastre-se</text>
+            </CredentialsText>
           </CredentialsForm>
         </CredentialsContainer>
       </Container>

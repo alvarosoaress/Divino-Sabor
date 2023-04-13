@@ -15,10 +15,13 @@ import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../../services/firebase';
 import { toast } from 'react-toastify';
 import validator from 'validator';
+import { useNavigate } from 'react-router-dom';
 
 export default function Recover() {
   const $email = useRef(null);
   const $emailLabel = useRef(null);
+
+  const navigate = useNavigate();
 
   async function handleRecover(e) {
     e.preventDefault();
@@ -33,6 +36,7 @@ export default function Recover() {
     try {
       await sendPasswordResetEmail(auth, email);
       toast.success('Link para recuperação de senha enviado!');
+      navigate('/login');
     } catch (error) {
       if (error.code === 'auth/user-not-found') {
         toast.error('Email não cadastrado!');
@@ -47,7 +51,7 @@ export default function Recover() {
     <>
       <HeaderAlt />
       <Container>
-        <CredentialsContainer>
+        <CredentialsContainer width={'400px'} height={'500px'}>
           <CredentialsTitle>Recuperação de Senha</CredentialsTitle>
           <CredentialsForm
             onSubmit={(e) => handleRecover(e)}

@@ -77,7 +77,7 @@ export default function Clientes() {
       setSearch(e.target.value);
       // usando a biblioteca fuse js para dar search
       const fuse = new Fuse(users, {
-        threshold: 0.1,
+        threshold: 0.2,
         keys: ['name', 'email', 'tel'],
       });
 

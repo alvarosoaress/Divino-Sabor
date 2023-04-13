@@ -1,24 +1,16 @@
 import React from 'react';
 import { FaPlus } from 'react-icons/fa';
-import { AdmListAddText, AdmListItemName } from './styled.';
+import { AdmAddText, AdmListAddText, AdmListItemName } from './styled.';
 import { SecondaryDivider } from '../Utils/styled';
 import { ButtonPrimary } from '../Button/styled';
 import { Link } from 'react-router-dom';
 
 export function AdmItemAdd({ display, text, link }) {
   return (
-    <Link
-      to={link}
-      style={{
-        display: display,
-        alignItems: 'center',
-        gap: '5px',
-        marginTop: '5%',
-      }}
-    >
+    <AdmAddText to={link} display={display}>
       <FaPlus />
       <AdmListAddText>{text}</AdmListAddText>
-    </Link>
+    </AdmAddText>
   );
 }
 
@@ -81,14 +73,54 @@ export function handleProductValidation(
       : (($name.current.style.border = '2px solid green'),
         ($nameLabel.current.innerText = 'Nome'));
   }
+}
 
-  //   if ($category) {
-  //     let category = $category.current.checked;
-  //     console.log(category);
-  //     !category // verificando se a checkbox tem ao menos uma opção marcada
-  //       ? (($category.current.style.border = '2px solid red'),
-  //         ($categoryLabel.current.innerText = 'Marque ao menos uma categoria!'))
-  //       : (($category.current.style.border = '2px solid green'),
-  //         ($categoryLabel.current.innerText = ''));
-  //   }
+export const formatTel = (tel, $ref) => {
+  // Formata o valor do telefone com a máscara "(##) #####-####"
+  let telefoneFormatado = '';
+
+  if ($ref) tel = $ref.current.value.replace(/\D/g, '');
+
+  // ifs para formatar o numero conforme o usuário digita
+  if (tel.length > 0) {
+    telefoneFormatado = `(${tel.slice(0, 2)}`;
+  }
+
+  if (tel.length >= 3) {
+    telefoneFormatado += `) ${tel.slice(2, 7)}`;
+  }
+
+  if (tel.length >= 8) {
+    telefoneFormatado += `-${tel.slice(7, 11)}`;
+  }
+
+  // atribuindo o novo valor modificado para o input de telefone
+  if ($ref) $ref.current.value = telefoneFormatado;
+  return telefoneFormatado;
+};
+
+export function handleCurrency(value, $ref) {
+  // Intl para formatar para BRL o preço
+  let BRreal = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+    minimumFractionDigits: 2,
+  });
+
+  // formatando o input de preço dentro da variável value
+  if (value) {
+    // formatar valor em moeda BRL
+    return BRreal.format(value);
+  }
+
+  // formatando o input de preço dentro do useRef
+  const currencyValue = $ref.current.value.replace(/\D/g, '');
+  // verificar se é um número válido
+  if (!isNaN(currencyValue / 100)) {
+    // formatar valor em moeda BRL
+    $ref.current.value = BRreal.format(currencyValue / 100);
+  } else {
+    // definir valor como vazio
+    $ref.current.value = '';
+  }
 }

@@ -11,7 +11,7 @@ export const Container = styled.div`
 // --------------------------------------------------------
 //          Banner
 
-export const BannerContainer = styled.div`
+export const Banner = styled.div`
   position: relative;
   height: 350px;
   padding: 1em;
@@ -19,6 +19,10 @@ export const BannerContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  background-image: url(${(props) => props.img});
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   background-color: ${(props) => props.theme.backgroundColor};
 
   ::after {
@@ -36,13 +40,6 @@ export const BannerContainer = styled.div`
       font-size: 100px;
     }
   }
-`;
-
-export const Banner = styled.img`
-  position: relative;
-  max-width: 1200px;
-  height: 100%;
-  filter: blur(90%);
 `;
 
 // --------------------------------------------------------

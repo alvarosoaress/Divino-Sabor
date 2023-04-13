@@ -20,8 +20,8 @@ export const CredentialsContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
-  width: 520px;
-  height: 680px;
+  width: ${(props) => props.width ?? '520px'};
+  height: ${(props) => props.height ?? '650px'};
   background-color: white;
   background-image: url(${credentialBackground});
   background-size: cover;
@@ -59,15 +59,10 @@ export const CredentialsText = styled(Link)`
   font-weight: bold;
   font-size: 20px;
   width: 80%;
-  margin-top: 15%;
+  margin-block: 5%;
   text-align: center;
   color: ${(props) => props.theme.primaryColor};
   transition: all 200ms ease-in-out;
-
-  :hover {
-    font-weight: bold;
-    font-size: 24px;
-  }
 `;
 
 export const CredentialsFooterContainer = styled.div`

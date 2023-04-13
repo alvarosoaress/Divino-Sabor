@@ -1,30 +1,7 @@
 import React from 'react';
 import { CredentialsInput, CredentialsLabel } from './styled';
 import validator from 'validator';
-
-const handleTel = (ref) => {
-  // Remove todos os caracteres não numéricos do valor do input
-  const telValue = ref.current.value.replace(/\D/g, '');
-
-  // Formata o valor do telefone com a máscara "(##) #####-####"
-  let telefoneFormatado = '';
-
-  // ifs para formatar o numero conforme o usuário digita
-  if (telValue.length > 0) {
-    telefoneFormatado = `(${telValue.slice(0, 2)}`;
-  }
-
-  if (telValue.length >= 3) {
-    telefoneFormatado += `) ${telValue.slice(2, 7)}`;
-  }
-
-  if (telValue.length >= 8) {
-    telefoneFormatado += `-${telValue.slice(7, 11)}`;
-  }
-
-  // atribuindo o novo valor modificado para o input de telefone
-  ref.current.value = telefoneFormatado;
-};
+import { formatTel } from '../Adm';
 
 // Validar os campos de input
 export function handleValidation(
@@ -174,7 +151,7 @@ export function Tel({
         type="tel"
         name="tel"
         id=""
-        onChange={() => handleTel($ref)}
+        onChange={() => formatTel(null, $ref)}
         ref={$ref}
         maxLength={15}
         pattern="\([0-9]{2}\) [0-9]{5}\-[0-9]{4}" // regex foramatar como numero telefonico

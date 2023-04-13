@@ -9,7 +9,6 @@ export const CredentialsInput = styled.input`
   padding: 5px;
   font-size: 20px;
   border-radius: 3px;
-  margin-bottom: 5%;
   transition: all 200ms ease-in-out;
 `;
 
@@ -18,7 +17,8 @@ export const CredentialsLabel = styled.label`
   font-weight: bold;
   font-size: 20px;
   width: 80%;
-  margin-block: 3%;
+  margin-top: 5%;
+  margin-bottom: 1%;
   transition: all 200ms ease-in-out;
   color: ${(props) => props.color ?? props.theme.primaryColor};
 `;

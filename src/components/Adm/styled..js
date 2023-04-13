@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const AdmListContainer = styled.div`
@@ -32,6 +33,16 @@ export const AdmListTitleContainer = styled.div`
   margin-bottom: 5%;
 `;
 
+export const AdmAddText = styled(Link)`
+  display: ${(props) => props.display};
+  align-items: center;
+  gap: 5px;
+
+  @media screen and (max-width: 600px) {
+    margin-top: 10%;
+  }
+`;
+
 export const AdmListAddText = styled.p`
   font-family: 'Quattrocento';
   font-weight: normal;
@@ -42,7 +53,7 @@ export const AdmListAddText = styled.p`
 
   :hover {
     font-weight: bold;
-    font-size: 24px;
+    font-size: 22px;
   }
 
   @media screen and (max-width: 600px) {
@@ -83,6 +94,11 @@ export const AdmSearchInput = styled.input`
   font-size: 20px;
   border-radius: 3px;
   transition: all 200ms ease-in-out;
+
+  @media screen and (max-width: 600px) {
+    width: 70vw;
+    margin-bottom: 5%;
+  }
 `;
 
 export const AdmModalContainer = styled.div`

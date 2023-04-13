@@ -3,7 +3,7 @@ import { addDoc, collection } from 'firebase/firestore';
 
 import Header from '../../../components/Header';
 import Menu from '../../../components/Menu';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { db } from '../../../services/firebase';
 import {
   Email,
@@ -14,7 +14,10 @@ import {
 import { CredentialsForm } from '../../Login/styled';
 import { toast } from 'react-toastify';
 import { useTheme } from 'styled-components';
-import { ButtonPrimary } from '../../../components/Button/styled';
+import {
+  ButtonPrimary,
+  ButtonSecondary,
+} from '../../../components/Button/styled';
 import {
   ClientEditBox,
   ClientEditContainer,
@@ -112,10 +115,12 @@ export default function ClientesAdd() {
               labelColor={theme.textColor}
               inputStyle={{ margin: '0px', backgroundColor: theme.auxColor }}
             />
-
-            <ButtonPrimary type="submit" style={{ marginTop: '50px' }}>
-              Salvar
-            </ButtonPrimary>
+            <span style={{ display: 'flex', marginTop: '50px', gap: '20px' }}>
+              <ButtonSecondary as={Link} to={'/clientes'}>
+                Cancelar
+              </ButtonSecondary>
+              <ButtonPrimary type="submit">Salvar</ButtonPrimary>
+            </span>
           </CredentialsForm>
         </ClientEditBox>
       </ClientEditContainer>

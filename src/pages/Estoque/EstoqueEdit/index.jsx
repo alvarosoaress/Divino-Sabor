@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 
 import Header from '../../../components/Header';
 import Menu from '../../../components/Menu';
@@ -10,9 +10,12 @@ import {
   ButtonPrimary,
   ButtonSecondary,
 } from '../../../components/Button/styled';
-import { handleProductValidation } from '../../../components/Adm';
 import {
-  ProductCheckContainer,
+  handleCurrency,
+  handleProductValidation,
+} from '../../../components/Adm';
+import {
+  ProductRadioContainer,
   ProductEditBox,
   ProductEditContainer,
   ProductEditTilte,
@@ -42,11 +45,13 @@ export default function EstoqueEdit() {
 
   const productRef = doc(db, 'products', id);
 
+  // pegando as informações do produto na DB
   useEffect(() => {
     const getUser = async () => {
       try {
         const response = await getDoc(productRef);
         const cleanData = response.data();
+        cleanData.valor = handleCurrency(cleanData.valor);
         setProduct(cleanData);
       } catch (error) {
         console.error(error);
@@ -55,70 +60,44 @@ export default function EstoqueEdit() {
     getUser();
   }, []);
 
-  // Intl para formatar para BRL o preço
-  let BRreal = new Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-    minimumFractionDigits: 2,
-  });
+  const handleEdit = async (e) => {
+    e.preventDefault();
 
-  // formatando o input de preço
-  const handleCurrency = (ref) => {
-    const currencyValue = ref.current.value.replace(/\D/g, '');
-    // verificar se é um número válido
-    if (!isNaN(currencyValue / 100)) {
-      // formatar valor em moeda BRL
-      ref.current.value = BRreal.format(currencyValue / 100);
-    } else {
-      // definir valor como vazio
-      ref.current.value = '';
+    let name = $name.current.value;
+    let quantity = $quantity.current.value;
+    // convertendo o valor de BRL para um número padrão Float
+    // Exemplo = R$ 4.575,23 -> 4575.23
+    let price = ($price.current.value.replace(/\D/g, '') / 100).toFixed(2);
+    let category = e.target.elements.categoria.value;
+
+    if (
+      isEmpty(name) ||
+      isEmpty(quantity) ||
+      isEmpty(price) ||
+      isEmpty(category)
+    ) {
+      toast.error('Preencha todos os campos primeiro!.');
+      return;
+    }
+
+    try {
+      // editando produto com os dados preenchidos
+      await updateDoc(doc(db, 'products', id), {
+        categoria: category,
+        produto: name,
+        qtd: quantity,
+        valor: price,
+      });
+      navigate('/estoque');
+      toast.success('Produto adicionado com sucesso!');
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  //   const handleAdd = async (e) => {
-  //     e.preventDefault();
-
-  //     let name = $name.current.value;
-  //     let quantity = $quantity.current.value;
-  //     // convertendo o valor de BRL para um número padrão Float
-  //     // Exemplo = R$ 4.575,23 -> 4575.23
-  //     let price = ($price.current.value.replace(/\D/g, '') / 100).toFixed(2);
-  //     let category = e.target.elements.categoria.value;
-
-  //     if (
-  //       isEmpty(name) ||
-  //       isEmpty(quantity) ||
-  //       isEmpty(price) ||
-  //       isEmpty(category)
-  //     ) {
-  //       toast.error('Preencha todos os campos primeiro!.');
-  //       return;
-  //     }
-
-  //     try {
-  //       // adicionando produto com os dados preenchidos
-  //       // usando setDoc() ao inves de addDoc() para poder definir um iD
-  //       // definindo o nome do produto como id
-  //       await setDoc(
-  //         // usando Regex para trocar espaços em brancos
-  //         // no nome do produto por "_" para consistência do BD
-  //         doc(db, 'products', name.toLowerCase().replace(/\s+/g, '_')),
-  //         {
-  //           categoria: category,
-  //           produto: name,
-  //           qtd: quantity,
-  //           valor: price,
-  //         },
-  //       );
-  //       navigate('/estoque');
-  //       toast.success('Produto adicionado com sucesso!');
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-
   return (
     <>
+      {console.log(product)}
       <Header
         style={true}
         auxText={window.screen.width >= 600 ? 'ADMINISTRATIVO' : 'ADMIN'}
@@ -128,7 +107,7 @@ export default function EstoqueEdit() {
         <ProductEditBox>
           <ProductEditTilte>Editar Produto</ProductEditTilte>
           <ProductForm
-            // onSubmit={(e) => handleAdd(e)}
+            onSubmit={(e) => handleEdit(e)}
             action=""
             style={{ height: 'auto' }}
             onChange={() =>
@@ -162,12 +141,12 @@ export default function EstoqueEdit() {
                 type="text"
                 defaultValue={product.valor}
                 onInput={() => {
-                  handleCurrency($price);
+                  handleCurrency(null, $price);
                 }}
               />
             </div>
 
-            <ProductCheckContainer ref={$radioGroup}>
+            <ProductRadioContainer ref={$radioGroup}>
               <h2 style={{ marginBottom: '20px' }}>Categoria</h2>
               <ProductLabel>
                 <ProductInput
@@ -231,7 +210,7 @@ export default function EstoqueEdit() {
                     item.firstChild.defaultChecked = true;
                 }))
               }
-            </ProductCheckContainer>
+            </ProductRadioContainer>
 
             <div
               style={{

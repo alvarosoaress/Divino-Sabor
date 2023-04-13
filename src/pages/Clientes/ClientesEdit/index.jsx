@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import Header from '../../../components/Header';
 import Menu from '../../../components/Menu';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { db } from '../../../services/firebase';
 import {
   Email,
@@ -18,7 +18,11 @@ import { toast } from 'react-toastify';
 import validator from 'validator';
 import { ClientEditBox, ClientEditContainer, ClientEditTilte } from './styled';
 import { useTheme } from 'styled-components';
-import { ButtonPrimary } from '../../../components/Button/styled';
+import {
+  ButtonPrimary,
+  ButtonSecondary,
+} from '../../../components/Button/styled';
+import { formatTel } from '../../../components/Adm';
 
 export default function ClientesEdit() {
   // pegando o UID presente na URL da página
@@ -42,6 +46,7 @@ export default function ClientesEdit() {
       try {
         const response = await getDoc(userRef);
         const cleanData = response.data();
+        cleanData.tel = formatTel(cleanData.tel);
         setUser(cleanData);
       } catch (error) {
         console.error(error);
@@ -129,10 +134,12 @@ export default function ClientesEdit() {
               inputStyle={{ margin: '0px', backgroundColor: theme.auxColor }}
               defaultValue={user.tel}
             />
-
-            <ButtonPrimary type="submit" style={{ marginTop: '50px' }}>
-              Salvar
-            </ButtonPrimary>
+            <span style={{ display: 'flex', marginTop: '50px', gap: '20px' }}>
+              <ButtonSecondary as={Link} to={'/clientes'}>
+                Cancelar
+              </ButtonSecondary>
+              <ButtonPrimary type="submit">Salvar</ButtonPrimary>
+            </span>
           </CredentialsForm>
         </ClientEditBox>
       </ClientEditContainer>

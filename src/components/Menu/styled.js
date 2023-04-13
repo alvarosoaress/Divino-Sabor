@@ -7,7 +7,7 @@ export const MenuContainer = styled.div`
   justify-content: center;
   flex-direction: column;
   width: 370px;
-  height: 680px;
+  height: 600px;
 `;
 
 export const MenuBox = styled.div`
