@@ -51,7 +51,7 @@ export default function Home() {
   // array de objetos como exemplos para popular os cards
   const cardImages = [
     {
-      name: 'Bolinhos',
+      name: 'Bolos',
       img: Bolos,
     },
     {
@@ -63,7 +63,7 @@ export default function Home() {
       img: Bebidas,
     },
     {
-      name: 'Salgadinhos',
+      name: 'Salgados',
       img: Salgadinhos,
     },
   ];

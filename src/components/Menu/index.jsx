@@ -10,11 +10,8 @@ export default function Menu() {
   return (
     <>
       <MenuContainer
-        // Passando estilos para o componente via JSX
-        // Praticamente MediaQuery in-line 🙃
-        style={{
-          width: openMenu || window.screen.width >= 600 ? '270px' : '35px',
-        }}
+      // Passando estilos para o componente via JSX
+      // Praticamente MediaQuery in-line 🙃
       >
         <MdKeyboardArrowRight
           size={40}
@@ -33,7 +30,7 @@ export default function Menu() {
         <MenuBox
           style={{
             display: openMenu || window.screen.width >= 600 ? 'flex' : 'none',
-            width: openMenu || window.screen.width >= 600 ? '370px' : '35px',
+            width: window.screen.width >= 600 ? '0' : '100vw',
           }}
         >
           <SecondaryDivider width={'80%'} />
