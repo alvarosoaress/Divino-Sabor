@@ -104,9 +104,24 @@ export default function Estoque() {
 
   function handleOrderChange(name) {
     if (name) {
-      setNewProducts([
-        ...products.sort((a, b) => a.produto[0] - b.produto[0]).reverse(),
-      ]);
+      // o sort() em JS tbm verifica os nomes com Upper Case
+      // o que acaba dando inconsistencia na ordenação
+      // para evitar isso, passa-se os parametros em que os nomes
+      // irão ser organizados
+      // -1 desce uma posição na lista
+      // 1 sobe
+      // variável orderName para saber se é para inverter ou não
+      orderName
+        ? setNewProducts([
+            ...products.sort((a, b) =>
+              a.produto.toLowerCase() < b.produto.toLowerCase() ? -1 : 1,
+            ),
+          ])
+        : setNewProducts([
+            ...products.sort((a, b) =>
+              a.produto.toLowerCase() > b.produto.toLowerCase() ? -1 : 1,
+            ),
+          ]);
     } else {
       orderQtd
         ? setNewProducts([...products.sort((a, b) => a.qtd - b.qtd)])
