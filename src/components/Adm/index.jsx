@@ -147,3 +147,14 @@ export async function productHistory(productId, arraySetState) {
     console.error(error);
   }
 }
+
+export function formattedDate(seconds) {
+  let myDate = new Date(seconds * 1000);
+  const options = {
+    day: 'numeric',
+    month: 'numeric',
+    year: 'numeric',
+  };
+
+  return myDate.toLocaleDateString('pt-BR', options);
+}

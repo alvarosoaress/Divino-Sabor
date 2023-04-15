@@ -13,6 +13,7 @@ import ClientesEdit from '../pages/Clientes/ClientesEdit';
 import ClientesAdd from '../pages/Clientes/ClientesAdd';
 import EstoqueAdd from '../pages/Estoque/EstoqueAdd';
 import EstoqueEdit from '../pages/Estoque/EstoqueEdit';
+import FluxoDeCaixa from '../pages/Financeiro/FluxoDeCaixa';
 
 export default function Router() {
   return (
@@ -24,6 +25,7 @@ export default function Router() {
 
       <Route path="/financeiro" element={<PrivateRoute />}>
         <Route path="/financeiro" element={<Financeiro />} />
+        <Route path="/financeiro/caixa" element={<FluxoDeCaixa />} />
       </Route>
 
       <Route path="/pedidos" element={<PrivateRoute />}>

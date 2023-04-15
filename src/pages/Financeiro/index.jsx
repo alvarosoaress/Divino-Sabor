@@ -6,12 +6,7 @@ import {
   OptionsContainer,
   OptionsText,
 } from '../../components/OptionsBox/styled';
-import {
-  GastosIcon,
-  LucrosIcon,
-  NotaIcon,
-  ContratoIcon,
-} from './financeiroIcons';
+import { LucrosIcon, NotaIcon, ContratoIcon } from './financeiroIcons';
 import Menu from '../../components/Menu';
 
 export default function Financeiro() {
@@ -24,14 +19,9 @@ export default function Financeiro() {
       <Container>
         <Menu />
         <OptionsContainer>
-          <OptionsCard>
-            <GastosIcon />
-            <OptionsText>Gastos</OptionsText>
-          </OptionsCard>
-
-          <OptionsCard>
+          <OptionsCard to={'caixa'}>
             <LucrosIcon />
-            <OptionsText>Lucros</OptionsText>
+            <OptionsText>Fluxo de caixa</OptionsText>
           </OptionsCard>
 
           <OptionsCard>

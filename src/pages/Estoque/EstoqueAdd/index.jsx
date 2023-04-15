@@ -18,7 +18,7 @@ import {
   ProductRadioContainer,
   ProductEditBox,
   ProductEditContainer,
-  ProductEditTilte,
+  ProductEditTitle,
   ProductForm,
   ProductInput,
   ProductLabel,
@@ -84,7 +84,7 @@ export default function EstoqueAdd() {
       <ProductEditContainer>
         <Menu />
         <ProductEditBox>
-          <ProductEditTilte>Adicionar Produto</ProductEditTilte>
+          <ProductEditTitle>Adicionar Produto</ProductEditTitle>
           <ProductForm
             onSubmit={(e) => handleAdd(e)}
             action=""

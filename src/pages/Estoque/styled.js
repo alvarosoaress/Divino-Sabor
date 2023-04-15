@@ -27,7 +27,8 @@ export const ProductRowContainer = styled.span`
 export const ProductHistoryRowContainer = styled.span`
   display: grid;
   width: 100%;
-  grid-template-columns: 1fr 1fr 1fr 0.5fr;
+  grid-template-columns: ${(props) =>
+    props.gridTemplate ?? '1fr 1fr 1fr 0.5fr;'};
   column-gap: 5px;
   margin-block: 5px;
 
@@ -39,7 +40,8 @@ export const ProductHistoryRowContainer = styled.span`
 export const ProductHistoryRowTitle = styled.span`
   display: grid;
   width: 100%;
-  grid-template-columns: 1fr 1fr 1fr 0.5fr;
+  grid-template-columns: ${(props) =>
+    props.gridTemplate ?? '1fr 1fr 1fr 0.5fr'};
   column-gap: 5px;
   margin-block: 5px;
 
@@ -68,7 +70,7 @@ export const ProductEditBox = styled.div`
   padding: 5%;
 `;
 
-export const ProductEditTilte = styled.h1`
+export const ProductEditTitle = styled.h1`
   font-family: 'Quattrocento';
   font-weight: bold;
   font-size: 40px;

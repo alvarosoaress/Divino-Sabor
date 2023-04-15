@@ -11,6 +11,7 @@ import {
   ButtonSecondary,
 } from '../../../components/Button/styled';
 import {
+  formattedDate,
   handleCurrency,
   handleProductValidation,
   productHistory,
@@ -19,7 +20,7 @@ import {
   ProductRadioContainer,
   ProductEditBox,
   ProductEditContainer,
-  ProductEditTilte,
+  ProductEditTitle,
   ProductForm,
   ProductInput,
   ProductLabel,
@@ -53,17 +54,6 @@ export default function EstoqueEdit() {
   const $radioGroup = useRef(null);
 
   const productRef = doc(db, 'products', id);
-
-  function formattedDate(seconds) {
-    let myDate = new Date(seconds * 1000);
-    const options = {
-      day: 'numeric',
-      month: 'numeric',
-      year: 'numeric',
-    };
-
-    return myDate.toLocaleDateString('pt-BR', options);
-  }
 
   // pegando as informações do produto na DB
   useEffect(() => {
@@ -140,7 +130,7 @@ export default function EstoqueEdit() {
       <ProductEditContainer>
         <Menu />
         <ProductEditBox>
-          <ProductEditTilte>Editar Produto</ProductEditTilte>
+          <ProductEditTitle>Editar Produto</ProductEditTitle>
           <ProductForm
             onSubmit={(e) => handleEdit(e)}
             action=""
@@ -256,9 +246,9 @@ export default function EstoqueEdit() {
               </ButtonPrimary>
             </ProductButtonGroup>
           </ProductForm>
-          <ProductEditTilte style={{ marginTop: '5%' }}>
+          <ProductEditTitle style={{ marginTop: '5%' }}>
             Histórico Produto
-          </ProductEditTilte>
+          </ProductEditTitle>
           <ProductHistoryRowTitle>
             <AdmListItemName>Data</AdmListItemName>
             <AdmListItemName>
