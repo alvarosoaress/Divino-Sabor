@@ -148,7 +148,10 @@ export default function Clientes() {
               display={window.screen.width >= 600 ? 'flex' : 'none'}
             />
             <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-              <AdmSearchInput onChange={(e) => searchClients(e)} />
+              <AdmSearchInput
+                onChange={(e) => searchClients(e)}
+                placeholder="Nome, e-mail, telefone..."
+              />
               <FaSearch style={{ height: '40px' }} />
             </span>
           </AdmListTitleContainer>

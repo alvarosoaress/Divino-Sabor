@@ -6,9 +6,16 @@ import Menu from '../../../components/Menu';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../../services/firebase';
 import { toast } from 'react-toastify';
-import { formattedDate, handleCurrency } from '../../../components/Adm';
+import {
+  AdmItemAdd,
+  formattedDate,
+  handleCurrency,
+} from '../../../components/Adm';
 import { SecondaryDivider } from '../../../components/Utils/styled';
-import { AdmListItemName } from '../../../components/Adm/styled.';
+import {
+  AdmListItemName,
+  AdmSearchInput,
+} from '../../../components/Adm/styled.';
 import {
   ProductEditBox,
   ProductEditContainer,
@@ -17,6 +24,8 @@ import {
   ProductHistoryRowTitle,
   ProductQuantity,
 } from '../../Estoque/styled';
+import { FaSearch } from 'react-icons/fa';
+import { AdmListTitleContainer } from '../../../components/Adm/styled.';
 
 export default function FluxoDeCaixa() {
   const navigate = useNavigate();
@@ -71,6 +80,17 @@ export default function FluxoDeCaixa() {
         <Menu />
         <ProductEditBox>
           <ProductEditTitle>Fluxo de Caixa</ProductEditTitle>
+          <AdmListTitleContainer>
+            <AdmItemAdd
+              text={'Adicionar nova compra'}
+              display={window.screen.width >= 600 ? 'flex' : 'none'}
+            />
+            <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+              <AdmSearchInput />
+              <FaSearch style={{ height: '40px' }} />
+            </span>
+          </AdmListTitleContainer>
+
           <ProductHistoryRowTitle gridTemplate="1fr 1fr 1fr 1fr 0.5fr">
             <AdmListItemName>Nome</AdmListItemName>
             <AdmListItemName>
@@ -84,7 +104,6 @@ export default function FluxoDeCaixa() {
           </ProductHistoryRowTitle>
           {newHistory &&
             newHistory.map((entry, index) => {
-              console.log(entry);
               return (
                 <ProductHistoryRow
                   name={entry.produto}
