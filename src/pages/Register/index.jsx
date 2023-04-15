@@ -23,7 +23,6 @@ import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth, db } from '../../services/firebase';
 import { doc, collection, setDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
-import validator from 'validator';
 import { isEmpty } from '../../components/Utils';
 
 export default function Register() {
@@ -45,15 +44,8 @@ export default function Register() {
     let password = $password.current.value;
     let name = $name.current.value;
     let tel = $tel.current.value.replace(/[^\d]/g, '');
-
-    if (
-      isEmpty(email) ||
-      isEmpty(password) ||
-      isEmpty(name) ||
-      isEmpty(tel) ||
-      validator.isNumeric(tel)
-    ) {
-      toast.error('Preencha todos os campos primeiro!.');
+    if (isEmpty(email) || isEmpty(password) || isEmpty(name) || isEmpty(tel)) {
+      toast.error('Preencha todos os campos primeiro!');
       return;
     }
 
@@ -103,6 +95,8 @@ export default function Register() {
                 $passwordLabel,
                 $tel,
                 $telLabel,
+                $name,
+                $nameLabel,
               )
             }
           >

@@ -13,6 +13,7 @@ import {
 import {
   handleCurrency,
   handleProductValidation,
+  productHistory,
 } from '../../../components/Adm';
 import {
   ProductRadioContainer,
@@ -22,8 +23,14 @@ import {
   ProductForm,
   ProductInput,
   ProductLabel,
+  ProductQuantity,
+  ProductHistoryRowContainer,
+  ProductButtonGroup,
+  ProductHistoryRowTitle,
 } from '../styled';
 import { isEmpty } from '../../../components/Utils';
+import { SecondaryDivider } from '../../../components/Utils/styled';
+import { AdmListItemName } from '../../../components/Adm/styled.';
 
 export default function EstoqueEdit() {
   const { id } = useParams();
@@ -36,6 +43,8 @@ export default function EstoqueEdit() {
 
   const [aux, setAux] = useState(true);
 
+  const [history, setHistory] = useState(null);
+
   const $name = useRef(null);
   const $nameLabel = useRef(null);
   const $quantity = useRef(null);
@@ -44,6 +53,17 @@ export default function EstoqueEdit() {
   const $radioGroup = useRef(null);
 
   const productRef = doc(db, 'products', id);
+
+  function formattedDate(seconds) {
+    let myDate = new Date(seconds * 1000);
+    const options = {
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+    };
+
+    return myDate.toLocaleDateString('pt-BR', options);
+  }
 
   // pegando as informações do produto na DB
   useEffect(() => {
@@ -58,6 +78,7 @@ export default function EstoqueEdit() {
       }
     };
     getUser();
+    productHistory(id, setHistory);
   }, []);
 
   const handleEdit = async (e) => {
@@ -95,9 +116,23 @@ export default function EstoqueEdit() {
     }
   };
 
+  function ProductHistoryRow({ type, quantity, price, date }) {
+    return (
+      <span>
+        <SecondaryDivider />
+        <ProductHistoryRowContainer>
+          <AdmListItemName>{date}</AdmListItemName>
+          <ProductQuantity>{quantity}</ProductQuantity>
+          <AdmListItemName>{price}</AdmListItemName>
+          <AdmListItemName>{type}</AdmListItemName>
+        </ProductHistoryRowContainer>
+        <SecondaryDivider />
+      </span>
+    );
+  }
+
   return (
     <>
-      {console.log(product)}
       <Header
         style={true}
         auxText={window.screen.width >= 600 ? 'ADMINISTRATIVO' : 'ADMIN'}
@@ -212,19 +247,40 @@ export default function EstoqueEdit() {
               }
             </ProductRadioContainer>
 
-            <div
-              style={{
-                display: 'flex',
-                gap: '20px',
-                marginTop: '50px',
-              }}
-            >
-              <ButtonSecondary as={Link} to={'/estoque'}>
+            <ProductButtonGroup>
+              <ButtonSecondary as={Link} to={'/estoque'} mediaquery="600px">
                 Cancelar
               </ButtonSecondary>
-              <ButtonPrimary type="submit">Salvar</ButtonPrimary>
-            </div>
+              <ButtonPrimary type="submit" mediaquery="600px">
+                Salvar
+              </ButtonPrimary>
+            </ProductButtonGroup>
           </ProductForm>
+          <ProductEditTilte style={{ marginTop: '5%' }}>
+            Histórico Produto
+          </ProductEditTilte>
+          <ProductHistoryRowTitle>
+            <AdmListItemName>Data</AdmListItemName>
+            <AdmListItemName>
+              {window.screen.width >= 600 ? 'Quantidade' : 'Qtd.'}
+            </AdmListItemName>
+            <AdmListItemName>Preço</AdmListItemName>
+            <AdmListItemName>
+              {window.screen.width >= 600 ? 'Operação' : 'Op.'}
+            </AdmListItemName>
+          </ProductHistoryRowTitle>
+          {history &&
+            history.map((entry, index) => {
+              return (
+                <ProductHistoryRow
+                  type={entry.tipo}
+                  price={handleCurrency(entry.valor, null)}
+                  quantity={entry.qtd}
+                  date={formattedDate(entry.data.seconds)}
+                  key={index}
+                />
+              );
+            })}
         </ProductEditBox>
       </ProductEditContainer>
     </>

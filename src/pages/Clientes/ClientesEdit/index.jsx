@@ -135,10 +135,12 @@ export default function ClientesEdit() {
               defaultValue={user.tel}
             />
             <span style={{ display: 'flex', marginTop: '50px', gap: '20px' }}>
-              <ButtonSecondary as={Link} to={'/clientes'}>
+              <ButtonSecondary as={Link} to={'/clientes'} mediaquery="600px">
                 Cancelar
               </ButtonSecondary>
-              <ButtonPrimary type="submit">Salvar</ButtonPrimary>
+              <ButtonPrimary type="submit" mediaquery="600px">
+                Salvar
+              </ButtonPrimary>
             </span>
           </CredentialsForm>
         </ClientEditBox>

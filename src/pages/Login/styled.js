@@ -21,7 +21,7 @@ export const CredentialsContainer = styled.div`
   align-items: center;
   flex-direction: column;
   width: ${(props) => props.width ?? '520px'};
-  height: ${(props) => props.height ?? '650px'};
+  height: ${(props) => props.height ?? '680px'};
   background-color: white;
   background-image: url(${credentialBackground});
   background-size: cover;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { SecondaryDivider } from '../../components/Utils/styled';
-import { ButtonPrimary } from '../../components/Button/styled';
+import { ButtonPrimary, ButtonSecondary } from '../../components/Button/styled';
 import {
   ProductOrderButton,
   ProductOrderContainer,
@@ -16,15 +16,19 @@ import {
   AdmListItemName,
   AdmListTable,
   AdmListTitleContainer,
+  AdmModal,
+  AdmModalContainer,
+  AdmModalText,
   AdmSearchInput,
 } from '../../components/Adm/styled.';
 import { AdmItemAdd } from '../../components/Adm';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
 import { db } from '../../services/firebase';
 import { Link } from 'react-router-dom';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import Fuse from 'fuse.js';
 import { isEmpty } from '../../components/Utils';
+import { toast } from 'react-toastify';
 
 /// const queryProductType = query(
 //   productCollection,
@@ -39,7 +43,7 @@ import { isEmpty } from '../../components/Utils';
 // const q = query(collection(db, 'videos'), ...queryConstraints)
 //
 
-function ProductRow({ name, quantity, uid }) {
+function ProductRow({ name, quantity, id, index, setState, setUser }) {
   return (
     <span>
       <SecondaryDivider />
@@ -53,7 +57,7 @@ function ProductRow({ name, quantity, uid }) {
           mediaquery="800px"
           mediaquerywidth="65px"
           as={Link}
-          to={`/estoque/edit/${uid}`}
+          to={`/estoque/edit/${id}`}
         >
           Editar
         </ButtonPrimary>
@@ -63,6 +67,10 @@ function ProductRow({ name, quantity, uid }) {
           fonthover="16px"
           mediaquery="800px"
           mediaquerywidth="65px"
+          onClick={() => {
+            setState(true);
+            setUser({ name, id, index });
+          }}
         >
           Excluir
         </ButtonPrimary>
@@ -82,6 +90,14 @@ export default function Estoque() {
   const [search, setSearch] = useState('');
 
   const productsCollection = collection(db, 'products');
+
+  const [modal, setModal] = useState(false);
+  // useState para tratar do cliente sendo deletado
+  const [productDelete, setProductDelete] = useState({
+    name: '',
+    id: '',
+    index: '',
+  });
 
   useEffect(() => {
     const getProducts = async () => {
@@ -129,7 +145,7 @@ export default function Estoque() {
     }
   }
 
-  function searchClients(e) {
+  function searchProducts(e) {
     if (isEmpty(e.target.value)) {
       setNewProducts(products);
     } else {
@@ -137,7 +153,7 @@ export default function Estoque() {
       // usando a biblioteca fuse js para dar search
       const fuse = new Fuse(products, {
         threshold: 0.2,
-        keys: ['produto', 'qtd'],
+        keys: ['produto', 'qtd', 'categoria'],
       });
 
       // colocando o resultado da pesquisa dentro de newProducts
@@ -145,8 +161,52 @@ export default function Estoque() {
     }
   }
 
+  async function deleteProduct(id) {
+    try {
+      // deletando produto baseado em seu id
+      await deleteDoc(doc(db, 'products', id));
+      setModal(false);
+      // retirando o produto do state newProduct
+      newProducts.splice(productDelete.index, 1);
+      // [...newProducts ] é estritamente necessário para que
+      // o map feito com o state seja atuomaticamente atualizado
+      // reduzindo a necessidade de um novo useEffect
+      setNewProducts([...newProducts]);
+      toast.success(`Produto ${productDelete.name} deletado com sucesso !`);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <>
+      {/* renderizando modal de exclusão com display none */}
+      <AdmModalContainer
+        style={{ display: modal ? 'flex' : 'none' }}
+        onClick={() => setModal(false)}
+      >
+        <AdmModal>
+          <AdmModalText>
+            Deseja realmente excluir o produto: {<br />} {productDelete.name} ?
+          </AdmModalText>
+
+          <ButtonSecondary
+            onClick={() => setModal(false)}
+            mediaquery="600px"
+            style={{ placeSelf: 'center' }}
+          >
+            Cancelar
+          </ButtonSecondary>
+          <ButtonPrimary
+            onClick={() => deleteProduct(productDelete.id)}
+            mediaquery="600px"
+            style={{ placeSelf: 'center' }}
+          >
+            Deletar
+          </ButtonPrimary>
+        </AdmModal>
+      </AdmModalContainer>
+
       <Header
         style={true}
         auxText={window.screen.width >= 600 ? 'ADMINISTRATIVO' : 'ADMIN'}
@@ -162,7 +222,7 @@ export default function Estoque() {
               display={window.screen.width >= 600 ? 'flex' : 'none'}
             />
             <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-              <AdmSearchInput onChange={(e) => searchClients(e)} />
+              <AdmSearchInput onChange={(e) => searchProducts(e)} />
               <FaSearch style={{ height: '40px' }} />
             </span>
           </AdmListTitleContainer>
@@ -205,10 +265,13 @@ export default function Estoque() {
           <AdmListTable>
             {newProducts.map((product, index) => (
               <ProductRow
-                uid={product.id ?? product.item.id}
+                id={product.id ?? product.item.id}
                 name={product.produto ?? product.item.produto}
                 quantity={product.qtd ?? product.item.qtd}
                 key={index}
+                index={index}
+                setState={setModal}
+                setUser={setProductDelete}
               />
             ))}
           </AdmListTable>

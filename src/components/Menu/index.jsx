@@ -9,14 +9,13 @@ export default function Menu() {
   const [openMenu, setOpenMenu] = useState(false);
   return (
     <>
-      <MenuContainer
-      // Passando estilos para o componente via JSX
-      // Praticamente MediaQuery in-line 🙃
-      >
+      <MenuContainer>
         <MdKeyboardArrowRight
           size={40}
           onClick={() => setOpenMenu(!openMenu)}
           style={{
+            // Passando estilos para o componente via JSX
+            // Praticamente MediaQuery in-line 🙃
             display: openMenu || window.screen.width >= 600 ? 'none' : 'flex',
           }}
         />

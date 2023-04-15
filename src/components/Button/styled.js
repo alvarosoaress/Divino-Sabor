@@ -56,6 +56,7 @@ export const ButtonSocial = styled(Link)`
   width: 200px;
   height: 48px;
   border-radius: 6px;
+  color: white;
   border: 2px solid ${(props) => props.theme.secondaryColor};
   background-color: ${(props) => props.color ?? props.theme.buttonSocial};
   font-size: 16px;

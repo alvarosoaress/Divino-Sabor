@@ -7,5 +7,5 @@ export const colors = {
   backgroundColor: '#FFFFFF',
   buttonPrimary: '#4F2C1D',
   buttonSecondary: '#FFF3E6',
-  buttonSocial: '#fad3d5',
+  buttonSocial: '#4F2C1D',
 };

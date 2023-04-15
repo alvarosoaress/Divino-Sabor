@@ -154,7 +154,6 @@ export function Tel({
         onChange={() => formatTel(null, $ref)}
         ref={$ref}
         maxLength={15}
-        pattern="\([0-9]{2}\) [0-9]{5}\-[0-9]{4}" // regex foramatar como numero telefonico
         placeholder="(xx) xxxxx-xxxx"
         title="Telefone (xx) xxxxx-xxxx"
         style={inputStyle}

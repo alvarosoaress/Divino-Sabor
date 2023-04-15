@@ -16,7 +16,7 @@ export const MenuBox = styled.div`
   flex-direction: column;
   background-color: ${(props) => props.theme.primaryColor};
   gap: 20px;
-  padding: 2em;
+  padding: 1em;
   min-width: 250px;
   height: 60%;
   @keyframes clipEffect {
@@ -31,7 +31,7 @@ export const MenuBox = styled.div`
 `;
 
 export const MenuText = styled(Link)`
-  font-size: 24px;
+  font-size: 26px;
   color: black;
   font-family: 'Marcellus';
 `;

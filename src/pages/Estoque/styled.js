@@ -24,6 +24,30 @@ export const ProductRowContainer = styled.span`
   }
 `;
 
+export const ProductHistoryRowContainer = styled.span`
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 1fr 1fr 0.5fr;
+  column-gap: 5px;
+  margin-block: 5px;
+
+  @media screen and (max-width: 600px) {
+    grid-template-columns: 1.5fr 0.5fr 1fr 0.5fr;
+  }
+`;
+
+export const ProductHistoryRowTitle = styled.span`
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 1fr 1fr 0.5fr;
+  column-gap: 5px;
+  margin-block: 5px;
+
+  @media screen and (max-width: 600px) {
+    grid-template-columns: 1fr 0.5fr 1fr 0.5fr;
+  }
+`;
+
 export const ProductEditContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -42,19 +66,18 @@ export const ProductEditBox = styled.div`
   overflow-x: hidden;
   width: 100vw;
   padding: 5%;
-
-  @media screen and (max-width: 600px) {
-    height: 100vh;
-    margin-top: 10%;
-    gap: 50px;
-  }
 `;
 
 export const ProductEditTilte = styled.h1`
   font-family: 'Quattrocento';
   font-weight: bold;
   font-size: 40px;
+  margin-bottom: 15px;
   color: ${(props) => props.theme.textColor};
+
+  @media screen and (max-width: 600px) {
+    font-size: 32px;
+  }
 `;
 
 export const ProductForm = styled.form`
@@ -62,7 +85,11 @@ export const ProductForm = styled.form`
   grid-template-columns: 3fr 1fr;
   width: 100%;
   height: 100%;
-  margin-top: 50px;
+
+  @media screen and (max-width: 600px) {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 export const ProductLabel = styled.label`
@@ -94,6 +121,10 @@ export const ProductRadioContainer = styled.div`
   justify-content: center;
   flex-direction: column;
   width: 100%;
+
+  @media screen and (max-width: 600px) {
+    margin-top: 10%;
+  }
 `;
 
 export const ProductOrderButton = styled.button`
@@ -116,5 +147,16 @@ export const ProductOrderContainer = styled.div`
 
   @media screen and (max-width: 600px) {
     grid-template-columns: 2fr 1fr 0.5fr 0.5fr;
+  }
+`;
+
+export const ProductButtonGroup = styled.div`
+  display: flex;
+  gap: 20px;
+  margin-top: 50px;
+
+  @media screen and (max-width: 600px) {
+    margin-top: 10px;
+    margin-bottom: 50px;
   }
 `;

@@ -4,6 +4,8 @@ import { AdmAddText, AdmListAddText, AdmListItemName } from './styled.';
 import { SecondaryDivider } from '../Utils/styled';
 import { ButtonPrimary } from '../Button/styled';
 import { Link } from 'react-router-dom';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { db } from '../../services/firebase';
 
 export function AdmItemAdd({ display, text, link }) {
   return (
@@ -14,7 +16,7 @@ export function AdmItemAdd({ display, text, link }) {
   );
 }
 
-export function AdmItemRow({ name, uid, key, setState, setUser }) {
+export function AdmItemRow({ name, uid, index, setState, setUser }) {
   return (
     <span>
       <SecondaryDivider />
@@ -47,7 +49,7 @@ export function AdmItemRow({ name, uid, key, setState, setUser }) {
           mediaquerywidth="65px"
           onClick={() => {
             setState(true);
-            setUser({ name, uid, index: key });
+            setUser({ name, uid, index });
           }}
         >
           Excluir
@@ -122,5 +124,26 @@ export function handleCurrency(value, $ref) {
   } else {
     // definir valor como vazio
     $ref.current.value = '';
+  }
+}
+
+export async function productHistory(productId, arraySetState) {
+  const docRef = collection(db, 'history');
+
+  const queryProduct = query(docRef, where('produto', '==', productId));
+
+  try {
+    const data = await getDocs(queryProduct);
+    // data retorna uma response com muitos parametros
+    // clean data para pegar apenas os dados importantes
+    const cleanData = data.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    // atribuindo a response para users e newUsers
+    // isso auxilia na hora do search
+    arraySetState(cleanData);
+  } catch (error) {
+    console.error(error);
   }
 }
