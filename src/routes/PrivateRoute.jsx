@@ -22,11 +22,17 @@ export default function PrivateRoute() {
     // correlação com a fireStore para ver se o user
     // possui permissão de Admin
     async function getCollection() {
-      const docRef = doc(db, 'users', user.uid);
-      const docSnap = await getDoc(docRef);
-      const isAdmin = docSnap.data().admin;
-      setAdmin(isAdmin);
-      isAdmin === undefined || null ? setAdmin(false) : '';
+      try {
+        if (user.uid) {
+          const docRef = doc(db, 'users', user.uid);
+          const docSnap = await getDoc(docRef);
+          const isAdmin = docSnap.data().admin;
+          setAdmin(isAdmin);
+          isAdmin === undefined || null ? setAdmin(false) : '';
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
     getCollection();
   }, []);
