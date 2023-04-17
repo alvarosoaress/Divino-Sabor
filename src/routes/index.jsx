@@ -15,6 +15,7 @@ import EstoqueAdd from '../pages/Estoque/EstoqueAdd';
 import EstoqueEdit from '../pages/Estoque/EstoqueEdit';
 import FluxoDeCaixa from '../pages/Financeiro/FluxoDeCaixa';
 import FluxoAdd from '../pages/Financeiro/FluxoAdd';
+import Contato from '../pages/Contato';
 
 export default function Router() {
   return (
@@ -23,6 +24,7 @@ export default function Router() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/recover" element={<Recover />} />
+      <Route path="/contato" element={<Contato />} />
 
       <Route path="/financeiro" element={<PrivateRoute />}>
         <Route path="/financeiro" element={<Financeiro />} />

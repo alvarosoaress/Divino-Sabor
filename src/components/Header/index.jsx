@@ -59,7 +59,7 @@ export default function Header({ style, auxText }) {
           <LogoTextAux>{auxText ?? 'ACESSO'}</LogoTextAux>
         </LogoTextContainer>
       ) : (
-        <LogoText>Divino Sabor</LogoText>
+        <LogoText to={'/'}>Divino Sabor</LogoText>
       )}
       <Nav>
         {admin ? (
@@ -75,7 +75,7 @@ export default function Header({ style, auxText }) {
           <NavLinks href="#">Cardápio</NavLinks>
         </li>
         <li>
-          <NavLinks href="#">Contato</NavLinks>
+          <NavLinks to={'/contato'}>Contato</NavLinks>
         </li>
         <li>
           <NavLinks href="#">Delivery</NavLinks>
@@ -88,12 +88,13 @@ export default function Header({ style, auxText }) {
           <FaRegUserCircle size={25} />
         </Link>
       </Nav>
+
       <NavBurguer>
         <BiMenuAltRight size={40} onClick={() => setOpenBurger(!openBurger)} />
         <NavBurguerBackground style={{ display: openBurger ? 'flex' : 'none' }}>
-          <a href="#">
+          <Link to="/login">
             <FaRegUserCircle size={25} />
-          </a>
+          </Link>
           {admin ? (
             <li>
               <NavLinks as={Link} to={'/financeiro'}>
