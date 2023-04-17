@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore';
 
 import Header from '../../../components/Header';
 import Menu from '../../../components/Menu';
@@ -90,15 +90,29 @@ export default function EstoqueEdit() {
     }
 
     try {
-      // editando produto com os dados preenchidos
-      await updateDoc(doc(db, 'products', id), {
-        categoria: category,
-        produto: name,
-        qtd: Number(quantity),
-        valor: Number(price),
-      });
+      // deletando o produto no banco
+      // é preciso deletar antes de dar update pois
+      // não há outra forma de trocar o id do Doc
+      // e caso o usuário mude o nome do produto
+      // o ID teria que ser mudado também
+      await deleteDoc(doc(db, 'products', id));
+
+      // adicionando produto com os dados preenchidos
+      // usando setDoc() ao inves de addDoc() para poder definir um iD
+      // definindo o nome do produto como id
+      await setDoc(
+        // usando Regex para trocar espaços em brancos
+        // no nome do produto por "_" para consistência do BD
+        doc(db, 'products', name.toLowerCase().replace(/\s+/g, '_')),
+        {
+          categoria: category,
+          produto: name,
+          qtd: Number(quantity),
+          valor: Number(price),
+        },
+      );
       navigate('/estoque');
-      toast.success('Produto adicionado com sucesso!');
+      toast.success('Produto editado com sucesso!');
     } catch (error) {
       console.log(error);
     }

@@ -8,13 +8,17 @@ import {
   NavBurguer,
   NavBurguerBackground,
   NavLinks,
+  UserOptionLogout,
+  UserOptionOrder,
+  UserOptionsContainer,
 } from './styled';
-import { BiMenuAltRight } from 'react-icons/bi';
+import { BiLogOut, BiMenuAltRight } from 'react-icons/bi';
 import { useState } from 'react';
 import { ButtonPrimary } from '../../components/Button/styled';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaRegUserCircle } from 'react-icons/fa';
+import { RiFileList3Line } from 'react-icons/ri';
 import { db } from '../../services/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { useAuthContext } from '../../data/AuthProvider';
@@ -72,7 +76,7 @@ export default function Header({ style, auxText }) {
           ''
         )}
         <li>
-          <NavLinks href="#">Cardápio</NavLinks>
+          <NavLinks to={'/cardapio'}>Cardápio</NavLinks>
         </li>
         <li>
           <NavLinks to={'/contato'}>Contato</NavLinks>
@@ -84,15 +88,24 @@ export default function Header({ style, auxText }) {
           <NavLinks href="#">Sobre nós</NavLinks>
         </li>
 
-        <Link to="/login">
+        <Link to={user ? '' : '/login'} style={{ position: 'relative' }}>
           <FaRegUserCircle size={25} />
         </Link>
       </Nav>
 
+      <UserOptionsContainer>
+        <UserOptionOrder>
+          <RiFileList3Line /> Lista
+        </UserOptionOrder>
+        <UserOptionLogout>
+          <BiLogOut /> Logout
+        </UserOptionLogout>
+      </UserOptionsContainer>
+
       <NavBurguer>
         <BiMenuAltRight size={40} onClick={() => setOpenBurger(!openBurger)} />
         <NavBurguerBackground style={{ display: openBurger ? 'flex' : 'none' }}>
-          <Link to="/login">
+          <Link to={user ? '/' : '/login'}>
             <FaRegUserCircle size={25} />
           </Link>
           {admin ? (
