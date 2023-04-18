@@ -127,7 +127,7 @@ export const UserOptionsContainer = styled.div`
   flex-direction: column;
   right: 0;
   z-index: 1;
-  top: 12%;
+  top: 80%;
   width: auto;
   background-color: ${(props) => props.theme.backgroundColor};
   padding: 20px;
@@ -139,7 +139,7 @@ export const UserOptionsContainer = styled.div`
       clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
     }
     to {
-      clip-path: polygon(100% 50%, 50% 100%, 0 50%, 0 0, 50% 50%, 100% 0);
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
     }
   }
   animation: 0.2s clipEffect linear;

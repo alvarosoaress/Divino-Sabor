@@ -19,13 +19,17 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaRegUserCircle } from 'react-icons/fa';
 import { RiFileList3Line } from 'react-icons/ri';
-import { db } from '../../services/firebase';
+import { auth, db } from '../../services/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { useAuthContext } from '../../data/AuthProvider';
+import { signOut } from 'firebase/auth';
+import { toast } from 'react-toastify';
 
 export default function Header({ style, auxText }) {
   const { user } = useAuthContext();
   const [admin, setAdmin] = useState(false);
+
+  const [openOptions, setOpenOptions] = useState(false);
 
   const [openBurger, setOpenBurger] = useState(false);
   // Verificando o state de openBurguer
@@ -49,6 +53,17 @@ export default function Header({ style, auxText }) {
     }
     getCollection();
   }, []);
+
+  function logout() {
+    signOut(auth)
+      .then(() => {
+        toast.success('Usuário desconectado!');
+        location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   return (
     <HeaderContainer>
@@ -88,16 +103,20 @@ export default function Header({ style, auxText }) {
           <NavLinks href="#">Sobre nós</NavLinks>
         </li>
 
-        <Link to={user ? '' : '/login'} style={{ position: 'relative' }}>
+        <Link
+          to={user ? '' : '/login'}
+          style={{ position: 'relative' }}
+          onClick={() => (user ? setOpenOptions(!openOptions) : '')}
+        >
           <FaRegUserCircle size={25} />
         </Link>
       </Nav>
 
-      <UserOptionsContainer>
+      <UserOptionsContainer style={{ display: openOptions ? 'flex' : 'none' }}>
         <UserOptionOrder>
           <RiFileList3Line /> Lista
         </UserOptionOrder>
-        <UserOptionLogout>
+        <UserOptionLogout onClick={() => logout()}>
           <BiLogOut /> Logout
         </UserOptionLogout>
       </UserOptionsContainer>

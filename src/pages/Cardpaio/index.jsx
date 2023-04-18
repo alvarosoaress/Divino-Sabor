@@ -16,45 +16,24 @@ import {
   CardapioTitle,
 } from './styled,';
 import { Link } from 'react-router-dom';
-import { collection, getDocs } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  updateDoc,
+} from 'firebase/firestore';
 import { db } from '../../services/firebase';
 import { handleCurrency } from '../../components/Adm';
-
-function CardapioItemBlock({ name, price, quantity, desc }) {
-  return (
-    <Link>
-      <CardapioItem>
-        <CardapioItemName>{name}</CardapioItemName>
-        <CardapioItemSeparator></CardapioItemSeparator>
-        <CardapioItemPrice>
-          {price}
-          <small>{'/' + quantity + ' unid.'}</small>
-        </CardapioItemPrice>
-      </CardapioItem>
-      <CardapioItemDesc>{desc ?? ''}</CardapioItemDesc>
-    </Link>
-  );
-}
-
-function CardapioItemBuild({ category, items }) {
-  return items.length > 0 ? (
-    <section style={{ marginBottom: '50px' }}>
-      <CardapioTitle>{category}</CardapioTitle>
-      {items.map((item) => (
-        <CardapioItemBlock
-          name={item.nome}
-          price={handleCurrency(item.valor)}
-          quantity={item.qtd_min}
-          desc={item.desc ?? ''}
-        />
-      ))}
-    </section>
-  ) : (
-    <></>
-  );
-}
+import { useAuthContext } from '../../data/AuthProvider';
 
 export default function Cardapio() {
+  const { user } = useAuthContext();
+
+  const [loggedUser, setLoggedUser] = useState(null);
+
+  const [update, setUpdate] = useState(false);
+
   const [doces, setDoces] = useState([]);
   const [salgados, setSalgados] = useState([]);
   const [confeitaria, setConfeitaria] = useState([]);
@@ -63,7 +42,43 @@ export default function Cardapio() {
   const [items, setItems] = useState(null);
   const [newItems, setNewItems] = useState(null);
 
+  const [lista, setLista] = useState([]);
+
   const itemsCollection = collection(db, 'menu');
+
+  function CardapioItemBlock({ name, price, quantity, desc }) {
+    return (
+      <Link onClick={() => updateLista(name, Number(quantity))}>
+        <CardapioItem>
+          <CardapioItemName>{name}</CardapioItemName>
+          <CardapioItemSeparator></CardapioItemSeparator>
+          <CardapioItemPrice>
+            {price}
+            <small>{'/' + quantity + ' unid.'}</small>
+          </CardapioItemPrice>
+        </CardapioItem>
+        <CardapioItemDesc>{desc ?? ''}</CardapioItemDesc>
+      </Link>
+    );
+  }
+
+  function CardapioItemBuild({ category, items }) {
+    return items.length > 0 ? (
+      <section style={{ marginBottom: '50px' }}>
+        <CardapioTitle>{category}</CardapioTitle>
+        {items.map((item) => (
+          <CardapioItemBlock
+            name={item.nome}
+            price={handleCurrency(item.valor)}
+            quantity={item.qtd_min}
+            desc={item.desc ?? ''}
+          />
+        ))}
+      </section>
+    ) : (
+      <></>
+    );
+  }
 
   useEffect(() => {
     const getItems = async () => {
@@ -82,6 +97,21 @@ export default function Cardapio() {
         console.log(error);
       }
     };
+    async function getUser() {
+      try {
+        if (user.uid) {
+          const docRef = doc(db, 'users', user.uid);
+          const data = await getDoc(docRef);
+          const cleanData = { ...data.data(), uid: data.id };
+
+          setLoggedUser(cleanData);
+          setLista(cleanData.lista);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getUser();
     getItems();
   }, []);
 
@@ -101,6 +131,39 @@ export default function Cardapio() {
       : '';
   }, [items]);
 
+  function updateLista(name, qtd) {
+    setUpdate(true);
+    setLista((lista) => {
+      const objetoExistente = lista.find((obj) => obj.nome === name);
+
+      if (objetoExistente) {
+        objetoExistente.qtd += Number(qtd);
+        return [...lista];
+      }
+
+      return [...lista, { nome: name, qtd: Number(qtd) }];
+    });
+  }
+
+  useEffect(() => {
+    async function syncLista() {
+      const usersRef = doc(db, 'users', user.uid);
+
+      try {
+        await updateDoc(usersRef, {
+          lista: lista,
+        });
+        setUpdate(false);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    if (update) {
+      syncLista();
+    }
+  }, [lista]);
+
   return (
     <>
       <Header />
@@ -111,7 +174,9 @@ export default function Cardapio() {
             <CardapioCategories>Doces</CardapioCategories>
             <CardapioCategories>Salgados</CardapioCategories>
             <CardapioCategories>Confeitaria</CardapioCategories>
-            <CardapioCategories>Bebidas</CardapioCategories>
+            <CardapioCategories onClick={() => console.log(lista)}>
+              Bebidas
+            </CardapioCategories>
           </CardapioSideBar>
           <CardapioList>
             <CardapioItemList>
