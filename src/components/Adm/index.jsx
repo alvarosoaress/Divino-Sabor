@@ -147,9 +147,13 @@ export async function productHistory(productId, arraySetState) {
     console.error(error);
   }
 }
+export function formattedDate(data, string) {
+  let myDate;
+  string
+    ? ((myDate = new Date(data)),
+      myDate.setMinutes(myDate.getMinutes() + myDate.getTimezoneOffset()))
+    : (myDate = new Date(data * 1000));
 
-export function formattedDate(seconds) {
-  let myDate = new Date(seconds * 1000);
   const options = {
     day: 'numeric',
     month: 'numeric',
@@ -158,3 +162,22 @@ export function formattedDate(seconds) {
 
   return myDate.toLocaleDateString('pt-BR', options);
 }
+
+// export function formattedDate(data) {
+//   // timezoneOffset serve para formatar a hora no fuso horário atual do browser
+//   // antes de transoformar a data em timeStamp
+//   // caso deixe sem o timezoneOffset poderá ocorrer inconsistência de dias
+//   const timezoneOffset = new Date().getTimezoneOffset() * 60; // em segundos
+//   // lembrando que tudo isso é necessário pq o JS lê a data com 1 dia a menos
+
+//   let dateAsTimeStamp = new Date(data).getTime() / 1000;
+
+//   let myDate = new Date((dateAsTimeStamp + timezoneOffset) * 1000);
+//   const options = {
+//     day: 'numeric',
+//     month: 'numeric',
+//     year: 'numeric',
+//   };
+
+//   return myDate.toLocaleDateString('pt-BR', options);
+// }

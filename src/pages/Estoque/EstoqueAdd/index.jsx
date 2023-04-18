@@ -64,8 +64,8 @@ export default function EstoqueAdd() {
         {
           categoria: category,
           produto: name,
-          qtd: quantity,
-          valor: price,
+          qtd: Number(quantity),
+          valor: Number(price),
         },
       );
       navigate('/estoque');

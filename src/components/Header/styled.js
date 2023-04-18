@@ -119,3 +119,53 @@ export const NavBurguerBackground = styled.div`
   }
   animation: 0.2s clipEffect linear;
 `;
+
+export const UserOptionsContainer = styled.div`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  right: 0;
+  z-index: 1;
+  top: 80%;
+  width: auto;
+  background-color: ${(props) => props.theme.backgroundColor};
+  padding: 20px;
+  gap: 10px;
+  border-radius: 5px;
+
+  @keyframes clipEffect {
+    from {
+      clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
+    }
+    to {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+    }
+  }
+  animation: 0.2s clipEffect linear;
+`;
+
+export const UserOptionLogout = styled.a`
+  font-family: 'Marcellus', cursive;
+  color: black;
+  font-size: medium;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  transition: all 200ms ease-in-out;
+  cursor: pointer;
+
+  :hover {
+    color: darkred;
+  }
+`;
+
+export const UserOptionOrder = styled.a`
+  font-family: 'Marcellus', cursive;
+  color: black;
+  font-size: medium;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  cursor: pointer;
+`;

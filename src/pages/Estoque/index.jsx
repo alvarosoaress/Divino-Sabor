@@ -222,7 +222,10 @@ export default function Estoque() {
               display={window.screen.width >= 600 ? 'flex' : 'none'}
             />
             <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-              <AdmSearchInput onChange={(e) => searchProducts(e)} />
+              <AdmSearchInput
+                onChange={(e) => searchProducts(e)}
+                placeholder="Produto, categoria, qtd..."
+              />
               <FaSearch style={{ height: '40px' }} />
             </span>
           </AdmListTitleContainer>

@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 
 import Header from '../../../components/Header';
 import Menu from '../../../components/Menu';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../../services/firebase';
-import { toast } from 'react-toastify';
-import { formattedDate, handleCurrency } from '../../../components/Adm';
+import {
+  AdmItemAdd,
+  formattedDate,
+  handleCurrency,
+} from '../../../components/Adm';
 import { SecondaryDivider } from '../../../components/Utils/styled';
-import { AdmListItemName } from '../../../components/Adm/styled.';
+import {
+  AdmListItemName,
+  AdmSearchInput,
+} from '../../../components/Adm/styled.';
 import {
   ProductEditBox,
   ProductEditContainer,
@@ -17,6 +23,26 @@ import {
   ProductHistoryRowTitle,
   ProductQuantity,
 } from '../../Estoque/styled';
+import { FaSearch } from 'react-icons/fa';
+import { AdmListTitleContainer } from '../../../components/Adm/styled.';
+import { isEmpty } from '../../../components/Utils';
+import Fuse from 'fuse.js';
+
+export function ProductHistoryRow({ name, type, quantity, price, date }) {
+  return (
+    <span>
+      <SecondaryDivider />
+      <ProductHistoryRowContainer gridTemplate="1fr 1fr 1fr 1fr 0.5fr">
+        <AdmListItemName>{name}</AdmListItemName>
+        <ProductQuantity>{quantity}</ProductQuantity>
+        <AdmListItemName>{price}</AdmListItemName>
+        <AdmListItemName>{date}</AdmListItemName>
+        <AdmListItemName>{type}</AdmListItemName>
+      </ProductHistoryRowContainer>
+      <SecondaryDivider />
+    </span>
+  );
+}
 
 export default function FluxoDeCaixa() {
   const navigate = useNavigate();
@@ -24,7 +50,12 @@ export default function FluxoDeCaixa() {
   const [history, setHistory] = useState(null);
   const [newHistory, setNewHistory] = useState(null);
 
-  const historyCollection = collection(db, 'history');
+  const [search, setSearch] = useState('');
+
+  const historyCollection = query(
+    collection(db, 'history'),
+    orderBy('timeStamp', 'desc'),
+  );
 
   useEffect(() => {
     const getProducts = async () => {
@@ -45,20 +76,25 @@ export default function FluxoDeCaixa() {
     getProducts();
   }, []);
 
-  function ProductHistoryRow({ name, type, quantity, price, date }) {
-    return (
-      <span>
-        <SecondaryDivider />
-        <ProductHistoryRowContainer gridTemplate="1fr 1fr 1fr 1fr 0.5fr">
-          <AdmListItemName>{name}</AdmListItemName>
-          <ProductQuantity>{quantity}</ProductQuantity>
-          <AdmListItemName>{price}</AdmListItemName>
-          <AdmListItemName>{date}</AdmListItemName>
-          <AdmListItemName>{type}</AdmListItemName>
-        </ProductHistoryRowContainer>
-        <SecondaryDivider />
-      </span>
-    );
+  function searchHistory(e) {
+    if (isEmpty(e.target.value)) {
+      setNewHistory(history);
+    } else {
+      setSearch(e.target.value);
+      // usando a biblioteca fuse js para dar search
+      const fuse = new Fuse(history, {
+        threshold: 0.2,
+        keys: ['produto', 'tipo'],
+      });
+
+      // colocando o resultado da pesquisa dentro de newHistory
+      setNewHistory([...fuse.search(search)]);
+    }
+  }
+
+  function setFilter(e) {
+    setNewHistory(history.filter((item) => item.tipo.match(e.target.value)));
+    console.log('filtrado');
   }
 
   return (
@@ -71,12 +107,27 @@ export default function FluxoDeCaixa() {
         <Menu />
         <ProductEditBox>
           <ProductEditTitle>Fluxo de Caixa</ProductEditTitle>
+          <AdmListTitleContainer>
+            <AdmItemAdd
+              text={'Adicionar nova operação'}
+              link={'/financeiro/caixa/add'}
+              display={window.screen.width >= 600 ? 'flex' : 'none'}
+            />
+            <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+              <AdmSearchInput
+                onChange={(e) => searchHistory(e)}
+                placeholder="Produto, operação..."
+              />
+              <FaSearch style={{ height: '40px' }} />
+            </span>
+          </AdmListTitleContainer>
+
           <ProductHistoryRowTitle gridTemplate="1fr 1fr 1fr 1fr 0.5fr">
             <AdmListItemName>Nome</AdmListItemName>
             <AdmListItemName>
               {window.screen.width >= 600 ? 'Quantidade' : 'Qtd.'}
             </AdmListItemName>
-            <AdmListItemName>Preço</AdmListItemName>
+            <AdmListItemName>Total</AdmListItemName>
             <AdmListItemName>Data</AdmListItemName>
             <AdmListItemName>
               {window.screen.width >= 600 ? 'Operação' : 'Op.'}
@@ -84,14 +135,17 @@ export default function FluxoDeCaixa() {
           </ProductHistoryRowTitle>
           {newHistory &&
             newHistory.map((entry, index) => {
-              console.log(entry);
               return (
                 <ProductHistoryRow
-                  name={entry.produto}
-                  type={entry.tipo}
-                  price={handleCurrency(entry.valor, null)}
-                  quantity={entry.qtd}
-                  date={formattedDate(entry.data.seconds)}
+                  name={entry.produto ?? entry.item.produto}
+                  type={entry.tipo ?? entry.item.tipo}
+                  price={
+                    entry.valor || entry.item.valor
+                      ? handleCurrency(entry.valor ?? entry.item.valor, null)
+                      : ''
+                  }
+                  quantity={entry.qtd ?? entry.item.qtd}
+                  date={entry.data ?? entry.item.data}
                   key={index}
                 />
               );

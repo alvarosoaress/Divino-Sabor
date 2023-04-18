@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore';
 
 import Header from '../../../components/Header';
 import Menu from '../../../components/Menu';
@@ -24,14 +24,12 @@ import {
   ProductForm,
   ProductInput,
   ProductLabel,
-  ProductQuantity,
-  ProductHistoryRowContainer,
   ProductButtonGroup,
   ProductHistoryRowTitle,
 } from '../styled';
 import { isEmpty } from '../../../components/Utils';
-import { SecondaryDivider } from '../../../components/Utils/styled';
 import { AdmListItemName } from '../../../components/Adm/styled.';
+import { ProductHistoryRow } from '../../Financeiro/FluxoDeCaixa';
 
 export default function EstoqueEdit() {
   const { id } = useParams();
@@ -92,34 +90,33 @@ export default function EstoqueEdit() {
     }
 
     try {
-      // editando produto com os dados preenchidos
-      await updateDoc(doc(db, 'products', id), {
-        categoria: category,
-        produto: name,
-        qtd: quantity,
-        valor: price,
-      });
+      // deletando o produto no banco
+      // é preciso deletar antes de dar update pois
+      // não há outra forma de trocar o id do Doc
+      // e caso o usuário mude o nome do produto
+      // o ID teria que ser mudado também
+      await deleteDoc(doc(db, 'products', id));
+
+      // adicionando produto com os dados preenchidos
+      // usando setDoc() ao inves de addDoc() para poder definir um iD
+      // definindo o nome do produto como id
+      await setDoc(
+        // usando Regex para trocar espaços em brancos
+        // no nome do produto por "_" para consistência do BD
+        doc(db, 'products', name.toLowerCase().replace(/\s+/g, '_')),
+        {
+          categoria: category,
+          produto: name,
+          qtd: Number(quantity),
+          valor: Number(price),
+        },
+      );
       navigate('/estoque');
-      toast.success('Produto adicionado com sucesso!');
+      toast.success('Produto editado com sucesso!');
     } catch (error) {
       console.log(error);
     }
   };
-
-  function ProductHistoryRow({ type, quantity, price, date }) {
-    return (
-      <span>
-        <SecondaryDivider />
-        <ProductHistoryRowContainer>
-          <AdmListItemName>{date}</AdmListItemName>
-          <ProductQuantity>{quantity}</ProductQuantity>
-          <AdmListItemName>{price}</AdmListItemName>
-          <AdmListItemName>{type}</AdmListItemName>
-        </ProductHistoryRowContainer>
-        <SecondaryDivider />
-      </span>
-    );
-  }
 
   return (
     <>
@@ -249,12 +246,13 @@ export default function EstoqueEdit() {
           <ProductEditTitle style={{ marginTop: '5%' }}>
             Histórico Produto
           </ProductEditTitle>
-          <ProductHistoryRowTitle>
-            <AdmListItemName>Data</AdmListItemName>
+          <ProductHistoryRowTitle gridTemplate="1fr 1fr 1fr 1fr 0.5fr">
+            <AdmListItemName>Nome</AdmListItemName>
             <AdmListItemName>
               {window.screen.width >= 600 ? 'Quantidade' : 'Qtd.'}
             </AdmListItemName>
-            <AdmListItemName>Preço</AdmListItemName>
+            <AdmListItemName>Total</AdmListItemName>
+            <AdmListItemName>Data</AdmListItemName>
             <AdmListItemName>
               {window.screen.width >= 600 ? 'Operação' : 'Op.'}
             </AdmListItemName>
@@ -263,10 +261,11 @@ export default function EstoqueEdit() {
             history.map((entry, index) => {
               return (
                 <ProductHistoryRow
-                  type={entry.tipo}
-                  price={handleCurrency(entry.valor, null)}
+                  name={entry.produto}
                   quantity={entry.qtd}
-                  date={formattedDate(entry.data.seconds)}
+                  price={handleCurrency(entry.valor, null)}
+                  date={formattedDate(entry.timeStamp.seconds)}
+                  type={entry.tipo}
                   key={index}
                 />
               );

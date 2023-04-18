@@ -8,20 +8,28 @@ import {
   NavBurguer,
   NavBurguerBackground,
   NavLinks,
+  UserOptionLogout,
+  UserOptionOrder,
+  UserOptionsContainer,
 } from './styled';
-import { BiMenuAltRight } from 'react-icons/bi';
+import { BiLogOut, BiMenuAltRight } from 'react-icons/bi';
 import { useState } from 'react';
 import { ButtonPrimary } from '../../components/Button/styled';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaRegUserCircle } from 'react-icons/fa';
-import { db } from '../../services/firebase';
+import { RiFileList3Line } from 'react-icons/ri';
+import { auth, db } from '../../services/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { useAuthContext } from '../../data/AuthProvider';
+import { signOut } from 'firebase/auth';
+import { toast } from 'react-toastify';
 
 export default function Header({ style, auxText }) {
   const { user } = useAuthContext();
   const [admin, setAdmin] = useState(false);
+
+  const [openOptions, setOpenOptions] = useState(false);
 
   const [openBurger, setOpenBurger] = useState(false);
   // Verificando o state de openBurguer
@@ -46,6 +54,17 @@ export default function Header({ style, auxText }) {
     getCollection();
   }, []);
 
+  function logout() {
+    signOut(auth)
+      .then(() => {
+        toast.success('Usuário desconectado!');
+        location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   return (
     <HeaderContainer>
       {/* Verificando style para mudar o estilo do header
@@ -59,7 +78,7 @@ export default function Header({ style, auxText }) {
           <LogoTextAux>{auxText ?? 'ACESSO'}</LogoTextAux>
         </LogoTextContainer>
       ) : (
-        <LogoText>Divino Sabor</LogoText>
+        <LogoText to={'/'}>Divino Sabor</LogoText>
       )}
       <Nav>
         {admin ? (
@@ -72,10 +91,10 @@ export default function Header({ style, auxText }) {
           ''
         )}
         <li>
-          <NavLinks href="#">Cardápio</NavLinks>
+          <NavLinks to={'/cardapio'}>Cardápio</NavLinks>
         </li>
         <li>
-          <NavLinks href="#">Contato</NavLinks>
+          <NavLinks to={'/contato'}>Contato</NavLinks>
         </li>
         <li>
           <NavLinks href="#">Delivery</NavLinks>
@@ -84,16 +103,30 @@ export default function Header({ style, auxText }) {
           <NavLinks href="#">Sobre nós</NavLinks>
         </li>
 
-        <Link to="/login">
+        <Link
+          to={user ? '' : '/login'}
+          style={{ position: 'relative' }}
+          onClick={() => (user ? setOpenOptions(!openOptions) : '')}
+        >
           <FaRegUserCircle size={25} />
         </Link>
       </Nav>
+
+      <UserOptionsContainer style={{ display: openOptions ? 'flex' : 'none' }}>
+        <UserOptionOrder>
+          <RiFileList3Line /> Lista
+        </UserOptionOrder>
+        <UserOptionLogout onClick={() => logout()}>
+          <BiLogOut /> Logout
+        </UserOptionLogout>
+      </UserOptionsContainer>
+
       <NavBurguer>
         <BiMenuAltRight size={40} onClick={() => setOpenBurger(!openBurger)} />
         <NavBurguerBackground style={{ display: openBurger ? 'flex' : 'none' }}>
-          <a href="#">
+          <Link to={user ? '/' : '/login'}>
             <FaRegUserCircle size={25} />
-          </a>
+          </Link>
           {admin ? (
             <li>
               <NavLinks as={Link} to={'/financeiro'}>
