@@ -31,7 +31,6 @@ export const ListaItem = styled.li`
 
   a {
     cursor: pointer;
-    margin-inline: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -85,4 +84,12 @@ export const ListaPrice = styled.h3`
   @media screen and (max-width: 600px) {
     font-size: 16px;
   }
+`;
+
+export const ListaOptionsContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-inline: 20px;
 `;

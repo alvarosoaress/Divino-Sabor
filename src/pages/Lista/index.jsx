@@ -19,10 +19,11 @@ import {
   ListaEntry,
   ListaItem,
   ListaItemName,
+  ListaOptionsContainer,
   ListaPrice,
   ListaQuantity,
 } from './styled';
-import { HiMinus, HiPlus } from 'react-icons/hi';
+import { HiMinus, HiPlus, HiTrash } from 'react-icons/hi';
 import { handleCurrency } from '../../components/Adm';
 import {
   AdmModal,
@@ -39,9 +40,9 @@ export default function Lista() {
 
   const [lista, setLista] = useState([{}]);
 
-  const [listaTotal, setListaTotal] = useState(0);
+  const [listaTotal, setListaTotal] = useState(null);
 
-  const [menu, setMenu] = useState([{}]);
+  const [menu, setMenu] = useState(null);
 
   const [update, setUpdate] = useState(false);
 
@@ -53,38 +54,63 @@ export default function Lista() {
     name: '',
     id: '',
     index: '',
+    price: '',
   });
 
   function ListaItemLine({ item, index }) {
     let objMenu;
 
-    if (item.id) {
+    if (item.id && menu) {
       objMenu = menu.find((obj) => obj.id === item.id);
       if (objMenu) {
         return (
           <>
             <ListaItem>
-              <a
-                onClick={() => {
-                  const newLista = [...lista];
-                  newLista[index] = {
-                    ...item,
-                    qtd: item.qtd - objMenu.qtd_min,
-                  };
-                  if (item.qtd - objMenu.qtd_min <= 0) {
-                    // remove o item do array se a (quantidade - 1) for menor ou igual a 0
-                    //   newLista.splice(index, 1);
-                    newLista[index] = { ...item, qtd: objMenu.qtd_min };
-                    setProductDelete(item);
-                    setModal(true);
+              <ListaOptionsContainer>
+                <a
+                  onClick={() => {
+                    const newLista = [...lista];
+                    newLista[index] = {
+                      ...item,
+                      qtd: item.qtd - objMenu.qtd_min,
+                    };
+                    if (item.qtd - objMenu.qtd_min <= 0) {
+                      // remove o item do array se a (quantidade - 1) for menor ou igual a 0
+                      //   newLista.splice(index, 1);
+                      newLista[index] = { ...item, qtd: objMenu.qtd_min };
+                      setProductDelete({
+                        name: item.nome,
+                        id: item.id,
+                        index: index,
+                        price: item.qtd * objMenu.valor,
+                      });
+                      setModal(true);
+                      setUpdate(true);
+                    }
+
                     setUpdate(true);
-                  }
-                  setUpdate(true);
-                  setLista(newLista);
-                }}
-              >
-                <HiMinus size={20} />
-              </a>
+                    setLista(newLista);
+                  }}
+                >
+                  <HiMinus size={20} />
+                </a>
+                <a
+                  // criando um novo array baseado no de state de lista
+                  // necessário para re-renderizar o map a cada mudança de qtd
+                  onClick={() => {
+                    const newLista = [...lista];
+                    newLista[index] = {
+                      ...item,
+                      qtd: item.qtd + objMenu.qtd_min,
+                    };
+
+                    setLista(newLista);
+                    setUpdate(true);
+                  }}
+                >
+                  <HiPlus size={20} />
+                </a>
+              </ListaOptionsContainer>
               <ListaQuantity>{item.qtd}x</ListaQuantity>
               <ListaItemName>{item.nome}</ListaItemName>
               <CardapioItemSeparator
@@ -94,19 +120,19 @@ export default function Lista() {
                 {handleCurrency(objMenu.valor * item.qtd)}
               </ListaPrice>
               <a
-                // criando um novo array baseado no de state de lista
-                // necessário para re-renderizar o map a cada mudança de qtd
+                style={{ marginLeft: '15px' }}
                 onClick={() => {
-                  const newLista = [...lista];
-                  newLista[index] = {
-                    ...item,
-                    qtd: item.qtd + objMenu.qtd_min,
-                  };
-                  setLista(newLista);
+                  setProductDelete({
+                    name: item.nome,
+                    id: item.id,
+                    index: index,
+                    price: item.qtd * objMenu.valor,
+                  });
+                  setModal(true);
                   setUpdate(true);
                 }}
               >
-                <HiPlus size={20} />
+                <HiTrash />
               </a>
             </ListaItem>
             <CardapioItemSeparator style={{ marginBottom: '15px' }} />
@@ -118,8 +144,13 @@ export default function Lista() {
 
   async function deleteProduct() {
     const newLista = [...lista];
+
     newLista.splice(productDelete.id, 1);
-    toast.success(`Produto ${productDelete.nome} removido com sucesso !`);
+
+    setListaTotal(listaTotal - productDelete.price);
+
+    toast.success(`Produto ${productDelete.name} removido com sucesso !`);
+
     setUpdate(true);
     setLista([...newLista]);
   }
@@ -132,8 +163,9 @@ export default function Lista() {
           const data = await getDoc(docRef);
           const cleanData = { ...data.data(), uid: data.id };
 
-          setLoggedUser(cleanData.listaTotal);
+          setLoggedUser(cleanData);
           setLista(cleanData.lista);
+          setListaTotal(cleanData.listaTotal);
         }
       } catch (error) {
         console.log(error);
@@ -155,9 +187,10 @@ export default function Lista() {
         console.log(error);
       }
     }
+
     getUser();
     getMenu();
-  }, [listaTotal]);
+  }, []);
 
   useEffect(() => {
     async function syncLista() {
@@ -166,6 +199,33 @@ export default function Lista() {
       try {
         await updateDoc(usersRef, {
           lista: lista,
+        });
+        setUpdate(false);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    if (menu) {
+      setListaTotal(
+        lista.reduce((accumulator, currentValue) => {
+          objMenu = menu.find((obj) => obj.id === currentValue.id);
+          return objMenu.valor * currentValue.qtd + accumulator;
+        }, 0),
+      );
+    }
+
+    if (update) {
+      syncLista();
+    }
+  }, [lista]);
+
+  useEffect(() => {
+    async function syncTotal() {
+      const usersRef = doc(db, 'users', user.uid);
+
+      try {
+        await updateDoc(usersRef, {
           listaTotal,
         });
         setUpdate(false);
@@ -174,37 +234,10 @@ export default function Lista() {
       }
     }
 
-    console.log(menu.length);
-    console.log(lista.length);
-
-    if (menu.length > 1 && lista.length > 1) {
-      setListaTotal(
-        lista.reduce((accumulator, currentValue) => {
-          objMenu = menu.find((obj) => obj.id === currentValue.id);
-          if (objMenu) {
-            return accumulator + objMenu.valor * currentValue.qtd;
-          }
-        }, 0),
-      );
-      setUpdate(true);
+    if (update) {
       syncTotal();
     }
-
-    if (update) {
-      syncLista();
-    }
-  }, [lista, listaTotal]);
-
-  async function syncTotal() {
-    const usersRef = doc(db, 'users', user.uid);
-    try {
-      await updateDoc(usersRef, {
-        listaTotal,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  }, [listaTotal, lista]);
 
   return (
     <>
@@ -214,7 +247,7 @@ export default function Lista() {
       >
         <AdmModal>
           <AdmModalText>
-            Deseja realmente remover o produto: {<br />} {productDelete.nome} ?
+            Deseja realmente remover o produto: {<br />} {productDelete.name} ?
           </AdmModalText>
 
           <ButtonSecondary
@@ -247,7 +280,7 @@ export default function Lista() {
         </ListaBox>
 
         <CardapioTitle>Total</CardapioTitle>
-        <ListaItemName>{handleCurrency(loggedUser)}</ListaItemName>
+        <ListaItemName>{handleCurrency(listaTotal)}</ListaItemName>
 
         <ButtonPrimary mediaquery={'600px'} style={{ marginTop: '50px' }}>
           Realizar Pedido

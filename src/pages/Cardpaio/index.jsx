@@ -44,6 +44,9 @@ export default function Cardapio() {
 
   const [lista, setLista] = useState([{}]);
 
+  const [listaTotal, setListaTotal] = useState(null);
+  let objItems;
+
   const itemsCollection = collection(db, 'menu');
 
   function CardapioItemBlock({ name, price, quantity, desc, id }) {
@@ -107,6 +110,7 @@ export default function Cardapio() {
 
           setLoggedUser(cleanData);
           setLista(cleanData.lista);
+          setListaTotal(cleanData.listaTotal);
         }
       } catch (error) {
         console.log(error);
@@ -177,10 +181,38 @@ export default function Cardapio() {
       }
     }
 
+    if (items) {
+      setListaTotal(
+        lista.reduce((accumulator, currentValue) => {
+          objItems = items.find((obj) => obj.id === currentValue.id);
+          return objItems.valor * currentValue.qtd + accumulator;
+        }, 0),
+      );
+    }
+
     if (update) {
       syncLista();
     }
   }, [lista]);
+
+  useEffect(() => {
+    async function syncTotal() {
+      const usersRef = doc(db, 'users', user.uid);
+
+      try {
+        await updateDoc(usersRef, {
+          listaTotal,
+        });
+        setUpdate(false);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    if (update) {
+      syncTotal();
+    }
+  }, [lista, listaTotal]);
 
   return (
     <>
