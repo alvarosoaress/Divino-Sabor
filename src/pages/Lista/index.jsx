@@ -46,6 +46,8 @@ export default function Lista() {
   const [update, setUpdate] = useState(false);
 
   const [modal, setModal] = useState(false);
+
+  let objMenu = null;
   // useState para tratar do produto sendo deletado
   const [productDelete, setProductDelete] = useState({
     name: '',
@@ -130,7 +132,7 @@ export default function Lista() {
           const data = await getDoc(docRef);
           const cleanData = { ...data.data(), uid: data.id };
 
-          setLoggedUser(cleanData);
+          setLoggedUser(cleanData.listaTotal);
           setLista(cleanData.lista);
         }
       } catch (error) {
@@ -155,7 +157,7 @@ export default function Lista() {
     }
     getUser();
     getMenu();
-  }, []);
+  }, [listaTotal]);
 
   useEffect(() => {
     async function syncLista() {
@@ -164,6 +166,7 @@ export default function Lista() {
       try {
         await updateDoc(usersRef, {
           lista: lista,
+          listaTotal,
         });
         setUpdate(false);
       } catch (error) {
@@ -171,19 +174,37 @@ export default function Lista() {
       }
     }
 
+    console.log(menu.length);
+    console.log(lista.length);
+
+    if (menu.length > 1 && lista.length > 1) {
+      setListaTotal(
+        lista.reduce((accumulator, currentValue) => {
+          objMenu = menu.find((obj) => obj.id === currentValue.id);
+          if (objMenu) {
+            return accumulator + objMenu.valor * currentValue.qtd;
+          }
+        }, 0),
+      );
+      setUpdate(true);
+      syncTotal();
+    }
+
     if (update) {
       syncLista();
     }
+  }, [lista, listaTotal]);
 
-    let objMenu;
-
-    setListaTotal(
-      lista.reduce((accumulator, currentValue) => {
-        objMenu = menu.find((obj) => obj.id === currentValue.id);
-        return accumulator + objMenu.valor * currentValue.qtd;
-      }, 0),
-    );
-  }, [lista]);
+  async function syncTotal() {
+    const usersRef = doc(db, 'users', user.uid);
+    try {
+      await updateDoc(usersRef, {
+        listaTotal,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <>
@@ -218,14 +239,15 @@ export default function Lista() {
         <CardapioTitle>Minha Lista</CardapioTitle>
         <ListaBox>
           <ListaEntry>
-            {lista.map((item, index) => (
-              <ListaItemLine item={item} index={index} />
-            ))}
+            {lista &&
+              lista.map((item, index) => (
+                <ListaItemLine item={item} index={index} />
+              ))}
           </ListaEntry>
         </ListaBox>
 
         <CardapioTitle>Total</CardapioTitle>
-        <ListaItemName>{handleCurrency(listaTotal)}</ListaItemName>
+        <ListaItemName>{handleCurrency(loggedUser)}</ListaItemName>
 
         <ButtonPrimary mediaquery={'600px'} style={{ marginTop: '50px' }}>
           Realizar Pedido
