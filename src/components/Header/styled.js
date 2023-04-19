@@ -160,7 +160,7 @@ export const UserOptionLogout = styled.a`
   }
 `;
 
-export const UserOptionOrder = styled.a`
+export const UserOptionOrder = styled(Link)`
   font-family: 'Marcellus', cursive;
   color: black;
   font-size: medium;

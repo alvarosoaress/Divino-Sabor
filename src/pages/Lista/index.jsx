@@ -58,51 +58,59 @@ export default function Lista() {
 
     if (item.id) {
       objMenu = menu.find((obj) => obj.id === item.id);
-
-      return (
-        <>
-          <ListaItem>
-            <a
-              onClick={() => {
-                const newLista = [...lista];
-                newLista[index] = { ...item, qtd: item.qtd - objMenu.qtd_min };
-                if (item.qtd - objMenu.qtd_min <= 0) {
-                  // remove o item do array se a (quantidade - 1) for menor ou igual a 0
-                  //   newLista.splice(index, 1);
-                  newLista[index] = { ...item, qtd: objMenu.qtd_min };
-                  setProductDelete(item);
-                  setModal(true);
+      if (objMenu) {
+        return (
+          <>
+            <ListaItem>
+              <a
+                onClick={() => {
+                  const newLista = [...lista];
+                  newLista[index] = {
+                    ...item,
+                    qtd: item.qtd - objMenu.qtd_min,
+                  };
+                  if (item.qtd - objMenu.qtd_min <= 0) {
+                    // remove o item do array se a (quantidade - 1) for menor ou igual a 0
+                    //   newLista.splice(index, 1);
+                    newLista[index] = { ...item, qtd: objMenu.qtd_min };
+                    setProductDelete(item);
+                    setModal(true);
+                    setUpdate(true);
+                  }
                   setUpdate(true);
-                }
-                setUpdate(true);
-                setLista(newLista);
-              }}
-            >
-              <HiMinus size={20} />
-            </a>
-
-            <ListaQuantity>{item.qtd}x</ListaQuantity>
-            <ListaItemName>{item.nome}</ListaItemName>
-            <CardapioItemSeparator
-              style={{ borderBottomColor: 'transparent' }}
-            />
-            <ListaPrice>{handleCurrency(objMenu.valor * item.qtd)}</ListaPrice>
-            <a
-              // criando um novo array baseado no de state de lista
-              // necessário para re-renderizar o map a cada mudança de qtd
-              onClick={() => {
-                const newLista = [...lista];
-                newLista[index] = { ...item, qtd: item.qtd + objMenu.qtd_min };
-                setLista(newLista);
-                setUpdate(true);
-              }}
-            >
-              <HiPlus size={20} />
-            </a>
-          </ListaItem>
-          <CardapioItemSeparator style={{ marginBottom: '15px' }} />
-        </>
-      );
+                  setLista(newLista);
+                }}
+              >
+                <HiMinus size={20} />
+              </a>
+              <ListaQuantity>{item.qtd}x</ListaQuantity>
+              <ListaItemName>{item.nome}</ListaItemName>
+              <CardapioItemSeparator
+                style={{ borderBottomColor: 'transparent' }}
+              />
+              <ListaPrice>
+                {handleCurrency(objMenu.valor * item.qtd)}
+              </ListaPrice>
+              <a
+                // criando um novo array baseado no de state de lista
+                // necessário para re-renderizar o map a cada mudança de qtd
+                onClick={() => {
+                  const newLista = [...lista];
+                  newLista[index] = {
+                    ...item,
+                    qtd: item.qtd + objMenu.qtd_min,
+                  };
+                  setLista(newLista);
+                  setUpdate(true);
+                }}
+              >
+                <HiPlus size={20} />
+              </a>
+            </ListaItem>
+            <CardapioItemSeparator style={{ marginBottom: '15px' }} />
+          </>
+        );
+      }
     }
   }
 
@@ -167,9 +175,12 @@ export default function Lista() {
       syncLista();
     }
 
+    let objMenu;
+
     setListaTotal(
       lista.reduce((accumulator, currentValue) => {
-        return accumulator + currentValue.valor * currentValue.qtd;
+        objMenu = menu.find((obj) => obj.id === currentValue.id);
+        return accumulator + objMenu.valor * currentValue.qtd;
       }, 0),
     );
   }, [lista]);
@@ -215,6 +226,10 @@ export default function Lista() {
 
         <CardapioTitle>Total</CardapioTitle>
         <ListaItemName>{handleCurrency(listaTotal)}</ListaItemName>
+
+        <ButtonPrimary mediaquery={'600px'} style={{ marginTop: '50px' }}>
+          Realizar Pedido
+        </ButtonPrimary>
       </ListaContainer>
     </>
   );

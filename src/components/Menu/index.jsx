@@ -44,6 +44,9 @@ export default function Menu() {
           <SecondaryDivider width={'80%'} />
           <MenuText to={'/financeiro'}>FINANCEIRO</MenuText>
           <SecondaryDivider width={'80%'} />
+
+          <MenuText to={'/cardapio/add'}>CARDÁPIO</MenuText>
+          <SecondaryDivider width={'80%'} />
         </MenuBox>
       </MenuContainer>
     </>

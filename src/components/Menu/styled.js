@@ -18,7 +18,7 @@ export const MenuBox = styled.div`
   gap: 20px;
   padding: 1em;
   min-width: 250px;
-  height: 60%;
+  /* height: 60%; */
   @keyframes clipEffect {
     from {
       clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);

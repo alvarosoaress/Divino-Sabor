@@ -113,7 +113,7 @@ export default function Header({ style, auxText }) {
       </Nav>
 
       <UserOptionsContainer style={{ display: openOptions ? 'flex' : 'none' }}>
-        <UserOptionOrder>
+        <UserOptionOrder to={'/lista'}>
           <RiFileList3Line /> Lista
         </UserOptionOrder>
         <UserOptionLogout onClick={() => logout()}>
