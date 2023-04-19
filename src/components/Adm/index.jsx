@@ -115,15 +115,17 @@ export function handleCurrency(value, $ref) {
     return BRreal.format(value);
   }
 
-  // formatando o input de preço dentro do useRef
-  const currencyValue = $ref.current.value.replace(/\D/g, '');
-  // verificar se é um número válido
-  if (!isNaN(currencyValue / 100)) {
-    // formatar valor em moeda BRL
-    $ref.current.value = BRreal.format(currencyValue / 100);
-  } else {
-    // definir valor como vazio
-    $ref.current.value = '';
+  if ($ref) {
+    // formatando o input de preço dentro do useRef
+    const currencyValue = $ref.current.value.replace(/\D/g, '');
+    // verificar se é um número válido
+    if (!isNaN(currencyValue / 100)) {
+      // formatar valor em moeda BRL
+      $ref.current.value = BRreal.format(currencyValue / 100);
+    } else {
+      // definir valor como vazio
+      $ref.current.value = '';
+    }
   }
 }
 

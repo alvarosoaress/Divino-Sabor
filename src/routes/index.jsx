@@ -17,6 +17,9 @@ import FluxoDeCaixa from '../pages/Financeiro/FluxoDeCaixa';
 import FluxoAdd from '../pages/Financeiro/FluxoAdd';
 import Contato from '../pages/Contato';
 import Cardapio from '../pages/Cardpaio';
+import CardapioAdd from '../pages/Cardpaio/CardapioAdd';
+import ProtectedRoute from './ProtectedRoute';
+import Lista from '../pages/Lista';
 
 export default function Router() {
   return (
@@ -26,7 +29,15 @@ export default function Router() {
       <Route path="/register" element={<Register />} />
       <Route path="/recover" element={<Recover />} />
       <Route path="/contato" element={<Contato />} />
-      <Route path="/cardapio" element={<Cardapio />} />
+
+      <Route path="/cardapio" element={<ProtectedRoute />}>
+        <Route path="/cardapio" element={<Cardapio />} />
+        <Route path="/cardapio/add" element={<CardapioAdd />} />
+      </Route>
+
+      <Route path="/lista" element={<ProtectedRoute />}>
+        <Route path="/lista" element={<Lista />} />
+      </Route>
 
       <Route path="/financeiro" element={<PrivateRoute />}>
         <Route path="/financeiro" element={<Financeiro />} />

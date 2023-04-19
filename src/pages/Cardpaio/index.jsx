@@ -42,13 +42,13 @@ export default function Cardapio() {
   const [items, setItems] = useState(null);
   const [newItems, setNewItems] = useState(null);
 
-  const [lista, setLista] = useState([]);
+  const [lista, setLista] = useState([{}]);
 
   const itemsCollection = collection(db, 'menu');
 
-  function CardapioItemBlock({ name, price, quantity, desc }) {
+  function CardapioItemBlock({ name, price, quantity, desc, id }) {
     return (
-      <Link onClick={() => updateLista(name, Number(quantity))}>
+      <Link onClick={() => updateLista(name, Number(quantity), id)}>
         <CardapioItem>
           <CardapioItemName>{name}</CardapioItemName>
           <CardapioItemSeparator></CardapioItemSeparator>
@@ -72,6 +72,7 @@ export default function Cardapio() {
             price={handleCurrency(item.valor)}
             quantity={item.qtd_min}
             desc={item.desc ?? ''}
+            id={item.id}
           />
         ))}
       </section>
@@ -131,17 +132,34 @@ export default function Cardapio() {
       : '';
   }, [items]);
 
-  function updateLista(name, qtd) {
+  function updateLista(name, qtd, id) {
     setUpdate(true);
     setLista((lista) => {
-      const objetoExistente = lista.find((obj) => obj.nome === name);
+      if (lista) {
+        const objetoExistente = lista.find((obj) => obj.id === id);
 
-      if (objetoExistente) {
-        objetoExistente.qtd += Number(qtd);
-        return [...lista];
+        if (objetoExistente) {
+          objetoExistente.qtd += Number(qtd) / 2;
+          return [...lista];
+        } else {
+          return [
+            ...lista,
+            {
+              nome: name,
+              qtd: Number(qtd),
+              id: id,
+            },
+          ];
+        }
+      } else {
+        return [
+          {
+            nome: name,
+            qtd: Number(qtd),
+            id: id,
+          },
+        ];
       }
-
-      return [...lista, { nome: name, qtd: Number(qtd) }];
     });
   }
 
@@ -174,9 +192,7 @@ export default function Cardapio() {
             <CardapioCategories>Doces</CardapioCategories>
             <CardapioCategories>Salgados</CardapioCategories>
             <CardapioCategories>Confeitaria</CardapioCategories>
-            <CardapioCategories onClick={() => console.log(lista)}>
-              Bebidas
-            </CardapioCategories>
+            <CardapioCategories>Bebidas</CardapioCategories>
           </CardapioSideBar>
           <CardapioList>
             <CardapioItemList>

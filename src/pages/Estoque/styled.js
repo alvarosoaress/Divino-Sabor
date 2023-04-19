@@ -84,7 +84,7 @@ export const ProductEditTitle = styled.h1`
 
 export const ProductForm = styled.form`
   display: grid;
-  grid-template-columns: 3fr 1fr;
+  grid-template-columns: 3fr;
   width: 100%;
   height: 100%;
 
@@ -120,7 +120,6 @@ export const ProductInput = styled.input`
 
 export const ProductRadioContainer = styled.div`
   display: flex;
-  justify-content: center;
   flex-direction: column;
   width: 100%;
 

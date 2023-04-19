@@ -15,7 +15,6 @@ import {
   handleProductValidation,
 } from '../../../components/Adm';
 import {
-  ProductRadioContainer,
   ProductEditBox,
   ProductEditContainer,
   ProductEditTitle,
@@ -41,14 +40,8 @@ export default function EstoqueAdd() {
     // convertendo o valor de BRL para um número padrão Float
     // Exemplo = R$ 4.575,23 -> 4575.23
     let price = ($price.current.value.replace(/\D/g, '') / 100).toFixed(2);
-    let category = e.target.elements.categoria.value;
 
-    if (
-      isEmpty(name) ||
-      isEmpty(quantity) ||
-      isEmpty(price) ||
-      isEmpty(category)
-    ) {
+    if (isEmpty(name) || isEmpty(quantity) || isEmpty(price)) {
       toast.error('Preencha todos os campos primeiro!.');
       return;
     }
@@ -62,7 +55,6 @@ export default function EstoqueAdd() {
         // no nome do produto por "_" para consistência do BD
         doc(db, 'products', name.toLowerCase().replace(/\s+/g, '_')),
         {
-          categoria: category,
           produto: name,
           qtd: Number(quantity),
           valor: Number(price),
@@ -120,54 +112,6 @@ export default function EstoqueAdd() {
                 required
               />
             </div>
-
-            <ProductRadioContainer>
-              <h2 style={{ marginBottom: '20px' }}>Categoria</h2>
-              <ProductLabel>
-                <ProductInput
-                  marginRight={'15px'}
-                  width={'25px'}
-                  type="radio"
-                  name="categoria"
-                  value="bebida"
-                  required
-                />
-                Bebidas
-              </ProductLabel>
-              <ProductLabel>
-                <ProductInput
-                  marginRight={'15px'}
-                  width={'25px'}
-                  type="radio"
-                  name="categoria"
-                  value="confeitaria"
-                  required
-                />
-                Confeitaria
-              </ProductLabel>
-              <ProductLabel>
-                <ProductInput
-                  marginRight={'15px'}
-                  width={'25px'}
-                  type="radio"
-                  name="categoria"
-                  value="doce"
-                  required
-                />
-                Doces
-              </ProductLabel>
-              <ProductLabel>
-                <ProductInput
-                  marginRight={'15px'}
-                  width={'25px'}
-                  type="radio"
-                  name="categoria"
-                  value="salgado"
-                  required
-                />
-                Salgados
-              </ProductLabel>
-            </ProductRadioContainer>
 
             <div
               style={{
