@@ -25,9 +25,10 @@ export const CardapioBox = styled.div`
 export const CardapioSideBar = styled.div`
   display: flex;
   flex-direction: column;
-  width: 30%;
+  height: max-content;
   margin-right: 5%;
-  padding: 15px;
+  padding: 25px;
+  background-color: ${(props) => props.theme.primaryColor};
 
   @media screen and (max-width: 600px) {
     align-items: center;
@@ -44,6 +45,7 @@ export const CardapioTitle = styled.h1`
   font-weight: bold;
   font-size: 40px;
   margin-bottom: 15px;
+  margin-top: 10%;
   color: ${(props) => props.theme.textColor};
 
   @media screen and (max-width: 600px) {
@@ -51,10 +53,15 @@ export const CardapioTitle = styled.h1`
   }
 `;
 
+export const CardapioCategoriesOption = styled.li`
+  margin: 15px;
+  margin-left: 30px;
+`;
+
 export const CardapioCategories = styled(Link)`
   font-family: 'Quattrocento';
   font-weight: bold;
-  font-size: 20px;
+  font-size: 22px;
   margin-bottom: 15px;
   color: ${(props) => props.theme.textColor};
 

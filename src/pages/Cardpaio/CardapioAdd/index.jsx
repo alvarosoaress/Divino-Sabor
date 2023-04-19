@@ -203,7 +203,7 @@ export default function CardapioAdd() {
               />
 
               <ProductLabel>Descrição</ProductLabel>
-              <ProductInput ref={$desc} type="text" required />
+              <ProductInput ref={$desc} type="text" />
 
               <ProductLabel>Ingredientes</ProductLabel>
               <div style={{ width: '230px' }}>

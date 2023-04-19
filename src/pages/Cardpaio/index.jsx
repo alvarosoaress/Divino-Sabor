@@ -4,6 +4,7 @@ import Header from '../../components/Header';
 import {
   CardapioBox,
   CardapioCategories,
+  CardapioCategoriesOption,
   CardapioContainer,
   CardapioItem,
   CardapioItemDesc,
@@ -26,6 +27,7 @@ import {
 import { db } from '../../services/firebase';
 import { handleCurrency } from '../../components/Adm';
 import { useAuthContext } from '../../data/AuthProvider';
+import { useTheme } from 'styled-components';
 
 export default function Cardapio() {
   const { user } = useAuthContext();
@@ -33,11 +35,6 @@ export default function Cardapio() {
   const [loggedUser, setLoggedUser] = useState(null);
 
   const [update, setUpdate] = useState(false);
-
-  const [doces, setDoces] = useState([]);
-  const [salgados, setSalgados] = useState([]);
-  const [confeitaria, setConfeitaria] = useState([]);
-  const [bebidas, setBebidas] = useState([]);
 
   const [items, setItems] = useState(null);
   const [newItems, setNewItems] = useState(null);
@@ -47,7 +44,11 @@ export default function Cardapio() {
   const [listaTotal, setListaTotal] = useState(null);
   let objItems;
 
+  const [filter, setFilter] = useState('initial');
+
   const itemsCollection = collection(db, 'menu');
+
+  const theme = useTheme();
 
   function CardapioItemBlock({ name, price, quantity, desc, id }) {
     return (
@@ -62,25 +63,6 @@ export default function Cardapio() {
         </CardapioItem>
         <CardapioItemDesc>{desc ?? ''}</CardapioItemDesc>
       </Link>
-    );
-  }
-
-  function CardapioItemBuild({ category, items }) {
-    return items.length > 0 ? (
-      <section style={{ marginBottom: '50px' }}>
-        <CardapioTitle>{category}</CardapioTitle>
-        {items.map((item) => (
-          <CardapioItemBlock
-            name={item.nome}
-            price={handleCurrency(item.valor)}
-            quantity={item.qtd_min}
-            desc={item.desc ?? ''}
-            id={item.id}
-          />
-        ))}
-      </section>
-    ) : (
-      <></>
     );
   }
 
@@ -119,22 +101,6 @@ export default function Cardapio() {
     getUser();
     getItems();
   }, []);
-
-  useEffect(() => {
-    items
-      ? items.map((item) => {
-          if (item.categoria == 'doce') {
-            setDoces((doces) => [...doces, item]);
-          } else if (item.categoria == 'salgado') {
-            setSalgados((salgados) => [...salgados, item]);
-          } else if (item.categoria == 'confeitaria') {
-            setConfeitaria((confeitaria) => [...confeitaria, item]);
-          } else {
-            setBebidas((bebidas) => [...bebidas, item]);
-          }
-        })
-      : '';
-  }, [items]);
 
   function updateLista(name, qtd, id) {
     setUpdate(true);
@@ -214,6 +180,17 @@ export default function Cardapio() {
     }
   }, [lista, listaTotal]);
 
+  function filterItems(category) {
+    if (filter == category) {
+      setFilter('initial');
+      setNewItems(items);
+    } else {
+      const filter = items.filter((item) => item.categoria == category);
+      setNewItems(filter);
+      setFilter(category);
+    }
+  }
+
   return (
     <>
       <Header />
@@ -221,17 +198,153 @@ export default function Cardapio() {
         <CardapioBox>
           <CardapioSideBar>
             <CardapioTitle>Categorias</CardapioTitle>
-            <CardapioCategories>Doces</CardapioCategories>
-            <CardapioCategories>Salgados</CardapioCategories>
-            <CardapioCategories>Confeitaria</CardapioCategories>
-            <CardapioCategories>Bebidas</CardapioCategories>
+
+            <CardapioCategoriesOption>
+              <CardapioCategories
+                style={{
+                  textShadow:
+                    filter == 'initial'
+                      ? 'none'
+                      : filter == 'doce'
+                      ? '0px 0px 10px #FFFFFF'
+                      : 'none',
+                }}
+                onClick={() => filterItems('doce')}
+              >
+                Doces
+              </CardapioCategories>
+            </CardapioCategoriesOption>
+
+            <CardapioCategoriesOption>
+              <CardapioCategories onClick={() => filterItems('salgado')}>
+                Salgados
+              </CardapioCategories>
+            </CardapioCategoriesOption>
+
+            <CardapioCategoriesOption>
+              <CardapioCategories onClick={() => filterItems('confeitaria')}>
+                Confeitaria
+              </CardapioCategories>
+            </CardapioCategoriesOption>
+
+            <CardapioCategoriesOption>
+              <CardapioCategories onClick={() => filterItems('bebida')}>
+                Bebidas
+              </CardapioCategories>
+            </CardapioCategoriesOption>
           </CardapioSideBar>
           <CardapioList>
             <CardapioItemList>
-              <CardapioItemBuild category={'Doces'} items={doces} />
-              <CardapioItemBuild category={'Salgados'} items={salgados} />
-              <CardapioItemBuild category={'Confeitaria'} items={confeitaria} />
-              <CardapioItemBuild category={'Bebidas'} items={bebidas} />
+              <section style={{ marginBottom: '50px' }}>
+                <CardapioTitle
+                  style={{
+                    display:
+                      filter == 'initial'
+                        ? 'flex'
+                        : filter == 'doce'
+                        ? 'flex'
+                        : 'none',
+                    marginTop: '0px',
+                  }}
+                >
+                  Doces
+                </CardapioTitle>
+                {newItems &&
+                  newItems.map((item) =>
+                    item.categoria == 'doce' ? (
+                      <CardapioItemBlock
+                        name={item.nome}
+                        price={handleCurrency(item.valor)}
+                        quantity={item.qtd_min}
+                        desc={item.desc ?? ''}
+                        id={item.id}
+                      />
+                    ) : (
+                      ''
+                    ),
+                  )}
+
+                <CardapioTitle
+                  style={{
+                    display:
+                      filter == 'initial'
+                        ? 'flex'
+                        : filter == 'salgado'
+                        ? 'flex'
+                        : 'none',
+                  }}
+                >
+                  Salgados
+                </CardapioTitle>
+                {newItems &&
+                  newItems.map((item) =>
+                    item.categoria == 'salgado' ? (
+                      <CardapioItemBlock
+                        name={item.nome}
+                        price={handleCurrency(item.valor)}
+                        quantity={item.qtd_min}
+                        desc={item.desc ?? ''}
+                        id={item.id}
+                      />
+                    ) : (
+                      ''
+                    ),
+                  )}
+
+                <CardapioTitle
+                  style={{
+                    display:
+                      filter == 'initial'
+                        ? 'flex'
+                        : filter == 'confeitaria'
+                        ? 'flex'
+                        : 'none',
+                  }}
+                >
+                  Confeitaria
+                </CardapioTitle>
+                {newItems &&
+                  newItems.map((item) =>
+                    item.categoria == 'confeitaria' ? (
+                      <CardapioItemBlock
+                        name={item.nome}
+                        price={handleCurrency(item.valor)}
+                        quantity={item.qtd_min}
+                        desc={item.desc ?? ''}
+                        id={item.id}
+                      />
+                    ) : (
+                      ''
+                    ),
+                  )}
+
+                <CardapioTitle
+                  style={{
+                    display:
+                      filter == 'initial'
+                        ? 'flex'
+                        : filter == 'bebida'
+                        ? 'flex'
+                        : 'none',
+                  }}
+                >
+                  Bebidas
+                </CardapioTitle>
+                {newItems &&
+                  newItems.map((item) =>
+                    item.categoria == 'bebida' ? (
+                      <CardapioItemBlock
+                        name={item.nome}
+                        price={handleCurrency(item.valor)}
+                        quantity={item.qtd_min}
+                        desc={item.desc ?? ''}
+                        id={item.id}
+                      />
+                    ) : (
+                      ''
+                    ),
+                  )}
+              </section>
             </CardapioItemList>
           </CardapioList>
         </CardapioBox>
