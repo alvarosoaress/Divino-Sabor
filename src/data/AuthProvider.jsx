@@ -37,7 +37,7 @@ export default function AuthProvider({ children }) {
   }, []);
 
   if (isLoading) {
-    return <LoadingAnimation />;
+    return <LoadingAnimation isLoading={isLoading} />;
   }
 
   return (

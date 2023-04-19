@@ -49,8 +49,6 @@ export default function EstoqueEdit() {
   const $quantity = useRef(null);
   const $price = useRef(null);
 
-  const $radioGroup = useRef(null);
-
   const productRef = doc(db, 'products', id);
 
   // pegando as informações do produto na DB
@@ -77,14 +75,8 @@ export default function EstoqueEdit() {
     // convertendo o valor de BRL para um número padrão Float
     // Exemplo = R$ 4.575,23 -> 4575.23
     let price = ($price.current.value.replace(/\D/g, '') / 100).toFixed(2);
-    let category = e.target.elements.categoria.value;
 
-    if (
-      isEmpty(name) ||
-      isEmpty(quantity) ||
-      isEmpty(price) ||
-      isEmpty(category)
-    ) {
+    if (isEmpty(name) || isEmpty(quantity) || isEmpty(price)) {
       toast.error('Preencha todos os campos primeiro!.');
       return;
     }
@@ -105,7 +97,6 @@ export default function EstoqueEdit() {
         // no nome do produto por "_" para consistência do BD
         doc(db, 'products', name.toLowerCase().replace(/\s+/g, '_')),
         {
-          categoria: category,
           produto: name,
           qtd: Number(quantity),
           valor: Number(price),
@@ -168,7 +159,7 @@ export default function EstoqueEdit() {
               />
             </div>
 
-            <ProductRadioContainer ref={$radioGroup}>
+            {/* <ProductRadioContainer ref={$radioGroup}>
               <h2 style={{ marginBottom: '20px' }}>Categoria</h2>
               <ProductLabel>
                 <ProductInput
@@ -211,7 +202,7 @@ export default function EstoqueEdit() {
                 Salgados
               </ProductLabel>
               {/* // !HACK função para setar o checked do radio button */}
-              {
+              {/* {
                 // transformando o NodeList da useRef em array e fazendo map
                 (Array.of($radioGroup.current?.childNodes).map((node) => {
                   // checagem de type, length e aux
@@ -232,7 +223,7 @@ export default function EstoqueEdit() {
                     item.firstChild.defaultChecked = true;
                 }))
               }
-            </ProductRadioContainer>
+            </ProductRadioContainer>} */}
 
             <ProductButtonGroup>
               <ButtonSecondary as={Link} to={'/estoque'} mediaquery="600px">
