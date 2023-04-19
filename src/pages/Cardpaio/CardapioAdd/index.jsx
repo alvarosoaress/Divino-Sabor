@@ -108,7 +108,7 @@ export default function CardapioAdd() {
           ingredientes: ingredientes,
         },
       );
-      navigate('/estoque');
+      //   navigate('/estoque');
       toast.success('Produto adicionado com sucesso!');
     } catch (error) {
       console.log(error);
