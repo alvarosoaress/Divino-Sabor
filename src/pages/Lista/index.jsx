@@ -206,11 +206,13 @@ export default function Lista() {
       }
     }
 
-    if (menu) {
+    if (menu && lista) {
       setListaTotal(
         lista.reduce((accumulator, currentValue) => {
           objMenu = menu.find((obj) => obj.id === currentValue.id);
-          return objMenu.valor * currentValue.qtd + accumulator;
+          if (objMenu !== undefined) {
+            return objMenu.valor * currentValue.qtd + accumulator;
+          }
         }, 0),
       );
     }
@@ -269,7 +271,7 @@ export default function Lista() {
 
       <Header />
       <ListaContainer>
-        <CardapioTitle>Minha Lista</CardapioTitle>
+        <CardapioTitle style={{ marginTop: '0px' }}>Minha Lista</CardapioTitle>
         <ListaBox>
           <ListaEntry>
             {lista &&
@@ -279,7 +281,7 @@ export default function Lista() {
           </ListaEntry>
         </ListaBox>
 
-        <CardapioTitle>Total</CardapioTitle>
+        <CardapioTitle style={{ marginTop: '0px' }}>Total</CardapioTitle>
         <ListaItemName>{handleCurrency(listaTotal)}</ListaItemName>
 
         <ButtonPrimary mediaquery={'600px'} style={{ marginTop: '50px' }}>

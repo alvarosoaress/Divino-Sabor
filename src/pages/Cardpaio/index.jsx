@@ -151,7 +151,9 @@ export default function Cardapio() {
       setListaTotal(
         lista.reduce((accumulator, currentValue) => {
           objItems = items.find((obj) => obj.id === currentValue.id);
-          return objItems.valor * currentValue.qtd + accumulator;
+          if (objItems !== undefined) {
+            return objItems.valor * currentValue.qtd + accumulator;
+          }
         }, 0),
       );
     }
