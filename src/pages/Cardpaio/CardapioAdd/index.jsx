@@ -216,11 +216,12 @@ export default function CardapioAdd() {
                     setIngredientes((ingredientes) => {
                       // evitando a adição duplicada de ingredientes
                       const objetoExistente = ingredientes.find(
-                        (obj) => obj.value === item.value,
+                        (obj) => obj.id === item.value,
                       );
 
                       if (objetoExistente) {
-                        return [...ingredientes];
+                        objetoExistente.qtd += Number(item.qtd);
+                        return [...ingredientes]; // adicionar qtd ao obj já existente dentro do state
                       }
 
                       // trocando o nome das chaves de item para o padrão de ingredientes
@@ -229,7 +230,6 @@ export default function CardapioAdd() {
                         {
                           nome: item.label,
                           id: item.value,
-                          valor: item.price,
                           qtd: item.qtd,
                         },
                       ];

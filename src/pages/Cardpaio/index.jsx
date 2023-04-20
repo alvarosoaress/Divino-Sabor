@@ -256,7 +256,7 @@ export default function Cardapio() {
                     item.categoria == 'doce' ? (
                       <CardapioItemBlock
                         name={item.nome}
-                        price={handleCurrency(item.valor)}
+                        price={handleCurrency(item.valor * item.qtd_min)}
                         quantity={item.qtd_min}
                         desc={item.desc ?? ''}
                         id={item.id}
@@ -283,7 +283,7 @@ export default function Cardapio() {
                     item.categoria == 'salgado' ? (
                       <CardapioItemBlock
                         name={item.nome}
-                        price={handleCurrency(item.valor)}
+                        price={handleCurrency(item.valor * item.qtd_min)}
                         quantity={item.qtd_min}
                         desc={item.desc ?? ''}
                         id={item.id}
@@ -310,7 +310,7 @@ export default function Cardapio() {
                     item.categoria == 'confeitaria' ? (
                       <CardapioItemBlock
                         name={item.nome}
-                        price={handleCurrency(item.valor)}
+                        price={handleCurrency(item.valor * item.qtd_min)}
                         quantity={item.qtd_min}
                         desc={item.desc ?? ''}
                         id={item.id}
@@ -332,12 +332,13 @@ export default function Cardapio() {
                 >
                   Bebidas
                 </CardapioTitle>
+                {console.log(newItems)}
                 {newItems &&
                   newItems.map((item) =>
                     item.categoria == 'bebida' ? (
                       <CardapioItemBlock
                         name={item.nome}
-                        price={handleCurrency(item.valor)}
+                        price={handleCurrency(item.valor * item.qtd_min)}
                         quantity={item.qtd_min}
                         desc={item.desc ?? ''}
                         id={item.id}
