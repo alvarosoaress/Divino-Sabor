@@ -20,6 +20,7 @@ import Cardapio from '../pages/Cardpaio';
 import CardapioAdd from '../pages/Cardpaio/CardapioAdd';
 import ProtectedRoute from './ProtectedRoute';
 import Lista from '../pages/Lista';
+import Delivery from '../pages/Delivery';
 
 export default function Router() {
   return (
@@ -29,6 +30,7 @@ export default function Router() {
       <Route path="/register" element={<Register />} />
       <Route path="/recover" element={<Recover />} />
       <Route path="/contato" element={<Contato />} />
+      <Route path="/delivery" element={<Delivery />} />
 
       <Route path="/cardapio" element={<ProtectedRoute />}>
         <Route path="/cardapio" element={<Cardapio />} />

@@ -27,11 +27,13 @@ import {
 import { db } from '../../services/firebase';
 import { handleCurrency } from '../../components/Adm';
 import { useAuthContext } from '../../data/AuthProvider';
-import { useTheme } from 'styled-components';
+import { MdAddCircle } from 'react-icons/md';
+import { toast } from 'react-toastify';
 
 export default function Cardapio() {
   const { user } = useAuthContext();
 
+  // eslint-disable-next-line no-unused-vars
   const [loggedUser, setLoggedUser] = useState(null);
 
   const [update, setUpdate] = useState(false);
@@ -48,8 +50,6 @@ export default function Cardapio() {
 
   const itemsCollection = collection(db, 'menu');
 
-  const theme = useTheme();
-
   // função para gerar os blocos de item por categoria
   function CardapioItemBlock({ name, price, quantity, desc, id }) {
     return (
@@ -60,6 +60,7 @@ export default function Cardapio() {
           <CardapioItemPrice>
             {price}
             <small>{'/' + quantity + ' unid.'}</small>
+            <MdAddCircle size={20} />
           </CardapioItemPrice>
         </CardapioItem>
         <CardapioItemDesc>{desc ?? ''}</CardapioItemDesc>
@@ -135,6 +136,13 @@ export default function Cardapio() {
           },
         ];
       }
+    });
+    toast(`${name} adicionado à sua lista.`, {
+      position: 'top-left',
+      autoClose: 2000,
+      closeOnClick: true,
+      theme: 'light',
+      type: 'info',
     });
   }
 
@@ -292,7 +300,7 @@ export default function Cardapio() {
                   Doces
                 </CardapioTitle>
                 {newItems &&
-                  newItems.map((item) =>
+                  newItems.map((item, index) =>
                     item.categoria == 'doce' ? (
                       <CardapioItemBlock
                         name={item.nome}
@@ -300,6 +308,7 @@ export default function Cardapio() {
                         quantity={item.qtd_min}
                         desc={item.desc ?? ''}
                         id={item.id}
+                        key={index}
                       />
                     ) : (
                       ''
@@ -319,7 +328,7 @@ export default function Cardapio() {
                   Salgados
                 </CardapioTitle>
                 {newItems &&
-                  newItems.map((item) =>
+                  newItems.map((item, index) =>
                     item.categoria == 'salgado' ? (
                       <CardapioItemBlock
                         name={item.nome}
@@ -327,6 +336,7 @@ export default function Cardapio() {
                         quantity={item.qtd_min}
                         desc={item.desc ?? ''}
                         id={item.id}
+                        key={index}
                       />
                     ) : (
                       ''
@@ -346,7 +356,7 @@ export default function Cardapio() {
                   Confeitaria
                 </CardapioTitle>
                 {newItems &&
-                  newItems.map((item) =>
+                  newItems.map((item, index) =>
                     item.categoria == 'confeitaria' ? (
                       <CardapioItemBlock
                         name={item.nome}
@@ -354,6 +364,7 @@ export default function Cardapio() {
                         quantity={item.qtd_min}
                         desc={item.desc ?? ''}
                         id={item.id}
+                        key={index}
                       />
                     ) : (
                       ''
@@ -372,9 +383,8 @@ export default function Cardapio() {
                 >
                   Bebidas
                 </CardapioTitle>
-                {console.log(newItems)}
                 {newItems &&
-                  newItems.map((item) =>
+                  newItems.map((item, index) =>
                     item.categoria == 'bebida' ? (
                       <CardapioItemBlock
                         name={item.nome}
@@ -382,6 +392,7 @@ export default function Cardapio() {
                         quantity={item.qtd_min}
                         desc={item.desc ?? ''}
                         id={item.id}
+                        key={index}
                       />
                     ) : (
                       ''

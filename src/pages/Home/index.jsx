@@ -40,7 +40,7 @@ import Salgadinhos from '../../assets/images/Salgadinhos.png';
 // componentizando os cards destaques
 function Card({ name, image }) {
   return (
-    <ProductsCard to="#" image={image}>
+    <ProductsCard to="/cardapio" image={image}>
       <CardTitle>{name}</CardTitle>
       <CardMore>Conheça +</CardMore>
     </ProductsCard>
@@ -95,8 +95,8 @@ export default function Home() {
         <ProductsTitle>Conheça nossos produtos</ProductsTitle>
         <ProductsContainer>
           {/* map no array de objetos  */}
-          {cardImages.map((image) => (
-            <Card image={image.img} name={image.name} />
+          {cardImages.map((image, index) => (
+            <Card image={image.img} name={image.name} key={index} />
           ))}
         </ProductsContainer>
         <SocialContainer>
@@ -128,8 +128,8 @@ export default function Home() {
           </ButtonSocial>
           <GridContainer>
             {/* map no array de postagens do instagram */}
-            {images.map((image) => (
-              <GridImage src={image} />
+            {images.map((image, index) => (
+              <GridImage src={image} key={index} />
             ))}
           </GridContainer>
         </SocialContainer>

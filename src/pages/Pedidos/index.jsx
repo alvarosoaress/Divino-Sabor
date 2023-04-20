@@ -7,7 +7,11 @@ import {
   OptionsText,
 } from '../../components/OptionsBox/styled';
 import Menu from '../../components/Menu';
-import PedidosIcon from './pedidosIcons';
+import {
+  PedidosIconPlus,
+  PedidosIconCheck,
+  PedidosIconRemove,
+} from './PedidosIcons';
 
 export default function Pedidos() {
   return (
@@ -20,18 +24,18 @@ export default function Pedidos() {
         <Menu />
         <OptionsContainer style={{ alignItems: 'center' }}>
           <OptionsCard>
-            <PedidosIcon />
+            <PedidosIconPlus />
             <OptionsText>Submetidos</OptionsText>
           </OptionsCard>
 
           <OptionsCard>
-            <PedidosIcon />
+            <PedidosIconCheck />
             <OptionsText>Ativos</OptionsText>
           </OptionsCard>
 
           <OptionsCard>
-            <PedidosIcon />
-            <OptionsText>Desistências</OptionsText>
+            <PedidosIconRemove />
+            <OptionsText>Completos</OptionsText>
           </OptionsCard>
         </OptionsContainer>
       </Container>

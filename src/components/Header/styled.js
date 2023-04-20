@@ -106,6 +106,8 @@ export const NavBurguerBackground = styled.div`
   flex-direction: column;
   gap: 7vh;
   left: 0;
+  top: 0;
+  padding: 30px;
   height: 100vh;
   background-color: ${(props) => props.theme.backgroundColor};
 

@@ -2,24 +2,21 @@
 import React, { useRef } from 'react';
 import { ButtonPrimary } from '../../components/Button/styled';
 import Header from '../../components/Header';
+import emailjs from '@emailjs/browser';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 import {
   ContactContainer,
   ContactInput,
   ContactLabel,
-  ContactSocialContainer,
   ContactTextArea,
   ContactTitle,
-} from './styled';
-import { handleValidation } from '../../components/Credentials';
-import { MdOutlineAlternateEmail, MdWhatsapp } from 'react-icons/md';
-import { BsInstagram } from 'react-icons/bs';
-import emailjs from '@emailjs/browser';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+} from '../Contato/styled';
+import { formatTel } from '../../components/Adm';
 
-export default function Contato() {
+export default function Delivery() {
   const $nome = useRef(null);
-  const $email = useRef(null);
+  const $tel = useRef(null);
   const $textArea = useRef(null);
 
   const navigate = useNavigate();
@@ -29,7 +26,7 @@ export default function Contato() {
 
     const templateParams = {
       from_name: $nome.current.value,
-      from_email: $email.current.value,
+      from_email: $tel.current.value,
       message: $textArea.current.value,
     };
 
@@ -40,7 +37,7 @@ export default function Contato() {
         templateParams,
         'ghKXmxjHwUBZ1yUYa',
       )
-      .then(toast.success('Email enviado com sucesso!'), navigate('/'))
+      .then(toast.success('Iremos enviar o cardápio!'), navigate('/'))
       .catch((error) => console.log(error));
   }
 
@@ -48,7 +45,7 @@ export default function Contato() {
     <>
       <Header />
       <ContactContainer onSubmit={(e) => submitEmail(e)}>
-        <ContactTitle>Contate-nos</ContactTitle>
+        <ContactTitle>Delivery</ContactTitle>
 
         <ContactLabel>
           Qual seu nome?
@@ -61,21 +58,25 @@ export default function Contato() {
         </ContactLabel>
 
         <ContactLabel>
-          Qual email?
+          Seu telefone para receber o cardápio do dia
           <ContactInput
-            type="text"
-            placeholder="maravilindo@email.com..."
-            ref={$email}
-            onChange={() => {
-              handleValidation($email);
-            }}
+            type="tel"
+            name="tel"
+            id=""
+            onChange={() => formatTel(null, $tel)}
+            ref={$tel}
+            maxLength={15}
+            placeholder="(xx) xxxxx-xxxx"
+            title="Telefone (xx) xxxxx-xxxx"
             required
           />
         </ContactLabel>
-        <small>Iremos entrar em contato através desse email ;)</small>
+        <small style={{ marginBottom: '15px' }}>
+          Iremos entrar em contato através desse número ;)
+        </small>
 
         <ContactLabel>
-          Faça sua pergunta
+          Deseja perguntar algo ?
           <ContactTextArea
             type="text"
             placeholder="Faça sua pergunta..."
@@ -85,20 +86,13 @@ export default function Contato() {
           />
         </ContactLabel>
 
-        <ButtonPrimary type="submit" mediaquery="600px">
+        <ButtonPrimary
+          type="submit"
+          mediaquery="600px"
+          style={{ marginBottom: '25px' }}
+        >
           Enviar
         </ButtonPrimary>
-        <ContactSocialContainer>
-          <a href="">
-            <MdOutlineAlternateEmail size={40} />
-          </a>
-          <a href="">
-            <BsInstagram size={35} />
-          </a>
-          <a href="">
-            <MdWhatsapp size={40} />
-          </a>
-        </ContactSocialContainer>
       </ContactContainer>
     </>
   );

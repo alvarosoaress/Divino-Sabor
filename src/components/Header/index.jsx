@@ -44,12 +44,17 @@ export default function Header({ style, auxText }) {
     // pegando o UID do user logado e fazendo uma
     // correlação com a fireStore para ver se o user
     // possui permissão de Admin
+
     async function getCollection() {
-      const docRef = doc(db, 'users', user.uid);
-      const docSnap = await getDoc(docRef);
-      const isAdmin = docSnap.data().admin;
-      setAdmin(isAdmin);
-      isAdmin === undefined || null ? setAdmin(false) : '';
+      // IF para verificar a existência de user.uid antes de fazer o get
+      // super necessário para evitar o erro N IS UNDEFINED
+      if (user && user.uid) {
+        const docRef = doc(db, 'users', user.uid);
+        const docSnap = await getDoc(docRef);
+        const isAdmin = docSnap.data().admin;
+        setAdmin(isAdmin);
+        isAdmin === undefined || null ? setAdmin(false) : '';
+      }
     }
     getCollection();
   }, []);
@@ -100,7 +105,7 @@ export default function Header({ style, auxText }) {
           <NavLinks to={'/contato'}>Contato</NavLinks>
         </li>
         <li>
-          <NavLinks href="#">Delivery</NavLinks>
+          <NavLinks to={'/delivery'}>Delivery</NavLinks>
         </li>
         <li>
           <NavLinks href="#">Sobre nós</NavLinks>
@@ -164,7 +169,7 @@ export default function Header({ style, auxText }) {
             <NavLinks to={'/contato'}>Contato</NavLinks>
           </li>
           <li>
-            <NavLinks href="#">Delivery</NavLinks>
+            <NavLinks to={'/delivery'}>Delivery</NavLinks>
           </li>
           <li>
             <NavLinks href="#">Sobre nós</NavLinks>
