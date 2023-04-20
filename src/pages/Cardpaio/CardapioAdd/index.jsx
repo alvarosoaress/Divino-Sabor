@@ -108,7 +108,7 @@ export default function CardapioAdd() {
           ingredientes: ingredientes,
         },
       );
-      //   navigate('/estoque');
+      //   navigate('/estoque'); //! DESCOMENTAR ISSO DEPOIS
       toast.success('Produto adicionado com sucesso!');
     } catch (error) {
       console.log(error);
@@ -167,16 +167,20 @@ export default function CardapioAdd() {
               handleProductValidation($name, $nameLabel)
             }
           >
-            {products.length > 0
-              ? products.map((product) => {
-                  newProducts.push({
-                    value: product.id,
-                    label: product.produto,
-                    price: Number(product.valor),
-                    qtd: 1,
-                  });
-                })
-              : ''}
+            {
+              // formatando os objetos para colocar em um novo array
+              // necessário para usar o Select com todaas infos necessárias
+              products.length > 0
+                ? products.map((product) => {
+                    newProducts.push({
+                      value: product.id,
+                      label: product.produto,
+                      price: Number(product.valor),
+                      qtd: 1,
+                    });
+                  })
+                : ''
+            }
             <div>
               <ProductLabel ref={$nameLabel}>Nome</ProductLabel>
               <ProductInput ref={$name} type="text" required />

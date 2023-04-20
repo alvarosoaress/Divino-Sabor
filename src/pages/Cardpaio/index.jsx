@@ -50,6 +50,7 @@ export default function Cardapio() {
 
   const theme = useTheme();
 
+  // função para gerar os blocos de item por categoria
   function CardapioItemBlock({ name, price, quantity, desc, id }) {
     return (
       <Link onClick={() => updateLista(name, Number(quantity), id)}>
@@ -66,6 +67,7 @@ export default function Cardapio() {
     );
   }
 
+  // pegando User e Items
   useEffect(() => {
     const getItems = async () => {
       try {
@@ -102,14 +104,17 @@ export default function Cardapio() {
     getItems();
   }, []);
 
+  // funçao para atualizar o state local da lista de items do user
   function updateLista(name, qtd, id) {
     setUpdate(true);
     setLista((lista) => {
       if (lista) {
         const objetoExistente = lista.find((obj) => obj.id === id);
 
+        // para evitar existir 2 items iguais na lista
+        // caso o obj já exista na item apenas sua quantidade é aumentada
         if (objetoExistente) {
-          objetoExistente.qtd += Number(qtd) / 2;
+          objetoExistente.qtd += Number(qtd) / 2; // /2 é gambiarra pra adicionar a qtd certa
           return [...lista];
         } else {
           return [
@@ -133,6 +138,7 @@ export default function Cardapio() {
     });
   }
 
+  // sincronizando a lista local do usuário com o BD
   useEffect(() => {
     async function syncLista() {
       const usersRef = doc(db, 'users', user.uid);
@@ -148,6 +154,7 @@ export default function Cardapio() {
     }
 
     if (items) {
+      // trocando o valor de ListaToal a cada modificação na lista
       setListaTotal(
         lista.reduce((accumulator, currentValue) => {
           objItems = items.find((obj) => obj.id === currentValue.id);
@@ -163,6 +170,7 @@ export default function Cardapio() {
     }
   }, [lista]);
 
+  // sincronizando o valor total local com o valor do BD
   useEffect(() => {
     async function syncTotal() {
       const usersRef = doc(db, 'users', user.uid);
@@ -182,9 +190,10 @@ export default function Cardapio() {
     }
   }, [lista, listaTotal]);
 
+  // função para filtrar os items por categoria
   function filterItems(category) {
     if (filter == category) {
-      setFilter('initial');
+      setFilter('initial'); // inital é um valor default
       setNewItems(items);
     } else {
       const filter = items.filter((item) => item.categoria == category);
@@ -203,12 +212,13 @@ export default function Cardapio() {
 
             <CardapioCategoriesOption>
               <CardapioCategories
+                // style baseado em que categoria está sendo filtrada
                 style={{
-                  textShadow:
+                  textDecoration:
                     filter == 'initial'
                       ? 'none'
                       : filter == 'doce'
-                      ? '0px 0px 10px #FFFFFF'
+                      ? 'underline'
                       : 'none',
                 }}
                 onClick={() => filterItems('doce')}
@@ -218,19 +228,49 @@ export default function Cardapio() {
             </CardapioCategoriesOption>
 
             <CardapioCategoriesOption>
-              <CardapioCategories onClick={() => filterItems('salgado')}>
+              <CardapioCategories
+                style={{
+                  textDecoration:
+                    filter == 'initial'
+                      ? 'none'
+                      : filter == 'salgado'
+                      ? 'underline'
+                      : 'none',
+                }}
+                onClick={() => filterItems('salgado')}
+              >
                 Salgados
               </CardapioCategories>
             </CardapioCategoriesOption>
 
             <CardapioCategoriesOption>
-              <CardapioCategories onClick={() => filterItems('confeitaria')}>
+              <CardapioCategories
+                style={{
+                  textDecoration:
+                    filter == 'initial'
+                      ? 'none'
+                      : filter == 'confeitaria'
+                      ? 'underline'
+                      : 'none',
+                }}
+                onClick={() => filterItems('confeitaria')}
+              >
                 Confeitaria
               </CardapioCategories>
             </CardapioCategoriesOption>
 
             <CardapioCategoriesOption>
-              <CardapioCategories onClick={() => filterItems('bebida')}>
+              <CardapioCategories
+                style={{
+                  textDecoration:
+                    filter == 'initial'
+                      ? 'none'
+                      : filter == 'bebida'
+                      ? 'underline'
+                      : 'none',
+                }}
+                onClick={() => filterItems('bebida')}
+              >
                 Bebidas
               </CardapioCategories>
             </CardapioCategoriesOption>

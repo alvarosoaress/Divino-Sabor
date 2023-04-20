@@ -31,7 +31,7 @@ export const CardapioSideBar = styled.div`
   background-color: ${(props) => props.theme.primaryColor};
 
   @media screen and (max-width: 600px) {
-    align-items: center;
+    margin-right: 0;
   }
 `;
 
@@ -63,6 +63,9 @@ export const CardapioCategories = styled(Link)`
   font-weight: bold;
   font-size: 22px;
   margin-bottom: 15px;
+  border-bottom-style: dashed;
+  border-bottom-width: 1px;
+  border-bottom-color: #cccccc;
   color: ${(props) => props.theme.textColor};
 
   @media screen and (max-width: 600px) {

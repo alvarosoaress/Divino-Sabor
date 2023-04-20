@@ -104,7 +104,7 @@ export const NavBurguerBackground = styled.div`
   align-items: center;
   list-style-type: none;
   flex-direction: column;
-  gap: 10%;
+  gap: 7vh;
   left: 0;
   height: 100vh;
   background-color: ${(props) => props.theme.backgroundColor};

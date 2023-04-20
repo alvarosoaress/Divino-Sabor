@@ -57,6 +57,7 @@ export default function Lista() {
     price: '',
   });
 
+  // função para rendezirar 1 item por linha
   function ListaItemLine({ item, index }) {
     let objMenu;
 
@@ -67,21 +68,30 @@ export default function Lista() {
           <>
             <ListaItem>
               <ListaOptionsContainer>
+                {/* // botão de diminuir qtd de produto */}
                 <a
                   onClick={() => {
+                    // quando clicado, é criado uma nova lista auxiliar
+                    // à e la é atribuida as mudanças
+                    // só depois ela é atribuida à Lista em si
+                    // necessário para re-renderizar o map a cada mudança de qtd
                     const newLista = [...lista];
                     newLista[index] = {
                       ...item,
+                      // diminuindo a quantidade baseado na quantiddade minima sendo vendida
                       qtd: item.qtd - objMenu.qtd_min,
                     };
+                    // caso a qtd - qtd_min seja <= 0 isso quer dizer que o produto será excluido
+                    // assim mostrando o modal de confirmação ao usuário
                     if (item.qtd - objMenu.qtd_min <= 0) {
-                      // remove o item do array se a (quantidade - 1) for menor ou igual a 0
-                      //   newLista.splice(index, 1);
                       newLista[index] = { ...item, qtd: objMenu.qtd_min };
+                      // colcoando as info do produto sendo deletado dentro do state ProductDelete
+                      // esse state é para levar as info do produto em questão para o modal
                       setProductDelete({
                         name: item.nome,
                         id: item.id,
                         index: index,
+                        // passando o price já calculando o total
                         price: item.qtd * objMenu.valor,
                       });
                       setModal(true);
@@ -94,6 +104,8 @@ export default function Lista() {
                 >
                   <HiMinus size={20} />
                 </a>
+
+                {/* // botão de adicionar produto a lista */}
                 <a
                   // criando um novo array baseado no de state de lista
                   // necessário para re-renderizar o map a cada mudança de qtd
@@ -119,6 +131,8 @@ export default function Lista() {
               <ListaPrice>
                 {handleCurrency(objMenu.valor * item.qtd)}
               </ListaPrice>
+
+              {/* // botão de exclusão direta do produto da lista */}
               <a
                 style={{ marginLeft: '15px' }}
                 onClick={() => {
@@ -142,6 +156,7 @@ export default function Lista() {
     }
   }
 
+  // função para deletar produto da lista
   async function deleteProduct() {
     const newLista = [...lista];
 
@@ -155,6 +170,7 @@ export default function Lista() {
     setLista([...newLista]);
   }
 
+  // pegando User e Menu do BD
   useEffect(() => {
     async function getUser() {
       try {
@@ -192,6 +208,7 @@ export default function Lista() {
     getMenu();
   }, []);
 
+  // função para sincronizar a lista de compras do usuário
   useEffect(() => {
     async function syncLista() {
       const usersRef = doc(db, 'users', user.uid);
@@ -207,6 +224,7 @@ export default function Lista() {
     }
 
     if (menu && lista) {
+      // trocando o valor de ListaToal a cada modificação na lista
       setListaTotal(
         lista.reduce((accumulator, currentValue) => {
           objMenu = menu.find((obj) => obj.id === currentValue.id);
@@ -222,6 +240,7 @@ export default function Lista() {
     }
   }, [lista]);
 
+  // sincronizando o valor total local com o valor do BD
   useEffect(() => {
     async function syncTotal() {
       const usersRef = doc(db, 'users', user.uid);
@@ -243,6 +262,7 @@ export default function Lista() {
 
   return (
     <>
+      {/* // modal sendo pre renderizado em cima da pagina */}
       <AdmModalContainer
         style={{ display: modal ? 'flex' : 'none' }}
         onClick={() => setModal(false)}

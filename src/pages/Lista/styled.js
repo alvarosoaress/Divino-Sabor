@@ -68,6 +68,7 @@ export const ListaQuantity = styled.p`
 
   @media screen and (max-width: 600px) {
     font-size: 14px;
+    width: auto;
   }
 `;
 
@@ -83,6 +84,8 @@ export const ListaPrice = styled.h3`
 
   @media screen and (max-width: 600px) {
     font-size: 16px;
+    width: auto;
+    margin-left: 5px;
   }
 `;
 
@@ -92,4 +95,9 @@ export const ListaOptionsContainer = styled.div`
   align-items: center;
   gap: 15px;
   margin-inline: 20px;
+
+  @media screen and (max-width: 600px) {
+    gap: 5px;
+    margin-inline: 5px;
+  }
 `;

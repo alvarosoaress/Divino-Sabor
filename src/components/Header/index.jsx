@@ -54,6 +54,7 @@ export default function Header({ style, auxText }) {
     getCollection();
   }, []);
 
+  // função de LogOut
   function logout() {
     signOut(auth)
       .then(() => {
@@ -81,6 +82,8 @@ export default function Header({ style, auxText }) {
         <LogoText to={'/'}>Divino Sabor</LogoText>
       )}
       <Nav>
+        {/* verificando se o user é admin
+        se for aparecer a opção para menu admin */}
         {admin ? (
           <li>
             <NavLinks as={Link} to={'/financeiro'}>
@@ -103,6 +106,11 @@ export default function Header({ style, auxText }) {
           <NavLinks href="#">Sobre nós</NavLinks>
         </li>
 
+        {/* verificando se o user está logado
+        caso não esteja, quando clicar no menu de usuário
+        será redirecionado para /login
+
+        se estiver logado, irá aparecer o menu de opções */}
         <Link
           to={user ? '' : '/login'}
           style={{ position: 'relative' }}
@@ -112,6 +120,9 @@ export default function Header({ style, auxText }) {
         </Link>
       </Nav>
 
+      {/* menu de opções de usuario
+        ele existe apenas na visualização desktop
+        no mobile ele está dentro do menu de opções comum */}
       <UserOptionsContainer style={{ display: openOptions ? 'flex' : 'none' }}>
         <UserOptionOrder to={'/lista'}>
           <RiFileList3Line /> Lista
@@ -124,7 +135,10 @@ export default function Header({ style, auxText }) {
       <NavBurguer>
         <BiMenuAltRight size={40} onClick={() => setOpenBurger(!openBurger)} />
         <NavBurguerBackground style={{ display: openBurger ? 'flex' : 'none' }}>
-          <Link to={user ? '/' : '/login'}>
+          <Link
+            to={'/login'}
+            style={{ position: 'relative', display: user ? 'none' : 'block' }}
+          >
             <FaRegUserCircle size={25} />
           </Link>
           {admin ? (
@@ -136,11 +150,18 @@ export default function Header({ style, auxText }) {
           ) : (
             ''
           )}
+          {/* mostrar as opções de usuário apenas se ele estiver logado */}
+          <UserOptionOrder
+            to={'/lista'}
+            style={{ display: user ? 'block' : 'none' }}
+          >
+            <RiFileList3Line /> Lista
+          </UserOptionOrder>
           <li>
-            <NavLinks href="#">Cardápio</NavLinks>
+            <NavLinks to={'/cardapio'}>Cardápio</NavLinks>
           </li>
           <li>
-            <NavLinks href="#">Contato</NavLinks>
+            <NavLinks to={'/contato'}>Contato</NavLinks>
           </li>
           <li>
             <NavLinks href="#">Delivery</NavLinks>
@@ -148,6 +169,12 @@ export default function Header({ style, auxText }) {
           <li>
             <NavLinks href="#">Sobre nós</NavLinks>
           </li>
+          <UserOptionLogout
+            onClick={() => logout()}
+            style={{ display: user ? 'block' : 'none' }}
+          >
+            <BiLogOut /> Logout
+          </UserOptionLogout>
           <li>
             <ButtonPrimary
               width="100px"
