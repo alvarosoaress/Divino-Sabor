@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 import {
+  Timestamp,
+  addDoc,
   collection,
   doc,
   getDoc,
@@ -15,6 +17,8 @@ import Header from '../../components/Header';
 import { CardapioItemSeparator, CardapioTitle } from '../Cardpaio/styled,';
 import {
   ListaBox,
+  ListaConfirmForm,
+  ListaConfirmLabel,
   ListaContainer,
   ListaEntry,
   ListaItem,
@@ -24,7 +28,7 @@ import {
   ListaQuantity,
 } from './styled';
 import { HiMinus, HiPlus, HiTrash } from 'react-icons/hi';
-import { handleCurrency } from '../../components/Adm';
+import { formattedDate, handleCurrency } from '../../components/Adm';
 import {
   AdmModal,
   AdmModalContainer,
@@ -260,6 +264,32 @@ export default function Lista() {
     }
   }, [listaTotal, lista]);
 
+  async function handleSubmit(e) {
+    e.preventDefault();
+    let ordersCollection = collection(db, 'orders');
+
+    let today = new Date();
+    let date = formattedDate(today, true);
+
+    let timeStampData = new Date(date);
+    timeStampData.setMinutes(
+      timeStampData.getMinutes() + timeStampData.getTimezoneOffset(),
+    );
+    let timeStamp = Timestamp.fromDate(timeStampData);
+
+    try {
+      await addDoc(ordersCollection, {
+        data: date,
+        timeStamp,
+        lista,
+      });
+      navigate('/financeiro/caixa');
+      toast.success('Operação adicionada com sucesso!');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <>
       {/* // modal sendo pre renderizado em cima da pagina */}
@@ -304,9 +334,21 @@ export default function Lista() {
         <CardapioTitle style={{ marginTop: '0px' }}>Total</CardapioTitle>
         <ListaItemName>{handleCurrency(listaTotal)}</ListaItemName>
 
-        <ButtonPrimary mediaquery={'600px'} style={{ marginTop: '50px' }}>
-          Realizar Pedido
-        </ButtonPrimary>
+        <ListaConfirmForm action="" onSubmit={(e) => handleSubmit(e)}>
+          <ButtonPrimary
+            type="submit"
+            mediaquery={'600px'}
+            style={{ marginTop: '50px' }}
+          >
+            Realizar Pedido
+          </ButtonPrimary>
+          <div style={{ marginTop: '15px' }}>
+            <input type="checkbox" required />
+            <ListaConfirmLabel>
+              Aceito e concordo com todos os <a>termos</a> de pedidos.
+            </ListaConfirmLabel>
+          </div>
+        </ListaConfirmForm>
       </ListaContainer>
     </>
   );
