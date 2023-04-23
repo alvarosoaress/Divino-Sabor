@@ -85,11 +85,12 @@ export default function FluxoAdd() {
       timeStampData.getMinutes() + timeStampData.getTimezoneOffset(),
     );
     let timeStamp = Timestamp.fromDate(timeStampData);
-
     try {
+      console.log(product);
       await addDoc(historyCollection, {
         data: date,
-        produto: product.produto,
+        produto: product.name,
+        id_produto: product.id,
         qtd: Number(quantity),
         valor: Number(product.price * quantity),
         tipo: operation,
@@ -104,7 +105,7 @@ export default function FluxoAdd() {
     try {
       if (operation == 'venda') quantity = Number(quantity) * -1;
       let newQtd = Number(Number(product.oldQtd) + Number(quantity));
-      await updateDoc(doc(db, 'products', product.name), {
+      await updateDoc(doc(db, 'products', product.id), {
         qtd: newQtd,
       });
     } catch (error) {
@@ -182,9 +183,10 @@ export default function FluxoAdd() {
                   required
                   onChange={(e) => {
                     setProduct({
-                      name: e.value,
+                      name: e.label,
                       price: e.price,
                       oldQtd: e.qtd,
+                      id: e.value,
                     });
                   }}
                 />

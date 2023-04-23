@@ -1,5 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore';
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from 'firebase/firestore';
 
 import Header from '../../../components/Header';
 import Menu from '../../../components/Menu';
@@ -14,10 +23,8 @@ import {
   formattedDate,
   handleCurrency,
   handleProductValidation,
-  productHistory,
 } from '../../../components/Adm';
 import {
-  ProductRadioContainer,
   ProductEditBox,
   ProductEditContainer,
   ProductEditTitle,
@@ -38,10 +45,6 @@ export default function EstoqueEdit() {
 
   const [product, setProduct] = useState({});
 
-  const [radioGroup, setRadioGroup] = useState([]);
-
-  const [aux, setAux] = useState(true);
-
   const [history, setHistory] = useState(null);
 
   const $name = useRef(null);
@@ -50,6 +53,27 @@ export default function EstoqueEdit() {
   const $price = useRef(null);
 
   const productRef = doc(db, 'products', id);
+
+  async function productHistory(productId, arraySetState) {
+    const docRef = collection(db, 'history');
+
+    const queryProduct = query(docRef, where('id_produto', '==', productId));
+
+    try {
+      const data = await getDocs(queryProduct);
+      // data retorna uma response com muitos parametros
+      // clean data para pegar apenas os dados importantes
+      const cleanData = data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      // atribuindo a response para users e newUsers
+      // isso auxilia na hora do search
+      arraySetState(cleanData);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   // pegando as informações do produto na DB
   useEffect(() => {
@@ -202,7 +226,7 @@ export default function EstoqueEdit() {
                 Salgados
               </ProductLabel>
               {/* // !HACK função para setar o checked do radio button */}
-              {/* {
+            {/* {
                 // transformando o NodeList da useRef em array e fazendo map
                 (Array.of($radioGroup.current?.childNodes).map((node) => {
                   // checagem de type, length e aux

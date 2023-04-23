@@ -4,8 +4,6 @@ import { AdmAddText, AdmListAddText, AdmListItemName } from './styled.';
 import { SecondaryDivider } from '../Utils/styled';
 import { ButtonPrimary } from '../Button/styled';
 import { Link } from 'react-router-dom';
-import { collection, getDocs, query, where } from 'firebase/firestore';
-import { db } from '../../services/firebase';
 
 export function AdmItemAdd({ display, text, link }) {
   return (
@@ -129,26 +127,6 @@ export function handleCurrency(value, $ref) {
   }
 }
 
-export async function productHistory(productId, arraySetState) {
-  const docRef = collection(db, 'history');
-
-  const queryProduct = query(docRef, where('produto', '==', productId));
-
-  try {
-    const data = await getDocs(queryProduct);
-    // data retorna uma response com muitos parametros
-    // clean data para pegar apenas os dados importantes
-    const cleanData = data.docs.map((doc) => ({
-      ...doc.data(),
-      id: doc.id,
-    }));
-    // atribuindo a response para users e newUsers
-    // isso auxilia na hora do search
-    arraySetState(cleanData);
-  } catch (error) {
-    console.error(error);
-  }
-}
 export function formattedDate(data, string) {
   let myDate;
   string
