@@ -11,7 +11,7 @@ import {
   PedidosIconCheck,
   PedidosIconPlus,
   PedidosIconRemove,
-} from '../Pedidos/PedidosIcons';
+} from './pedidosIcons';
 
 export default function Pedidos() {
   return (
