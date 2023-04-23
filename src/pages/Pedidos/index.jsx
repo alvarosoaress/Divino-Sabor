@@ -8,8 +8,8 @@ import {
 } from '../../components/OptionsBox/styled';
 import Menu from '../../components/Menu';
 import {
-  PedidosIconPlus,
   PedidosIconCheck,
+  PedidosIconPlus,
   PedidosIconRemove,
 } from './PedidosIcons';
 

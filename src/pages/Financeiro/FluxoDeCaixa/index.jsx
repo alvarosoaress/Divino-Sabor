@@ -3,13 +3,8 @@ import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 
 import Header from '../../../components/Header';
 import Menu from '../../../components/Menu';
-import { useNavigate } from 'react-router-dom';
 import { db } from '../../../services/firebase';
-import {
-  AdmItemAdd,
-  formattedDate,
-  handleCurrency,
-} from '../../../components/Adm';
+import { AdmItemAdd, handleCurrency } from '../../../components/Adm';
 import { SecondaryDivider } from '../../../components/Utils/styled';
 import {
   AdmListItemName,
@@ -45,7 +40,7 @@ export function ProductHistoryRow({ name, type, quantity, price, date }) {
 }
 
 export default function FluxoDeCaixa() {
-  const navigate = useNavigate();
+  //   const navigate = useNavigate();
 
   const [history, setHistory] = useState(null);
   const [newHistory, setNewHistory] = useState(null);
@@ -92,10 +87,9 @@ export default function FluxoDeCaixa() {
     }
   }
 
-  function setFilter(e) {
-    setNewHistory(history.filter((item) => item.tipo.match(e.target.value)));
-    console.log('filtrado');
-  }
+  //   function setFilter(e) {
+  //     setNewHistory(history.filter((item) => item.tipo.match(e.target.value)));
+  //   }
 
   return (
     <>

@@ -89,7 +89,7 @@ export default function FluxoAdd() {
     try {
       await addDoc(historyCollection, {
         data: date,
-        produto: product.name,
+        produto: product.product,
         qtd: Number(quantity),
         valor: Number(product.price * quantity),
         tipo: operation,

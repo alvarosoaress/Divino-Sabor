@@ -182,7 +182,8 @@ export default function Estoque() {
     <>
       {/* renderizando modal de exclusão com display none */}
       <AdmModalContainer
-        style={{ display: modal ? 'flex' : 'none' }}
+        // top para calcular o quanto o cliente já rolou na pagina
+        style={{ display: modal ? 'flex' : 'none', top: window.pageYOffset }}
         onClick={() => setModal(false)}
       >
         <AdmModal>

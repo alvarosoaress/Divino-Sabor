@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-key */
 import React, { useEffect, useState } from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Timestamp,
   addDoc,
@@ -51,6 +51,8 @@ export default function Lista() {
   const [update, setUpdate] = useState(false);
 
   const [modal, setModal] = useState(false);
+
+  const navigate = useNavigate();
 
   let objMenu = null;
   // useState para tratar do produto sendo deletado
@@ -269,22 +271,23 @@ export default function Lista() {
     let ordersCollection = collection(db, 'orders');
 
     let today = new Date();
-    let date = formattedDate(today, true);
 
-    let timeStampData = new Date(date);
-    timeStampData.setMinutes(
-      timeStampData.getMinutes() + timeStampData.getTimezoneOffset(),
-    );
-    let timeStamp = Timestamp.fromDate(timeStampData);
+    let date = formattedDate(today, true);
+    let timeStamp = Timestamp.fromDate(today);
 
     try {
       await addDoc(ordersCollection, {
         data: date,
         timeStamp,
         lista,
+        cliente: {
+          nome: loggedUser.name,
+          email: loggedUser.email,
+          tel: loggedUser.tel,
+        },
       });
-      navigate('/financeiro/caixa');
-      toast.success('Operação adicionada com sucesso!');
+      navigate('/');
+      toast.success('Pedido realizado com sucesso!');
     } catch (error) {
       console.log(error);
     }

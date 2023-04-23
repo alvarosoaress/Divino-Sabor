@@ -60,7 +60,7 @@ export default function EstoqueAdd() {
           valor: Number(price),
         },
       );
-      navigate('/estoque');
+      //   navigate('/estoque');
       toast.success('Produto adicionado com sucesso!');
     } catch (error) {
       console.log(error);

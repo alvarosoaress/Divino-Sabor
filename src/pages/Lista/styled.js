@@ -101,3 +101,22 @@ export const ListaOptionsContainer = styled.div`
     margin-inline: 5px;
   }
 `;
+
+export const ListaConfirmForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ListaConfirmLabel = styled.label`
+  margin-top: 15px;
+  margin-left: 5px;
+  font-size: 12px;
+
+  a {
+    text-decoration: underline;
+    color: blue;
+    cursor: pointer;
+  }
+`;
