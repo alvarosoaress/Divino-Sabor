@@ -163,6 +163,10 @@ export default function PedidosSubmetidos() {
       }
     });
 
+    orderCost = orderCost.reduce((accumulator, currentValue) => {
+      return accumulator + currentValue;
+    }, 0);
+
     let orderValue = orderTotal - orderCost;
 
     let percent = Math.round(((orderValue * 100) / orderTotal) * 100) / 100;
