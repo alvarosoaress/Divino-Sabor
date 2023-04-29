@@ -145,3 +145,26 @@ export const AdmModalText = styled.h1`
     line-height: 50px;
   }
 `;
+
+export const AdmLabel = styled.label`
+  display: flex;
+  align-items: center;
+  font-family: 'Quattrocento';
+  font-weight: bold;
+  font-size: ${(props) => props.fontSize ?? '20px'};
+
+  color: ${(props) => props.color ?? props.theme.textColor};
+  transition: all 200ms ease-in-out;
+`;
+
+export const AdmInput = styled.input`
+  width: ${(props) => props.width ?? ''};
+  height: ${(props) => props.height ?? '40px'};
+  outline: none;
+  border: none;
+  padding: 15px;
+  font-size: ${(props) => props.fontSize ?? '20px'};
+  border-radius: 3px;
+  margin-right: ${(props) => props.marginRight ?? '0'};
+  background-color: ${(props) => props.theme.auxColor};
+`;

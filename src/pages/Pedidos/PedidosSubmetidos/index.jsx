@@ -16,8 +16,9 @@ import {
   ProductQuantity,
 } from '../../Estoque/styled';
 import { ButtonPrimary } from '../../../components/Button/styled';
+import { Link } from 'react-router-dom';
 
-export function ProductHistoryRow({ date, total, cost, value, percent }) {
+export function ProductHistoryRow({ date, total, cost, value, percent, id }) {
   // função para Lucratividade mudar de cor de acordo com valor de percent
   // quanto mais próximo de 100 mais verde será
   // o número multiplicando percent define o quanto de verde terá
@@ -42,7 +43,13 @@ export function ProductHistoryRow({ date, total, cost, value, percent }) {
         <AdmListItemName style={{ color: color, textAlign: 'center' }}>
           {percent}%
         </AdmListItemName>
-        <ButtonPrimary width="100px">Ver mais+</ButtonPrimary>
+        <ButtonPrimary
+          width="100px"
+          as={Link}
+          to={`/pedidos/submetidos/detalhes/${id}`}
+        >
+          Ver mais+
+        </ButtonPrimary>
       </ProductHistoryRowContainer>
       <SecondaryDivider />
     </span>
@@ -178,6 +185,7 @@ export default function PedidosSubmetidos() {
         cost={orderCost}
         value={orderValue}
         percent={percent}
+        id={order.id}
         key={index}
       />
     );
@@ -190,7 +198,7 @@ export default function PedidosSubmetidos() {
         auxText={window.screen.width >= 600 ? 'ADMINISTRATIVO' : 'ADMIN'}
       />
       <ProductEditContainer>
-        <Menu />
+        <Menu showMenu={false} />
         <ProductEditBox>
           <ProductEditTitle>Pedidos Submetidos</ProductEditTitle>
 

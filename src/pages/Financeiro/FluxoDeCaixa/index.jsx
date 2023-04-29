@@ -98,7 +98,7 @@ export default function FluxoDeCaixa() {
         auxText={window.screen.width >= 600 ? 'ADMINISTRATIVO' : 'ADMIN'}
       />
       <ProductEditContainer>
-        <Menu />
+        <Menu showMenu={false} />
         <ProductEditBox>
           <ProductEditTitle>Fluxo de Caixa</ProductEditTitle>
           <AdmListTitleContainer>

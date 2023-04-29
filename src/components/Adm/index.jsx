@@ -127,7 +127,7 @@ export function handleCurrency(value, $ref) {
   }
 }
 
-export function formattedDate(data, string) {
+export function formattedDate(data, string, full) {
   let myDate;
   string
     ? ((myDate = new Date(data)),
@@ -135,9 +135,7 @@ export function formattedDate(data, string) {
     : (myDate = new Date(data * 1000));
 
   const options = {
-    day: 'numeric',
-    month: 'numeric',
-    year: 'numeric',
+    dateStyle: 'full',
   };
 
   return myDate.toLocaleDateString('pt-BR', options);

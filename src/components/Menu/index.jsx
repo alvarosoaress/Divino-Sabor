@@ -4,9 +4,10 @@ import { MenuBox, MenuContainer, MenuText } from './styled';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import { MdKeyboardArrowLeft } from 'react-icons/md';
 
-export default function Menu() {
+export default function Menu({ showMenu }) {
   // State para verificar se o menu lateral está aberto
-  const [openMenu, setOpenMenu] = useState(false);
+  const [openMenu, setOpenMenu] = useState(showMenu ?? true);
+
   return (
     <>
       <MenuContainer>
@@ -16,7 +17,7 @@ export default function Menu() {
           style={{
             // Passando estilos para o componente via JSX
             // Praticamente MediaQuery in-line 🙃
-            display: openMenu || window.screen.width >= 600 ? 'none' : 'flex',
+            display: openMenu ? 'none' : 'flex',
           }}
         />
         <MdKeyboardArrowLeft
@@ -27,8 +28,16 @@ export default function Menu() {
           }}
         />
         <MenuBox
+          // verificação de menu para fechar ele em certas paginas
           style={{
-            display: openMenu || window.screen.width >= 600 ? 'flex' : 'none',
+            display:
+              window.screen.width <= 600 // se for mobile é fechado por padrão
+                ? !openMenu // sendo controlado sua visibilidade pelo openMenu state
+                  ? 'flex'
+                  : 'none'
+                : openMenu // se for widescreen é aberto por padrão
+                ? 'flex' // sendo controlado sua visibilidade pelo openMenu state
+                : 'none',
             width: window.screen.width >= 600 ? '0' : '100vw',
           }}
         >

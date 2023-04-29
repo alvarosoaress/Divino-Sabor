@@ -268,6 +268,11 @@ export default function Lista() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+
+    if (lista.length <= 0) {
+      return toast.error('Não é possível realizar pedidos vazios!');
+    }
+
     let ordersCollection = collection(db, 'orders');
 
     let today = new Date();

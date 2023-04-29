@@ -22,6 +22,7 @@ import ProtectedRoute from './ProtectedRoute';
 import Lista from '../pages/Lista';
 import Delivery from '../pages/Delivery';
 import PedidosSubmetidos from '../pages/Pedidos/PedidosSubmetidos';
+import PedidosSubDetalhes from '../pages/Pedidos/PedidosSubmetidos/PedidosSub/Detalhes';
 
 export default function Router() {
   return (
@@ -51,6 +52,10 @@ export default function Router() {
       <Route path="/pedidos" element={<PrivateRoute />}>
         <Route path="/pedidos" element={<Pedidos />} />
         <Route path="/pedidos/submetidos" element={<PedidosSubmetidos />} />
+        <Route
+          path="/pedidos/submetidos/detalhes/:id"
+          element={<PedidosSubDetalhes />}
+        />
       </Route>
 
       <Route path="/clientes" element={<PrivateRoute />}>

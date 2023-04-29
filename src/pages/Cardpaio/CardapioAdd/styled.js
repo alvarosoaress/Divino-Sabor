@@ -18,7 +18,6 @@ export const Ingredient = styled.div`
   display: flex;
   align-items: center;
   width: 60%;
-  height: 40px;
   position: relative;
   outline: none;
   border: solid 1px black;

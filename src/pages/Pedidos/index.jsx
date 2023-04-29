@@ -23,7 +23,7 @@ export default function Pedidos() {
       <Container>
         <Menu />
         <OptionsContainer style={{ alignItems: 'center' }}>
-          <OptionsCard>
+          <OptionsCard to={'/pedidos/submetidos'}>
             <PedidosIconPlus />
             <OptionsText>Submetidos</OptionsText>
           </OptionsCard>
