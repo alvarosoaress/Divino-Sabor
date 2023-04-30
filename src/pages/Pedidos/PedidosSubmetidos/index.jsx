@@ -4,7 +4,11 @@ import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 import Header from '../../../components/Header';
 import Menu from '../../../components/Menu';
 import { db } from '../../../services/firebase';
-import { handleCurrency } from '../../../components/Adm';
+import {
+  PercentageIcon,
+  formattedDate,
+  handleCurrency,
+} from '../../../components/Adm';
 import { SecondaryDivider } from '../../../components/Utils/styled';
 import { AdmListItemName } from '../../../components/Adm/styled.';
 import {
@@ -19,29 +23,16 @@ import { ButtonPrimary } from '../../../components/Button/styled';
 import { Link } from 'react-router-dom';
 
 export function ProductHistoryRow({ date, total, cost, value, percent, id }) {
-  // função para Lucratividade mudar de cor de acordo com valor de percent
-  // quanto mais próximo de 100 mais verde será
-  // o número multiplicando percent define o quanto de verde terá
-  // quanto maior esse número, mais cedo irá começar o verde
-
-  // por ex -> em 2 40% é vermelho
-  // por ex -> em 3.5 40% é verde amarelado
-  // por ex -> em 4 40% é verde claro
-
-  const color = `rgb(${Math.round(255 - percent * 4.5)}, ${Math.round(
-    percent * 4.5,
-  )}, 0)`;
-
   return (
     <span>
       <SecondaryDivider />
       <ProductHistoryRowContainer gridTemplate="repeat(5,1fr) 0.5fr">
-        <AdmListItemName>{date}</AdmListItemName>
+        <AdmListItemName>{formattedDate(date)}</AdmListItemName>
         <ProductQuantity>{handleCurrency(total)}</ProductQuantity>
         <AdmListItemName>{handleCurrency(cost)}</AdmListItemName>
         <AdmListItemName>{handleCurrency(value)}</AdmListItemName>
-        <AdmListItemName style={{ color: color, textAlign: 'center' }}>
-          {percent}%
+        <AdmListItemName style={{ textAlign: 'center' }}>
+          {percent}% <PercentageIcon percentage={percent} />
         </AdmListItemName>
         <ButtonPrimary
           width="100px"
@@ -180,7 +171,7 @@ export default function PedidosSubmetidos() {
 
     return (
       <ProductHistoryRow
-        date={order.data}
+        date={order.timeStamp.seconds}
         total={orderTotal}
         cost={orderCost}
         value={orderValue}
