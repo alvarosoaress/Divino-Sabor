@@ -35,6 +35,7 @@ export function ProductHistoryRow({ date, total, cost, value, percent, id }) {
           {percent}% <PercentageIcon percentage={percent} />
         </AdmListItemName>
         <ButtonPrimary
+          mediaquery={'600px'}
           width="100px"
           as={Link}
           to={`/pedidos/submetidos/detalhes/${id}`}
@@ -49,14 +50,6 @@ export function ProductHistoryRow({ date, total, cost, value, percent, id }) {
 
 export default function PedidosSubmetidos() {
   const [orders, setOrders] = useState(null);
-
-  const [menu, setMenu] = useState(null);
-
-  const [products, setProducts] = useState(null);
-
-  let objMenu;
-  let menuItem;
-  let objProducts;
 
   const ordersCollection = query(
     collection(db, 'orders'),
@@ -76,111 +69,8 @@ export default function PedidosSubmetidos() {
         console.log(error);
       }
     };
-    async function getMenu() {
-      try {
-        const menuCollection = collection(db, 'menu');
-        const data = await getDocs(menuCollection);
-        // data retorna uma response com muitos parametros
-        // clean data serve para pegar apenas os dados dos produtos
-        const cleanData = data.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }));
-
-        setMenu(cleanData);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    async function getProducts() {
-      try {
-        const menuCollection = collection(db, 'products');
-        const data = await getDocs(menuCollection);
-        // data retorna uma response com muitos parametros
-        // clean data serve para pegar apenas os dados dos produtos
-        const cleanData = data.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }));
-
-        setProducts(cleanData);
-      } catch (error) {
-        console.log(error);
-      }
-    }
     getOrders();
-    getMenu();
-    getProducts();
   }, []);
-
-  function OrderRow({ order, index }) {
-    // calculando o valor total de compra
-    // reduce retorna cada obj de order.lista
-    // comparando cada obj.id com menu id para encontrar
-    // o valor atual do item
-    let orderTotal = order.lista.reduce((accumulator, currentValue) => {
-      if (menu) {
-        objMenu = menu.find((obj) => obj.id === currentValue.id);
-      }
-      if (objMenu !== undefined) {
-        return objMenu.valor * currentValue.qtd + accumulator;
-      }
-    }, 0);
-
-    // calculando o valor de produção de cada item dentro de order
-    // map retorna cada item dentro da order.lista
-    // find comapara cada item.id com menu id para encontrar
-    // o item em questão dentro da collection menu
-    // qual contem os ingredientes desse item
-    // logo fazendo um reduce nessa lista de ingredientes
-    // comparando cada ingrediente.id com product.id para encontrar
-    // o valor unitário atual de cada ingrediente
-    let orderCost = order.lista.map((item) => {
-      if (menu) {
-        menuItem = menu.find((menuItem) => menuItem.id === item.id);
-        if (objMenu !== undefined) {
-          return menuItem.ingredientes.reduce((accumulator, currentValue) => {
-            if (products) {
-              objProducts = products.find((obj) => obj.id === currentValue.id);
-              if (objProducts !== undefined) {
-                return (
-                  objProducts.valor *
-                    currentValue.qtd *
-                    (item.qtd / menuItem.qtd_min) +
-                  accumulator
-                );
-              }
-            }
-            // adiciona um return do accumulator para não quebrar a redução
-            // está sendo realizado um map e um reduce dentro desse map
-            // maps retornam um novo array, ou seja, sem esse return accumulator
-            // iria ser atribuido um novo array à orderCost
-            return accumulator;
-          }, 0);
-        }
-      }
-    });
-
-    orderCost = orderCost.reduce((accumulator, currentValue) => {
-      return accumulator + currentValue;
-    }, 0);
-
-    let orderValue = orderTotal - orderCost;
-
-    let percent = Math.round(((orderValue * 100) / orderTotal) * 100) / 100;
-
-    return (
-      <ProductHistoryRow
-        date={order.timeStamp.seconds}
-        total={orderTotal}
-        cost={orderCost}
-        value={orderValue}
-        percent={percent}
-        id={order.id}
-        key={index}
-      />
-    );
-  }
 
   return (
     <>
@@ -202,7 +92,15 @@ export default function PedidosSubmetidos() {
           </ProductHistoryRowTitle>
           {orders &&
             orders.map((order, index) => (
-              <OrderRow order={order} index={index} key={index} />
+              <ProductHistoryRow
+                date={order.timeStamp.seconds}
+                total={order.total}
+                cost={order.custo}
+                value={order.retorno}
+                percent={order.lucratividade}
+                id={order.id}
+                key={index}
+              />
             ))}
         </ProductEditBox>
       </ProductEditContainer>

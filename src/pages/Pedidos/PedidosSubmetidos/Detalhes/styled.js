@@ -1,14 +1,26 @@
 import styled from 'styled-components';
-import { Ingredient } from '../../../../Cardpaio/CardapioAdd/styled';
+import { Ingredient } from '../../../Cardpaio/CardapioAdd/styled';
+
+export const DetailsContainer = styled.div`
+  background-color: ${(props) => props.theme.backgroundColor};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 export const DetailsBox = styled.div`
   display: flex;
   position: relative;
-  /* flex-wrap: wrap; */
   background-color: ${(props) => props.theme.backgroundColor};
   overflow-x: hidden;
   width: 100vw;
   padding: 2%;
+  gap: 5%;
+
+  @media screen and (max-width: 600px) {
+    gap: 50px;
+    flex-wrap: wrap;
+  }
 `;
 
 export const DetailsTitle = styled.h2`
@@ -59,5 +71,6 @@ export const ClientInfo = styled.div`
 `;
 
 export const DetailsIngredient = styled(Ingredient)`
+  width: 100%;
   background-color: ${(props) => props.theme.primaryColor};
 `;

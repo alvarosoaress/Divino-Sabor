@@ -12,6 +12,7 @@ export default function LoadingAnimation({ isLoading }) {
         width: window.screen.width >= 800 ? '25vw' : '50vw',
         height: '25vh',
         transform: 'translate(-50%, -50%)',
+        zIndex: '777777',
       }}
     >
       <GlassFull animation="tinOne" />

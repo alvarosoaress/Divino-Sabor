@@ -1,58 +1,59 @@
 import React, { useEffect, useState } from 'react';
-import Header from '../../../../../components/Header';
-import { Container } from '../../../../../components/OptionsBox/styled';
-import Menu from '../../../../../components/Menu';
-import {
-  ClientInfo,
-  ClientInfoContainer,
-  DetailSideBar,
-  DetailsBox,
-  DetailsIngredient,
-  DetailsText,
-  DetailsTitle,
-} from './styled';
-import {
-  AdmLabel,
-  AdmModal,
-  AdmModalContainer,
-  AdmModalText,
-} from '../../../../../components/Adm/styled.';
-import { db } from '../../../../../services/firebase';
 import { useNavigate, useParams } from 'react-router-dom';
+
+import { toast } from 'react-toastify';
+import { db } from '../../../../services/firebase';
 import {
-  Timestamp,
-  addDoc,
-  collection,
-  deleteDoc,
   doc,
   getDoc,
+  collection,
   getDocs,
+  Timestamp,
+  addDoc,
+  deleteDoc,
 } from 'firebase/firestore';
-import {
-  PercentageIcon,
-  formatTel,
-  formattedDate,
-  handleCurrency,
-} from '../../../../../components/Adm';
 import {
   ListaItem,
   ListaItemName,
   ListaOptionsContainer,
   ListaPrice,
   ListaQuantity,
-} from '../../../../Lista/styled';
-import { CardapioItemSeparator } from '../../../../Cardpaio/styled,';
+} from '../../../Lista/styled';
+import { CardapioItemSeparator } from '../../../Cardpaio/styled,';
+import {
+  PercentageIcon,
+  formatTel,
+  formattedDate,
+  handleCurrency,
+} from '../../../../components/Adm';
+import {
+  AdmLabel,
+  AdmModal,
+  AdmModalContainer,
+  AdmModalText,
+} from '../../../../components/Adm/styled.';
+import {
+  ButtonPrimary,
+  ButtonSecondary,
+} from '../../../../components/Button/styled';
+import Header from '../../../../components/Header';
+import Menu from '../../../../components/Menu';
+import {
+  ClientInfo,
+  ClientInfoContainer,
+  DetailSideBar,
+  DetailsBox,
+  DetailsContainer,
+  DetailsIngredient,
+  DetailsText,
+  DetailsTitle,
+} from './styled';
 import {
   IngredientBox,
   IngredientContainer,
   IngredientQtd,
   IngredientText,
-} from '../../../../Cardpaio/CardapioAdd/styled';
-import {
-  ButtonPrimary,
-  ButtonSecondary,
-} from '../../../../../components/Button/styled';
-import { toast } from 'react-toastify';
+} from '../../../Cardpaio/CardapioAdd/styled';
 
 export default function PedidosSubDetalhes() {
   const { id } = useParams();
@@ -61,18 +62,14 @@ export default function PedidosSubDetalhes() {
 
   const [order, setOrder] = useState(null);
   const [menu, setMenu] = useState(null);
-  const [products, setProducts] = useState(null);
 
   const [modal, setModal] = useState(false);
+  const [modalHandleFunction, setModalHandleFunction] = useState(() => {});
+  const [modalText, setModalText] = useState(['']);
 
   const orderRef = doc(db, 'orders', id);
 
   let objMenu;
-  let objProducts;
-  let orderCost;
-  let orderTotal;
-  let orderValue;
-  let percent;
   let ingredientes = [];
 
   // pegando as informações do produto na DB
@@ -102,24 +99,7 @@ export default function PedidosSubDetalhes() {
         console.log(error);
       }
     }
-    async function getProducts() {
-      try {
-        const menuCollection = collection(db, 'products');
-        const data = await getDocs(menuCollection);
-        // data retorna uma response com muitos parametros
-        // clean data serve para pegar apenas os dados dos produtos
-        const cleanData = data.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }));
-
-        setProducts(cleanData);
-      } catch (error) {
-        console.log(error);
-      }
-    }
     getOrder();
-    getProducts();
     getMenu();
   }, []);
 
@@ -195,65 +175,11 @@ export default function PedidosSubDetalhes() {
     ingredientes.sort((a, b) => b.qtd - a.qtd);
   }
 
-  function CalcValue() {
-    if (order && ingredientes) {
-      // calculando o valor total de compra
-      // reduce retorna cada obj de order.lista
-      // comparando cada obj.id com menu id para encontrar
-      // o valor atual do item
-      orderTotal = order.lista.reduce((accumulator, currentValue) => {
-        if (menu) {
-          objMenu = menu.find((obj) => obj.id === currentValue.id);
-        }
-        if (objMenu !== undefined) {
-          return objMenu.valor * currentValue.qtd + accumulator;
-        }
-      }, 0);
-
-      // calculando valor de produção de cada ingrediente
-      orderCost = ingredientes.reduce((accumulator, currentValue) => {
-        if (products) {
-          objProducts = products.find((obj) => obj.id === currentValue.id);
-          if (objProducts !== undefined) {
-            return objProducts.valor * currentValue.qtd + accumulator;
-          }
-        }
-        return accumulator;
-      }, 0);
-
-      orderValue = orderTotal - orderCost;
-
-      percent = Math.round(((orderValue * 100) / orderTotal) * 100) / 100;
-
-      return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-          <span>
-            <AdmLabel>Valor total</AdmLabel>
-            <h2>{handleCurrency(orderTotal)}</h2>
-          </span>
-
-          <span>
-            <AdmLabel>Custo</AdmLabel>
-            <h2>{handleCurrency(orderCost)}</h2>
-          </span>
-
-          <span>
-            <AdmLabel>Retorno</AdmLabel>
-            <h2>{handleCurrency(orderValue)}</h2>
-          </span>
-
-          <span>
-            <AdmLabel>Lucratividade</AdmLabel>
-            <h2>
-              {percent}% <PercentageIcon percentage={percent} />
-            </h2>
-          </span>
-        </div>
-      );
-    }
-  }
-
   function GenerateModal({ handleFunction, textArray }) {
+    const map = textArray.map((text, index) => {
+      return <AdmModalText key={index}>{text}</AdmModalText>;
+    });
+
     return (
       <AdmModalContainer
         // top para calcular o quanto o cliente já rolou na pagina
@@ -261,10 +187,7 @@ export default function PedidosSubDetalhes() {
         onClick={() => setModal(false)}
       >
         <AdmModal>
-          {textArray &&
-            Array.isArray(textArray) &&
-            textArray.forEach((text) => <AdmModalText>{text}</AdmModalText>)}
-
+          {map}
           <ButtonSecondary
             onClick={() => setModal(false)}
             mediaquery="600px"
@@ -273,7 +196,7 @@ export default function PedidosSubDetalhes() {
             Cancelar
           </ButtonSecondary>
           <ButtonPrimary
-            onClick={() => handleFunction()}
+            onClick={handleFunction}
             mediaquery="600px"
             style={{ placeSelf: 'center' }}
           >
@@ -312,22 +235,31 @@ export default function PedidosSubDetalhes() {
     }
   };
 
-  const [modalHandleFunction, setModalHandleFunction] = useState(null);
-  const [modalText, setModalText] = useState(null);
+  // recusando pedido
+  const handleRefuse = async () => {
+    try {
+      // deletando o pedido na collection
+      await deleteDoc(orderRef);
+      navigate('/pedidos/submetidos');
+      toast.success('Pedido recusado com sucesso!');
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
       {orderIngredients()}
-      {/* renderizando modal de exclusão com display none */}
+
       <GenerateModal
-        handleFunction={modalHandleFunction}
+        handleFunction={modal ? modalHandleFunction : () => {}}
         textArray={modalText}
       />
       <Header
         style={true}
         auxText={window.screen.width >= 800 ? 'ADMINISTRATIVO' : 'ADMIN'}
       />
-      <Container>
+      <DetailsContainer>
         <Menu showMenu={false} />
         <DetailsBox>
           <DetailSideBar>
@@ -357,9 +289,39 @@ export default function PedidosSubDetalhes() {
                 </div>
               </ClientInfoContainer>
             </ClientInfo>
+
             <ClientInfo style={{ marginTop: '25px' }}>
               <DetailsTitle>Financeiro</DetailsTitle>
-              <CalcValue />
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '15px',
+                }}
+              >
+                <span>
+                  <AdmLabel>Valor total</AdmLabel>
+                  <h2>{order && handleCurrency(order.total)}</h2>
+                </span>
+
+                <span>
+                  <AdmLabel>Custo</AdmLabel>
+                  <h2>{order && handleCurrency(order.custo)}</h2>
+                </span>
+
+                <span>
+                  <AdmLabel>Retorno</AdmLabel>
+                  <h2>{order && handleCurrency(order.retorno)}</h2>
+                </span>
+
+                <span>
+                  <AdmLabel>Lucratividade</AdmLabel>
+                  <h2>
+                    {order && order.lucratividade}%
+                    <PercentageIcon percentage={order && order.lucratividade} />
+                  </h2>
+                </span>
+              </div>
             </ClientInfo>
           </DetailSideBar>
 
@@ -384,19 +346,28 @@ export default function PedidosSubDetalhes() {
                 gap: '25px',
               }}
             >
-              <ButtonSecondary onClick={() => setModal(true)}>
+              <ButtonSecondary
+                mediaquery={'600px'}
+                onClick={() => {
+                  setModalText([
+                    'Deseja recusar esse pedido ?',
+                    'Não será mais possível aceitá-lo.',
+                  ]);
+                  setModal(true);
+                  setModalHandleFunction(() => handleRefuse);
+                }}
+              >
                 Recusar Pedido
               </ButtonSecondary>
               <ButtonPrimary
+                mediaquery={'600px'}
                 onClick={() => {
+                  setModalText([
+                    'Deseja aceitar esse pedido ?',
+                    'Não será mais possível cancela-lo.',
+                  ]);
                   setModal(true);
                   setModalHandleFunction(() => handleAccept);
-                  setModalText(
-                    ...[
-                      'Deseja aceitar esse pedido ?',
-                      'Não será mais possível cancela-lo.',
-                    ],
-                  );
                 }}
               >
                 Aceitar Pedido
@@ -415,9 +386,7 @@ export default function PedidosSubDetalhes() {
             ))}
           </IngredientContainer>
         </DetailsBox>
-      </Container>
-
-      <Container></Container>
+      </DetailsContainer>
     </>
   );
 }

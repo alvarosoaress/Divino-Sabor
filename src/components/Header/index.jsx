@@ -72,80 +72,24 @@ export default function Header({ style, auxText }) {
   }
 
   return (
-    <HeaderContainer>
-      {/* Verificando style para mudar o estilo do header
+    <>
+      <HeaderContainer>
+        {/* Verificando style para mudar o estilo do header
         de acordo com a págoma sendo exibida
         caso esteja na parte administrativa, o style será true */}
-      {style ? (
-        <LogoTextContainer>
-          <LogoText color="black" to={'/'}>
-            Divino Sabor
-          </LogoText>
-          <LogoTextAux>{auxText ?? 'ACESSO'}</LogoTextAux>
-        </LogoTextContainer>
-      ) : (
-        <LogoText to={'/'}>Divino Sabor</LogoText>
-      )}
-      <Nav>
-        {/* verificando se o user é admin
-        se for aparecer a opção para menu admin */}
-        {admin ? (
-          <li>
-            <NavLinks as={Link} to={'/financeiro'}>
-              Administrativo
-            </NavLinks>
-          </li>
+        {style ? (
+          <LogoTextContainer>
+            <LogoText color="black" to={'/'}>
+              Divino Sabor
+            </LogoText>
+            <LogoTextAux>{auxText ?? 'ACESSO'}</LogoTextAux>
+          </LogoTextContainer>
         ) : (
-          ''
+          <LogoText to={'/'}>Divino Sabor</LogoText>
         )}
-        <li>
-          <NavLinks to={'/cardapio'}>Cardápio</NavLinks>
-        </li>
-        <li>
-          <NavLinks to={'/contato'}>Contato</NavLinks>
-        </li>
-        <li>
-          <NavLinks to={'/delivery'}>Delivery</NavLinks>
-        </li>
-        <li>
-          <NavLinks href="#">Sobre nós</NavLinks>
-        </li>
-
-        {/* verificando se o user está logado
-        caso não esteja, quando clicar no menu de usuário
-        será redirecionado para /login
-
-        se estiver logado, irá aparecer o menu de opções */}
-        <Link
-          to={user ? '' : '/login'}
-          style={{ position: 'relative' }}
-          onClick={() => (user ? setOpenOptions(!openOptions) : '')}
-        >
-          <FaRegUserCircle size={25} />
-        </Link>
-      </Nav>
-
-      {/* menu de opções de usuario
-        ele existe apenas na visualização desktop
-        no mobile ele está dentro do menu de opções comum */}
-      <UserOptionsContainer style={{ display: openOptions ? 'flex' : 'none' }}>
-        <UserOptionOrder to={'/lista'}>
-          <RiFileList3Line /> Lista
-        </UserOptionOrder>
-        <UserOptionLogout onClick={() => logout()}>
-          <BiLogOut /> Logout
-        </UserOptionLogout>
-      </UserOptionsContainer>
-
-      <NavBurguer>
-        <BiMenuAltRight size={40} onClick={() => setOpenBurger(!openBurger)} />
-        <NavBurguerBackground style={{ display: openBurger ? 'flex' : 'none' }}>
-          <Link
-            to={'/login'}
-            style={{ position: 'relative', display: user ? 'none' : 'block' }}
-          >
-            <FaRegUserCircle size={25} />
-          </Link>
+        <Nav>
+          {/* verificando se o user é admin
+        se for aparecer a opção para menu admin */}
           {admin ? (
             <li>
               <NavLinks as={Link} to={'/financeiro'}>
@@ -155,13 +99,6 @@ export default function Header({ style, auxText }) {
           ) : (
             ''
           )}
-          {/* mostrar as opções de usuário apenas se ele estiver logado */}
-          <UserOptionOrder
-            to={'/lista'}
-            style={{ display: user ? 'block' : 'none' }}
-          >
-            <RiFileList3Line /> Lista
-          </UserOptionOrder>
           <li>
             <NavLinks to={'/cardapio'}>Cardápio</NavLinks>
           </li>
@@ -174,22 +111,94 @@ export default function Header({ style, auxText }) {
           <li>
             <NavLinks href="#">Sobre nós</NavLinks>
           </li>
-          <UserOptionLogout
-            onClick={() => logout()}
-            style={{ display: user ? 'block' : 'none' }}
+
+          {/* verificando se o user está logado
+        caso não esteja, quando clicar no menu de usuário
+        será redirecionado para /login
+        
+        se estiver logado, irá aparecer o menu de opções */}
+          <Link
+            to={user ? '' : '/login'}
+            style={{ position: 'relative' }}
+            onClick={() => (user ? setOpenOptions(!openOptions) : '')}
           >
+            <FaRegUserCircle size={25} />
+          </Link>
+        </Nav>
+
+        {/* menu de opções de usuario
+        ele existe apenas na visualização desktop
+    no mobile ele está dentro do menu de opções comum */}
+        <UserOptionsContainer
+          style={{ display: openOptions ? 'flex' : 'none' }}
+        >
+          <UserOptionOrder to={'/lista'}>
+            <RiFileList3Line /> Lista
+          </UserOptionOrder>
+          <UserOptionLogout onClick={() => logout()}>
             <BiLogOut /> Logout
           </UserOptionLogout>
-          <li>
-            <ButtonPrimary
-              width="100px"
-              onClick={() => setOpenBurger(!openBurger)}
+        </UserOptionsContainer>
+
+        <NavBurguer>
+          <BiMenuAltRight
+            size={40}
+            onClick={() => setOpenBurger(!openBurger)}
+          />
+          <NavBurguerBackground
+            style={{ display: openBurger ? 'flex' : 'none' }}
+          >
+            <Link
+              to={'/login'}
+              style={{ position: 'relative', display: user ? 'none' : 'block' }}
             >
-              Fechar
-            </ButtonPrimary>
-          </li>
-        </NavBurguerBackground>
-      </NavBurguer>
-    </HeaderContainer>
+              <FaRegUserCircle size={25} />
+            </Link>
+            {admin ? (
+              <li>
+                <NavLinks as={Link} to={'/financeiro'}>
+                  Administrativo
+                </NavLinks>
+              </li>
+            ) : (
+              ''
+            )}
+            {/* mostrar as opções de usuário apenas se ele estiver logado */}
+            <UserOptionOrder
+              to={'/lista'}
+              style={{ display: user ? 'block' : 'none' }}
+            >
+              <RiFileList3Line /> Lista
+            </UserOptionOrder>
+            <li>
+              <NavLinks to={'/cardapio'}>Cardápio</NavLinks>
+            </li>
+            <li>
+              <NavLinks to={'/contato'}>Contato</NavLinks>
+            </li>
+            <li>
+              <NavLinks to={'/delivery'}>Delivery</NavLinks>
+            </li>
+            <li>
+              <NavLinks href="#">Sobre nós</NavLinks>
+            </li>
+            <UserOptionLogout
+              onClick={() => logout()}
+              style={{ display: user ? 'block' : 'none' }}
+            >
+              <BiLogOut /> Logout
+            </UserOptionLogout>
+            <li>
+              <ButtonPrimary
+                width="100px"
+                onClick={() => setOpenBurger(!openBurger)}
+              >
+                Fechar
+              </ButtonPrimary>
+            </li>
+          </NavBurguerBackground>
+        </NavBurguer>
+      </HeaderContainer>
+    </>
   );
 }

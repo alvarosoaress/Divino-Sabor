@@ -43,6 +43,7 @@ export default function Lista() {
   const [loggedUser, setLoggedUser] = useState(null);
 
   const [lista, setLista] = useState([{}]);
+  const [products, setProducts] = useState([{}]);
 
   const [listaTotal, setListaTotal] = useState(null);
 
@@ -55,6 +56,8 @@ export default function Lista() {
   const navigate = useNavigate();
 
   let objMenu = null;
+  let objProducts = null;
+  let menuItem = null;
   // useState para tratar do produto sendo deletado
   const [productDelete, setProductDelete] = useState({
     name: '',
@@ -209,7 +212,23 @@ export default function Lista() {
         console.log(error);
       }
     }
+    async function getProducts() {
+      try {
+        const menuCollection = collection(db, 'products');
+        const data = await getDocs(menuCollection);
+        // data retorna uma response com muitos parametros
+        // clean data serve para pegar apenas os dados dos produtos
+        const cleanData = data.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
 
+        setProducts(cleanData);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getProducts();
     getUser();
     getMenu();
   }, []);
@@ -280,11 +299,70 @@ export default function Lista() {
     let date = formattedDate(today, true);
     let timeStamp = Timestamp.fromDate(today);
 
+    // calculando o valor total de compra
+    // reduce retorna cada obj de order.lista
+    // comparando cada obj.id com menu id para encontrar
+    // o valor atual do item
+    let orderTotal = lista.reduce((accumulator, currentValue) => {
+      if (menu) {
+        objMenu = menu.find((obj) => obj.id === currentValue.id);
+      }
+      if (objMenu !== undefined) {
+        return objMenu.valor * currentValue.qtd + accumulator;
+      }
+    }, 0);
+
+    // calculando o valor de produção de cada item dentro de order
+    // map retorna cada item dentro da order.lista
+    // find comapara cada item.id com menu id para encontrar
+    // o item em questão dentro da collection menu
+    // qual contem os ingredientes desse item
+    // logo fazendo um reduce nessa lista de ingredientes
+    // comparando cada ingrediente.id com product.id para encontrar
+    // o valor unitário atual de cada ingrediente
+    let orderCost = lista.map((item) => {
+      if (menu) {
+        menuItem = menu.find((menuItem) => menuItem.id === item.id);
+        if (objMenu !== undefined) {
+          return menuItem.ingredientes.reduce((accumulator, currentValue) => {
+            if (products) {
+              objProducts = products.find((obj) => obj.id === currentValue.id);
+              if (objProducts !== undefined) {
+                return (
+                  objProducts.valor *
+                    currentValue.qtd *
+                    (item.qtd / menuItem.qtd_min) +
+                  accumulator
+                );
+              }
+            }
+            // adiciona um return do accumulator para não quebrar a redução
+            // está sendo realizado um map e um reduce dentro desse map
+            // maps retornam um novo array, ou seja, sem esse return accumulator
+            // iria ser atribuido um novo array à orderCost
+            return accumulator;
+          }, 0);
+        }
+      }
+    });
+
+    orderCost = orderCost.reduce((accumulator, currentValue) => {
+      return accumulator + currentValue;
+    }, 0);
+
+    let orderValue = orderTotal - orderCost;
+
+    let percent = Math.round(((orderValue * 100) / orderTotal) * 100) / 100;
+
     try {
       await addDoc(ordersCollection, {
         data: date,
         timeStamp,
         lista,
+        total: orderTotal,
+        custo: orderCost,
+        retorno: orderValue,
+        lucratividade: percent,
         cliente: {
           nome: loggedUser.name,
           email: loggedUser.email,
