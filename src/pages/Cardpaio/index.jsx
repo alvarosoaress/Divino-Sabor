@@ -115,7 +115,7 @@ export default function Cardapio() {
         // para evitar existir 2 items iguais na lista
         // caso o obj já exista na item apenas sua quantidade é aumentada
         if (objetoExistente) {
-          objetoExistente.qtd += Number(qtd) / 2; // /2 é gambiarra pra adicionar a qtd certa
+          objetoExistente.qtd += Number(qtd);
           return [...lista];
         } else {
           return [
