@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { SecondaryDivider } from '../../components/Utils/styled';
 import { ButtonPrimary, ButtonSecondary } from '../../components/Button/styled';
 import {
+  ProductEditTitle,
   ProductOrderButton,
   ProductOrderContainer,
   ProductQuantity,
@@ -216,6 +217,7 @@ export default function Estoque() {
         <Menu />
 
         <AdmListBox>
+          <ProductEditTitle>Estoque</ProductEditTitle>
           <AdmListTitleContainer>
             <AdmItemAdd
               link={'/estoque/add'}

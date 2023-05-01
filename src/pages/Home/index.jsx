@@ -165,7 +165,7 @@ export default function Home() {
                 Esperamos que você possa vir a conhecer a nossa competência na
                 organização de eventos e a excelência de nossos serviços.
               </AboutText>
-              <AboutMore to="#">
+              <AboutMore to={'/sobre'}>
                 CONHEÇA MAIS SOBRE A NOSSA HISTÓRIA +
               </AboutMore>
             </AboutParagraphContainer>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { toast } from 'react-toastify';
-import { db } from '../../../../services/firebase';
+import { db } from '../../../services/firebase';
 import {
   doc,
   getDoc,
@@ -18,26 +18,26 @@ import {
   ListaOptionsContainer,
   ListaPrice,
   ListaQuantity,
-} from '../../../Lista/styled';
-import { CardapioItemSeparator } from '../../../Cardpaio/styled,';
+} from '../../Lista/styled';
+import { CardapioItemSeparator } from '../../Cardpaio/styled,';
 import {
   PercentageIcon,
   formatTel,
   formattedDate,
   handleCurrency,
-} from '../../../../components/Adm';
+} from '../../../components/Adm';
 import {
   AdmLabel,
   AdmModal,
   AdmModalContainer,
   AdmModalText,
-} from '../../../../components/Adm/styled.';
+} from '../../../components/Adm/styled.';
 import {
   ButtonPrimary,
   ButtonSecondary,
-} from '../../../../components/Button/styled';
-import Header from '../../../../components/Header';
-import Menu from '../../../../components/Menu';
+} from '../../../components/Button/styled';
+import Header from '../../../components/Header';
+import Menu from '../../../components/Menu';
 import {
   ClientInfo,
   ClientInfoContainer,
@@ -53,9 +53,9 @@ import {
   IngredientContainer,
   IngredientQtd,
   IngredientText,
-} from '../../../Cardpaio/CardapioAdd/styled';
+} from '../../Cardpaio/CardapioAdd/styled';
 
-export default function PedidosSubDetalhes() {
+export default function PedidosDetalhes() {
   const { id } = useParams();
 
   const navigate = useNavigate();
@@ -76,7 +76,13 @@ export default function PedidosSubDetalhes() {
   useEffect(() => {
     const getOrder = async () => {
       try {
-        const response = await getDoc(orderRef);
+        let response = await getDoc(orderRef);
+        if (!response.data()) {
+          response = await getDoc(doc(db, 'orders-accepted', id));
+        }
+        if (!response.data()) {
+          response = await getDoc(doc(db, 'orders-completed', id));
+        }
         const cleanData = response.data();
         setOrder(cleanData);
       } catch (error) {
@@ -200,7 +206,7 @@ export default function PedidosSubDetalhes() {
             mediaquery="600px"
             style={{ placeSelf: 'center' }}
           >
-            Aceitar
+            Confirmar
           </ButtonPrimary>
         </AdmModal>
       </AdmModalContainer>
@@ -247,6 +253,34 @@ export default function PedidosSubDetalhes() {
     }
   };
 
+  // completando o pedido
+  const handleComplete = async () => {
+    let today = new Date();
+
+    let date = formattedDate(today, true);
+    let timeStamp = Timestamp.fromDate(today);
+
+    try {
+      order.dataCompleto = { data: date, timeStamp };
+
+      // trocando o pedido de collection
+      await addDoc(collection(db, 'orders-completed'), {
+        ...order,
+      });
+
+      // deletando o pedido na collection antiga
+      try {
+        await deleteDoc(doc(db, 'orders-accepted', id));
+      } catch (error) {
+        console.log(error);
+      }
+      navigate('/pedidos/ativos');
+      toast.success('Pedido completado com sucesso!');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       {orderIngredients()}
@@ -271,22 +305,48 @@ export default function PedidosSubDetalhes() {
                   <AdmLabel>Nome</AdmLabel>
                   <DetailsText>{order && order.cliente.nome}</DetailsText>
                 </div>
+
                 <div>
                   <AdmLabel>Email</AdmLabel>
                   <DetailsText>{order && order.cliente.email}</DetailsText>
                 </div>
+
                 <div>
                   <AdmLabel>Telefone</AdmLabel>
                   <DetailsText>
                     {order && formatTel(order.cliente.tel)}
                   </DetailsText>
                 </div>
+
                 <div>
                   <AdmLabel>Data submissão</AdmLabel>
                   <DetailsText>
                     {order && formatDate(order.timeStamp.seconds)}
                   </DetailsText>
                 </div>
+
+                {order && order.dataAceito ? (
+                  <div>
+                    <AdmLabel>Data aceito</AdmLabel>
+                    <DetailsText>
+                      {order && formatDate(order.dataAceito.timeStamp.seconds)}
+                    </DetailsText>
+                  </div>
+                ) : (
+                  ''
+                )}
+
+                {order && order.dataCompleto ? (
+                  <div>
+                    <AdmLabel>Data completo</AdmLabel>
+                    <DetailsText>
+                      {order &&
+                        formatDate(order.dataCompleto.timeStamp.seconds)}
+                    </DetailsText>
+                  </div>
+                ) : (
+                  ''
+                )}
               </ClientInfoContainer>
             </ClientInfo>
 
@@ -339,40 +399,64 @@ export default function PedidosSubDetalhes() {
                   <ListaItemLine item={item} key={index} />
                 ))}
             </div>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '25px',
-              }}
-            >
-              <ButtonSecondary
-                mediaquery={'600px'}
-                onClick={() => {
-                  setModalText([
-                    'Deseja recusar esse pedido ?',
-                    'Não será mais possível aceitá-lo.',
-                  ]);
-                  setModal(true);
-                  setModalHandleFunction(() => handleRefuse);
+
+            {order && order.dataCompleto ? (
+              ''
+            ) : order && order.dataAceito ? (
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '25px',
                 }}
               >
-                Recusar Pedido
-              </ButtonSecondary>
-              <ButtonPrimary
-                mediaquery={'600px'}
-                onClick={() => {
-                  setModalText([
-                    'Deseja aceitar esse pedido ?',
-                    'Não será mais possível cancela-lo.',
-                  ]);
-                  setModal(true);
-                  setModalHandleFunction(() => handleAccept);
+                <ButtonPrimary
+                  mediaquery={'600px'}
+                  onClick={() => {
+                    setModalText(['Deseja concluir esse pedido ?']);
+                    setModal(true);
+                    setModalHandleFunction(() => handleComplete);
+                  }}
+                >
+                  Completar Pedido
+                </ButtonPrimary>
+              </div>
+            ) : (
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '25px',
                 }}
               >
-                Aceitar Pedido
-              </ButtonPrimary>
-            </div>
+                <ButtonSecondary
+                  mediaquery={'600px'}
+                  onClick={() => {
+                    setModalText([
+                      'Deseja recusar esse pedido ?',
+                      'Não será mais possível aceitá-lo.',
+                    ]);
+                    setModal(true);
+                    setModalHandleFunction(() => handleRefuse);
+                  }}
+                >
+                  Recusar Pedido
+                </ButtonSecondary>
+                <ButtonPrimary
+                  mediaquery={'600px'}
+                  onClick={() => {
+                    setModalText([
+                      'Deseja aceitar esse pedido ?',
+                      'Não será mais possível cancela-lo.',
+                    ]);
+                    setModal(true);
+                    setModalHandleFunction(() => handleAccept);
+                  }}
+                >
+                  Aceitar Pedido
+                </ButtonPrimary>
+              </div>
+            )}
           </div>
 
           <IngredientContainer>

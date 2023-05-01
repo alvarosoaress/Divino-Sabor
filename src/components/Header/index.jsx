@@ -92,7 +92,7 @@ export default function Header({ style, auxText }) {
         se for aparecer a opção para menu admin */}
           {admin ? (
             <li>
-              <NavLinks as={Link} to={'/financeiro'}>
+              <NavLinks as={Link} to={'/estoque'}>
                 Administrativo
               </NavLinks>
             </li>
@@ -109,7 +109,7 @@ export default function Header({ style, auxText }) {
             <NavLinks to={'/delivery'}>Delivery</NavLinks>
           </li>
           <li>
-            <NavLinks href="#">Sobre nós</NavLinks>
+            <NavLinks to={'/sobre'}>Sobre nós</NavLinks>
           </li>
 
           {/* verificando se o user está logado
@@ -156,7 +156,7 @@ export default function Header({ style, auxText }) {
             </Link>
             {admin ? (
               <li>
-                <NavLinks as={Link} to={'/financeiro'}>
+                <NavLinks as={Link} to={'/estoque'}>
                   Administrativo
                 </NavLinks>
               </li>
@@ -180,7 +180,7 @@ export default function Header({ style, auxText }) {
               <NavLinks to={'/delivery'}>Delivery</NavLinks>
             </li>
             <li>
-              <NavLinks href="#">Sobre nós</NavLinks>
+              <NavLinks to={'/sobre'}>Sobre nós</NavLinks>
             </li>
             <UserOptionLogout
               onClick={() => logout()}

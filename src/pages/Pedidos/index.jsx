@@ -28,12 +28,12 @@ export default function Pedidos() {
             <OptionsText>Submetidos</OptionsText>
           </OptionsCard>
 
-          <OptionsCard>
+          <OptionsCard to={'/pedidos/ativos'}>
             <PedidosIconCheck />
             <OptionsText>Ativos</OptionsText>
           </OptionsCard>
 
-          <OptionsCard>
+          <OptionsCard to={'/pedidos/completos'}>
             <PedidosIconRemove />
             <OptionsText>Completos</OptionsText>
           </OptionsCard>

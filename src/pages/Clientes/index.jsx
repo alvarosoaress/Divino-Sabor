@@ -29,6 +29,7 @@ import Fuse from 'fuse.js';
 import { ButtonPrimary, ButtonSecondary } from '../../components/Button/styled';
 import { toast } from 'react-toastify';
 import { isEmpty } from '../../components/Utils';
+import { ProductEditTitle } from '../Estoque/styled';
 
 export default function Clientes() {
   const [users, setUsers] = useState([]);
@@ -141,6 +142,7 @@ export default function Clientes() {
         <Menu />
 
         <AdmListBox>
+          <ProductEditTitle>Clientes</ProductEditTitle>
           <AdmListTitleContainer>
             <AdmItemAdd
               link={'/clientes/add'}

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Ingredient } from '../../../Cardpaio/CardapioAdd/styled';
+import { Ingredient } from '../../Cardpaio/CardapioAdd/styled';
 
 export const DetailsContainer = styled.div`
   background-color: ${(props) => props.theme.backgroundColor};

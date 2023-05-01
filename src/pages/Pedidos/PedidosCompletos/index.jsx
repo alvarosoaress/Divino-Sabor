@@ -48,11 +48,11 @@ export function ProductHistoryRow({ date, total, cost, value, percent, id }) {
   );
 }
 
-export default function PedidosSubmetidos() {
+export default function PedidosCompletos() {
   const [orders, setOrders] = useState(null);
 
   const ordersCollection = query(
-    collection(db, 'orders'),
+    collection(db, 'orders-completed'),
     orderBy('timeStamp', 'desc'),
   );
 
@@ -74,6 +74,7 @@ export default function PedidosSubmetidos() {
 
   return (
     <>
+      {console.log(orders)}
       <Header
         style={true}
         auxText={window.screen.width >= 600 ? 'ADMINISTRATIVO' : 'ADMIN'}
@@ -81,10 +82,10 @@ export default function PedidosSubmetidos() {
       <ProductEditContainer>
         <Menu showMenu={false} />
         <ProductEditBox>
-          <ProductEditTitle>Pedidos Submetidos</ProductEditTitle>
+          <ProductEditTitle>Pedidos Completos</ProductEditTitle>
 
           <ProductHistoryRowTitle gridTemplate="repeat(5, 1fr) 0.5fr">
-            <AdmListItemName>Data</AdmListItemName>
+            <AdmListItemName>Data finalizado</AdmListItemName>
             <AdmListItemName>Valor Total</AdmListItemName>
             <AdmListItemName>Custo</AdmListItemName>
             <AdmListItemName>Retorno</AdmListItemName>
@@ -93,7 +94,7 @@ export default function PedidosSubmetidos() {
           {orders &&
             orders.map((order, index) => (
               <ProductHistoryRow
-                date={order.timeStamp.seconds}
+                date={order.dataCompleto.timeStamp.seconds}
                 total={order.total}
                 cost={order.custo}
                 value={order.retorno}
