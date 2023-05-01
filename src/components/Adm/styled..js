@@ -120,6 +120,7 @@ export const AdmModal = styled.div`
   place-content: center;
   padding: 4em;
   background-color: white;
+  border-radius: 25px;
   box-shadow: 1px 1px 1px 100vw rgba(0, 0, 0, 0.5);
 
   @media screen and (max-width: 600px) {

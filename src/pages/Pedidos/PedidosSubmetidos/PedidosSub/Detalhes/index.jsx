@@ -11,13 +11,27 @@ import {
   DetailsText,
   DetailsTitle,
 } from './styled';
-import { AdmLabel } from '../../../../../components/Adm/styled.';
+import {
+  AdmLabel,
+  AdmModal,
+  AdmModalContainer,
+  AdmModalText,
+} from '../../../../../components/Adm/styled.';
 import { db } from '../../../../../services/firebase';
-import { useParams } from 'react-router-dom';
-import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
+import { useNavigate, useParams } from 'react-router-dom';
+import {
+  Timestamp,
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+} from 'firebase/firestore';
 import {
   PercentageIcon,
   formatTel,
+  formattedDate,
   handleCurrency,
 } from '../../../../../components/Adm';
 import {
@@ -38,18 +52,18 @@ import {
   ButtonPrimary,
   ButtonSecondary,
 } from '../../../../../components/Button/styled';
+import { toast } from 'react-toastify';
 
 export default function PedidosSubDetalhes() {
   const { id } = useParams();
+
+  const navigate = useNavigate();
 
   const [order, setOrder] = useState(null);
   const [menu, setMenu] = useState(null);
   const [products, setProducts] = useState(null);
 
-  //   const [orderCost, setOrderCost] = useState('null');
-  //   const [orderTotal, setOrderTotal] = useState('null');
-  //   const [orderValue, setOrderValue] = useState('null');
-  //   const [percent, setPercent] = useState('null');
+  const [modal, setModal] = useState(false);
 
   const orderRef = doc(db, 'orders', id);
 
@@ -239,9 +253,76 @@ export default function PedidosSubDetalhes() {
     }
   }
 
+  function GenerateModal({ handleFunction, textArray }) {
+    return (
+      <AdmModalContainer
+        // top para calcular o quanto o cliente já rolou na pagina
+        style={{ display: modal ? 'flex' : 'none', top: window.pageYOffset }}
+        onClick={() => setModal(false)}
+      >
+        <AdmModal>
+          {textArray &&
+            Array.isArray(textArray) &&
+            textArray.forEach((text) => <AdmModalText>{text}</AdmModalText>)}
+
+          <ButtonSecondary
+            onClick={() => setModal(false)}
+            mediaquery="600px"
+            style={{ placeSelf: 'center' }}
+          >
+            Cancelar
+          </ButtonSecondary>
+          <ButtonPrimary
+            onClick={() => handleFunction()}
+            mediaquery="600px"
+            style={{ placeSelf: 'center' }}
+          >
+            Aceitar
+          </ButtonPrimary>
+        </AdmModal>
+      </AdmModalContainer>
+    );
+  }
+
+  // aceitando pedido
+  const handleAccept = async () => {
+    let today = new Date();
+
+    let date = formattedDate(today, true);
+    let timeStamp = Timestamp.fromDate(today);
+
+    try {
+      order.dataAceito = { data: date, timeStamp };
+
+      // trocando o pedido de collection
+      await addDoc(collection(db, 'orders-accepted'), {
+        ...order,
+      });
+
+      // deletando o pedido na collection antiga
+      try {
+        await deleteDoc(orderRef);
+      } catch (error) {
+        console.log(error);
+      }
+      navigate('/pedidos/submetidos');
+      toast.success('Pedido aceito com sucesso!');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const [modalHandleFunction, setModalHandleFunction] = useState(null);
+  const [modalText, setModalText] = useState(null);
+
   return (
     <>
       {orderIngredients()}
+      {/* renderizando modal de exclusão com display none */}
+      <GenerateModal
+        handleFunction={modalHandleFunction}
+        textArray={modalText}
+      />
       <Header
         style={true}
         auxText={window.screen.width >= 800 ? 'ADMINISTRATIVO' : 'ADMIN'}
@@ -303,8 +384,23 @@ export default function PedidosSubDetalhes() {
                 gap: '25px',
               }}
             >
-              <ButtonSecondary>Recusar Pedido</ButtonSecondary>
-              <ButtonPrimary>Aceitar Pedido</ButtonPrimary>
+              <ButtonSecondary onClick={() => setModal(true)}>
+                Recusar Pedido
+              </ButtonSecondary>
+              <ButtonPrimary
+                onClick={() => {
+                  setModal(true);
+                  setModalHandleFunction(() => handleAccept);
+                  setModalText(
+                    ...[
+                      'Deseja aceitar esse pedido ?',
+                      'Não será mais possível cancela-lo.',
+                    ],
+                  );
+                }}
+              >
+                Aceitar Pedido
+              </ButtonPrimary>
             </div>
           </div>
 
