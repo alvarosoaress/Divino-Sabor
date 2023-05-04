@@ -74,7 +74,6 @@ export default function PedidosCompletos() {
 
   return (
     <>
-      {console.log(orders)}
       <Header
         style={true}
         auxText={window.screen.width >= 600 ? 'ADMINISTRATIVO' : 'ADMIN'}

@@ -86,7 +86,6 @@ export default function FluxoAdd() {
     );
     let timeStamp = Timestamp.fromDate(timeStampData);
     try {
-      console.log(product);
       await addDoc(historyCollection, {
         data: date,
         produto: product.name,
