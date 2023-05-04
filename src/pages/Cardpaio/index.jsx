@@ -161,7 +161,7 @@ export default function Cardapio() {
       }
     }
 
-    if (items) {
+    if (items && lista) {
       // trocando o valor de ListaToal a cada modificação na lista
       setListaTotal(
         lista.reduce((accumulator, currentValue) => {
