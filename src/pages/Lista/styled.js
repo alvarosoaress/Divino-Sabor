@@ -53,7 +53,7 @@ export const ListaItemName = styled.p`
   color: ${(props) => props.theme.secondaryColor};
 
   @media screen and (max-width: 600px) {
-    font-size: 16px;
+    font-size: 12px;
   }
 `;
 
@@ -67,7 +67,7 @@ export const ListaQuantity = styled.p`
   color: ${(props) => props.theme.textColor};
 
   @media screen and (max-width: 600px) {
-    font-size: 14px;
+    font-size: 12px;
     width: auto;
   }
 `;
@@ -83,7 +83,7 @@ export const ListaPrice = styled.h3`
   color: ${(props) => props.theme.textColor};
 
   @media screen and (max-width: 600px) {
-    font-size: 16px;
+    font-size: 12px;
     width: auto;
     margin-left: 5px;
   }

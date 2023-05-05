@@ -111,7 +111,7 @@ export default function Lista() {
                     setLista(newLista);
                   }}
                 >
-                  <HiMinus size={20} />
+                  <HiMinus size={15} />
                 </a>
 
                 {/* // botão de adicionar produto a lista */}
@@ -129,7 +129,7 @@ export default function Lista() {
                     setUpdate(true);
                   }}
                 >
-                  <HiPlus size={20} />
+                  <HiPlus size={15} />
                 </a>
               </ListaOptionsContainer>
               <ListaQuantity>{item.qtd}x</ListaQuantity>
@@ -155,7 +155,7 @@ export default function Lista() {
                   setUpdate(true);
                 }}
               >
-                <HiTrash />
+                <HiTrash size={15} />
               </a>
             </ListaItem>
             <CardapioItemSeparator style={{ marginBottom: '15px' }} />

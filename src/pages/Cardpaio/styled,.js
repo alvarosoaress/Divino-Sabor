@@ -90,8 +90,8 @@ export const CardapioItemName = styled.h3`
   color: ${(props) => props.theme.secondaryColor};
 
   @media screen and (max-width: 600px) {
-    font-size: 16px;
-    min-width: 40%;
+    font-size: 12px;
+    width: 40%;
   }
 `;
 
@@ -112,7 +112,7 @@ export const CardapioItemPrice = styled.h3`
   color: ${(props) => props.theme.textColor};
 
   @media screen and (max-width: 600px) {
-    font-size: 16px;
+    font-size: 12px;
   }
 `;
 

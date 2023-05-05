@@ -59,7 +59,9 @@ export default function Cardapio() {
           <CardapioItemSeparator></CardapioItemSeparator>
           <CardapioItemPrice>
             {price}
-            <small>{'/' + quantity + ' unid.'}</small>
+            <small style={{ fontSize: '10px' }}>
+              {'/' + quantity + ' unid.'}
+            </small>
             <MdAddCircle size={20} />
           </CardapioItemPrice>
         </CardapioItem>
