@@ -37,6 +37,16 @@ import Bebidas from '../../assets/images/Bebidas.png';
 import Bolos from '../../assets/images/Bolos.png';
 import Salgadinhos from '../../assets/images/Salgadinhos.png';
 
+import GridSweet from '../../assets/images/grid/gridSweet.png';
+import GridSweet2 from '../../assets/images/grid/gridSweet2.png';
+import GridSweet3 from '../../assets/images/grid/gridSweet3.png';
+import GridDrink from '../../assets/images/grid/gridDrink.png';
+import GridDrink2 from '../../assets/images/grid/gridDrink2.png';
+import GridDrink3 from '../../assets/images/grid/gridDrink3.png';
+import GridFood from '../../assets/images/grid/gridFood.png';
+import GridFood2 from '../../assets/images/grid/gridFood2.png';
+import GridFood3 from '../../assets/images/grid/gridFood3.png';
+
 // componentizando os cards destaques
 function Card({ name, image }) {
   return (
@@ -70,15 +80,15 @@ export default function Home() {
 
   // array de imagens como exemplos para popular as postagens do instagram
   const images = [
-    'https://trello.com/1/cards/6430c55f51b8890aabb8f0ec/attachments/6430cae91ed606f3e4244137/download/photo-1596350351182-c2ce5b74a758.jpeg',
-    'https://trello.com/1/cards/6430c55f51b8890aabb8f0ec/attachments/6430c60b6a07e07df0d52e89/download/photo-1578985545062-69928b1d9587.jpeg',
-    'https://trello.com/1/cards/6430c55f51b8890aabb8f0ec/attachments/6430cdeb901983afbad5cb23/download/photo-1605807646837-485a3bc9bf1b.jpeg',
-    'https://trello.com/1/cards/6430c55f51b8890aabb8f0ec/attachments/6430c7bcf998ef630a179db7/download/photo-1553682544-4ccf2778c9a8.jpeg',
-    'https://trello.com/1/cards/6430c55f51b8890aabb8f0ec/attachments/6430c65666ded92b8daabdd7/download/photo-1582106245687-cbb466a9f07f.jpeg',
-    'https://trello.com/1/cards/6430c55f51b8890aabb8f0ec/attachments/6430c620782e0f1799671abc/download/photo-1551024709-8f23befc6f87.jpeg',
-    'https://trello.com/1/cards/6430c55f51b8890aabb8f0ec/attachments/6430cc7b1e7ba34893c21ae7/download/photo-1630431342210-a93164ff1251.jpeg',
-    'https://trello.com/1/cards/6430c55f51b8890aabb8f0ec/attachments/6430ccaee18023026af8af0b/download/premium_photo-1679591002500-98b17c448989.jpeg',
-    'https://trello.com/1/cards/6430c55f51b8890aabb8f0ec/attachments/6430cd07184fe950c2ac5dc2/download/photo-1611599538835-b52a8c2af7fe.jpeg',
+    { src: GridSweet, alt: 'Doces de macarrone' },
+    { src: GridSweet2, alt: 'Bolo de chocolate' },
+    { src: GridSweet3, alt: 'Fatia de bolo de chocolate' },
+    { src: GridDrink, alt: 'Espumante' },
+    { src: GridDrink2, alt: 'Bebidas chamativas' },
+    { src: GridDrink3, alt: 'Bebidas alcoolcias' },
+    { src: GridFood, alt: 'Batatas fritas' },
+    { src: GridFood2, alt: 'Pizza de calabresa' },
+    { src: GridFood3, alt: 'Comidas festivas' },
   ];
 
   // verificação de mouseEnter no botão secundário
@@ -129,7 +139,7 @@ export default function Home() {
           <GridContainer>
             {/* map no array de postagens do instagram */}
             {images.map((image, index) => (
-              <GridImage src={image} key={index} />
+              <GridImage src={image.src} alt={image.alt} key={index} />
             ))}
           </GridContainer>
         </SocialContainer>

@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 export const HeaderContainer = styled.div`
   position: relative;
-  margin-top: 2em;
   background-color: ${(props) => props.theme.backgroundColor};
   display: flex;
   justify-content: space-between;
