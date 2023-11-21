@@ -4,6 +4,10 @@
      <p align="center">Sistema web para gerencia de buffet desenvolvido como parte do Projeto de Inovação Senai 2023.1</p>
  </blockquote>
 
+<div align="center">
+    <image src="https://github.com/alvarosoaress/Divino-Sabor/assets/13721147/df06b638-6450-46ba-bcab-223a11642371" width=600 heigth=850/>
+</div>
+
 ## Descrição do Projeto 🧠
 
 O "Divino Sabor" tem como objetivo proporcionar uma solução eficiente para o Buffet Divino Sabor gerenciar suas operações e aprimorar seus processos internos. Modernizando e atualizando seus processos atuais ao centraliza-los em um ambiente web com sincronização com banco de dados, possibilitando acesso simultâneo e de qualquer lugar e dispositivo online.
