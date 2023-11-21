@@ -10,7 +10,7 @@ O "Divino Sabor" tem como objetivo proporcionar uma solução eficiente para o B
 
 O site é uma aplicação web abrangente que integra um sistema de gerenciamento interno do buffet e uma interface de usuário pública. No backend, a aplicação oferece funcionalidades administrativas, incluindo gestão de clientes, controle de pedidos, controle de estoque, e gestão financeira do buffet. Ao mesmo tempo, a interface de usuário pública permite que os clientes visualizem todos os produtos disponíveis, seus preços e outras informações relevantes. Essa interface oferece aos usuários a capacidade de contratar os serviços do buffet, proporcionando uma experiência de usuário amigável e acessível
 
-## Tecnologias
+## Tecnologias 🚀
 
 ![JavaScript](https://img.shields.io/badge/JavaScript-20232A?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
 ![Firebase](https://img.shields.io/badge/firebase-20232A?style=for-the-badge&logo=firebase&logoColor=F7DF1E)
@@ -104,4 +104,4 @@ O site é uma aplicação web abrangente que integra um sistema de gerenciamento
   </details>
   </blockquote>
 
-<!--🧠✍👋✨🎈🎯🔑🗝🛠🔧🔨🔐⚙💻🖥📕📚📗📘📖📙📔📒📃📜📍📌⌛⏳>
+<!--🧠✍👋✨🎈🎯🔑🗝🛠🔧🔨🔐⚙💻🖥📕📚📗📘📖📙📔📒📃📜📍📌⌛⏳👩‍🚀🚀>
