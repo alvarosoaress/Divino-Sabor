@@ -108,4 +108,8 @@ O site é uma aplicação web abrangente que integra um sistema de gerenciamento
   </details>
   </blockquote>
 
-<!--🧠✍👋✨🎈🎯🔑🗝🛠🔧🔨🔐⚙💻🖥📕📚📗📘📖📙📔📒📃📜📍📌⌛⏳👩‍🚀🚀>
+<!--https://divino-sabor.vercel.app>
+<!--JavaScript;Firebase;React;StyledComponents;ReactRouter>
+<!--https://github.com/alvarosoaress/Divino-Sabor/assets/13721147/df06b638-6450-46ba-bcab-223a11642371>
+<!--Solução web que moderniza o gerenciamento do Buffet Divino Sabor, integrando operações internas avançadas e oferecendo uma interface intuitiva para clientes visualizarem e contratarem serviços de qualquer lugar. >
+<!--available>
