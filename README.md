@@ -108,6 +108,7 @@ O site é uma aplicação web abrangente que integra um sistema de gerenciamento
   </details>
   </blockquote>
 
+<!--Divino Sabor>
 <!--1>
 <!--https://divino-sabor.vercel.app>
 <!--JavaScript;Firebase;React;StyledComponents;ReactRouter>
