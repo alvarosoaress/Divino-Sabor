@@ -8,13 +8,15 @@
     <image src="https://github.com/alvarosoaress/Divino-Sabor/assets/13721147/df06b638-6450-46ba-bcab-223a11642371" width=600 heigth=850/>
 </div>
 
-## Descrição do Projeto 🧠
+## 🧠 Descrição do Projeto
+
+> 💭 Projeto irá ser refeito em breve 💭
 
 O "Divino Sabor" tem como objetivo proporcionar uma solução eficiente para o Buffet Divino Sabor gerenciar suas operações e aprimorar seus processos internos. Modernizando e atualizando seus processos atuais ao centraliza-los em um ambiente web com sincronização com banco de dados, possibilitando acesso simultâneo e de qualquer lugar e dispositivo online.
 
 O site é uma aplicação web abrangente que integra um sistema de gerenciamento interno do buffet e uma interface de usuário pública. No backend, a aplicação oferece funcionalidades administrativas, incluindo gestão de clientes, controle de pedidos, controle de estoque, e gestão financeira do buffet. Ao mesmo tempo, a interface de usuário pública permite que os clientes visualizem todos os produtos disponíveis, seus preços e outras informações relevantes. Essa interface oferece aos usuários a capacidade de contratar os serviços do buffet, proporcionando uma experiência de usuário amigável e acessível
 
-## Tecnologias 🚀
+## 🚀 Tecnologias
 
 ![JavaScript](https://img.shields.io/badge/JavaScript-20232A?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
 ![Firebase](https://img.shields.io/badge/firebase-20232A?style=for-the-badge&logo=firebase&logoColor=F7DF1E)
@@ -22,7 +24,7 @@ O site é uma aplicação web abrangente que integra um sistema de gerenciamento
 ![StyledComponents](https://img.shields.io/badge/styled--components-20232A?style=for-the-badge&logo=styled-components&logoColor=DB7093)
 ![ReactRouter](https://img.shields.io/badge/React_Router-20232A?style=for-the-badge&logo=react-router&logoColor=CA4245)
 
-## Funcionalidades ✨
+## ✨ Funcionalidades
 
 - `Controle de Estoque`: Gerencia o estoque de produtos do buffet, contando com a funcionalidade de histórico de movimentação do produto, aonde consta suas vendas e compras.
 
