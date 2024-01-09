@@ -8,6 +8,8 @@
     <image src="https://github.com/alvarosoaress/Divino-Sabor/assets/13721147/df06b638-6450-46ba-bcab-223a11642371" width=600 heigth=850/>
 </div>
 
+> [🇬🇧 English version here 🇬🇧](https://github.com/alvarosoaress/Divino-Sabor/blob/main/README-EN.md)
+
 ## 🧠 Descrição do Projeto
 
 > 💭 Projeto irá ser refeito em breve 💭
